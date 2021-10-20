@@ -3,6 +3,10 @@
 @forward '~bootstrap/scss/variables';
 @forward '~bootstrap/scss/_mixins';
 
+@forward './bulk-pricing/index';
+@forward './variants/index';
+@forward './image-zoom/index';
+
 @mixin visible-focus {
   outline-style: solid;
   outline-color: var(--cx-color-visual-focus);
@@ -26,6 +30,3 @@
   white-space: nowrap;
   background-color: transparent;
 }
-
-@forward './bulk-pricing/index';
-@forward './variants/index';
