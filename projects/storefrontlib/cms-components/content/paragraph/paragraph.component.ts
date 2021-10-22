@@ -9,4 +9,17 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 })
 export class ParagraphComponent {
   constructor(public component: CmsComponentData<CmsParagraphComponent>) {}
+
+  // sanitizeContent2(content: string) {
+  //   let originalString = content;
+  //   let newString = originalString.replace('/', '');
+  //   return newString;
+  // }
+
+  sanitizeContent(data: CmsParagraphComponent) {
+    let originalString =
+      '<h4 id="test">The following items will be included in the cancellation request. double</h4>';
+    let newString = originalString.replace('/', '');
+    return (data.content = newString);
+  }
 }

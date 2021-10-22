@@ -1,1 +1,5 @@
-<p *ngIf="component.data$ | async as data" [innerHTML]="data.content"></p>
+<p
+  *ngIf="component.data$ | async as data"
+  [innerHTML]="sanitizeContent(data.content)"
+></p>
+{{ component.data$ | async | json }}
