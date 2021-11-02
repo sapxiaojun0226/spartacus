@@ -1,11 +1,11 @@
 // we require a few bootstrap files for the CSS in this code
-@forward '~bootstrap/scss/functions';
-@forward '~bootstrap/scss/variables';
-@forward '~bootstrap/scss/_mixins';
-
 @forward './bulk-pricing/index';
 @forward './variants/index';
 @forward './image-zoom/index';
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/_mixins';
 
 @mixin visible-focus {
   outline-style: solid;

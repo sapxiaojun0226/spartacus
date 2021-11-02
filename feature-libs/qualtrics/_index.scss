@@ -1,6 +1,6 @@
-// we require a few bootstrap files for the CSS in this code
-@forward '~bootstrap/scss/functions';
-@forward '~bootstrap/scss/variables';
-@forward '~bootstrap/scss/_mixins';
-
 @forward './styles/index';
+
+// we require a few bootstrap files for the CSS in this code
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/_mixins';

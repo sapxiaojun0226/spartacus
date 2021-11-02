@@ -1,6 +1,6 @@
-@forward '~bootstrap/scss/functions';
-@forward '~bootstrap/scss/variables';
-@forward '~bootstrap/scss/mixins';
-
 @forward './components/index';
 @forward './layout/index';
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';

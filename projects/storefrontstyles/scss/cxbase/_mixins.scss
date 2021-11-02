@@ -4,8 +4,6 @@
 // we load variables through the theme import.  */
 @forward '../theme';
 
-@forward '~bootstrap/scss/_mixins';
-
 @forward './mixins/reset';
 @forward './mixins/weight';
 @forward './mixins/type';
@@ -13,3 +11,5 @@
 @forward './mixins/placeholder';
 @forward './mixins/transformations';
 @forward './mixins/visible-focus';
+
+@import '~bootstrap/scss/_mixins';

@@ -1,5 +1,5 @@
 @forward '../../theme';
-@forward '~bootstrap/scss/buttons';
+@import '~bootstrap/scss/buttons';
 
 button {
   &:focus {

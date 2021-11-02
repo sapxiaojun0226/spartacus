@@ -2,9 +2,13 @@
 @forward '~@spartacus/styles/scss/app';
 @forward '~@spartacus/styles/scss/components/cart/cart-details';
 
-@forward '~bootstrap/scss/functions';
-@forward '~bootstrap/scss/variables';
-@forward '~bootstrap/scss/_mixins';
+
+@forward './saved-cart/index';
+@forward './quick-order/index';
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/_mixins';
 
 @mixin visible-focus {
   outline-style: solid;
@@ -13,6 +17,3 @@
   outline-offset: 4px;
   transition: none;
 }
-
-@forward './saved-cart/index';
-@forward './quick-order/index';

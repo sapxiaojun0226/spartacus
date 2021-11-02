@@ -1,3 +1,4 @@
-@forward '~bootstrap/scss/functions';
 @forward 'functions/spacer';
 @forward 'functions/merge';
+
+@import '~bootstrap/scss/functions'

@@ -1,5 +1,5 @@
 @forward '../../theme';
-@forward '~bootstrap/scss/tables';
+@import '~bootstrap/scss/tables';
 
 .table {
   thead {
