@@ -9,6 +9,7 @@
   },
   "videoUploadOnPasses": false,
   "chromeWebSecurity": false,
+  "experimentalStudio": true,
   "env": {
     "API_URL": "https://20.83.184.244:9002",
     "CLIENT_ID": "mobile_android",

@@ -9,6 +9,7 @@
   "retries": {
     "runMode": 2
   },
+  "experimentalStudio": true,
   "videoUploadOnPasses": false,
   "env": {
     "API_URL": "https://20.83.184.244:9002",
