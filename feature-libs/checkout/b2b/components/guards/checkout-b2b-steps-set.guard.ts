@@ -49,6 +49,7 @@ export class CheckoutB2BStepsSetGuard
       checkoutDeliveryModesFacade,
       router
     );
+    console.log('b2b step');
   }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
@@ -89,7 +90,8 @@ export class CheckoutB2BStepsSetGuard
           }
           return of(this.getUrl('checkout'));
         }
-      })
+      }),
+      tap((who) => console.log('who', who))
     );
   }
 
@@ -131,7 +133,8 @@ export class CheckoutB2BStepsSetGuard
         } else {
           return this.getUrl(step.routeName);
         }
-      })
+      }),
+      tap((type) => console.log('type', type))
     );
   }
 

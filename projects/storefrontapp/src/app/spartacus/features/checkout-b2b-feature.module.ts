@@ -3,10 +3,12 @@ import {
   checkoutB2BTranslationChunksConfig,
   checkoutB2BTranslations,
 } from '@spartacus/checkout/b2b/assets';
+import { CheckoutB2BStepsSetGuard } from '@spartacus/checkout/b2b/components';
 import {
   CheckoutB2BRootModule,
   CHECKOUT_B2B_FEATURE,
 } from '@spartacus/checkout/b2b/root';
+import { CheckoutStepsSetGuard } from '@spartacus/checkout/base/components';
 import { CHECKOUT_FEATURE } from '@spartacus/checkout/base/root';
 import { provideConfig } from '@spartacus/core';
 
@@ -26,6 +28,11 @@ import { provideConfig } from '@spartacus/core';
         chunks: checkoutB2BTranslationChunksConfig,
       },
     }),
+    // solution 2
+    {
+      provide: CheckoutStepsSetGuard,
+      useExisting: CheckoutB2BStepsSetGuard,
+    },
   ],
 })
 export class CheckoutB2BFeatureModule {}

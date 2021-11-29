@@ -14,13 +14,16 @@ import {
 } from '@spartacus/checkout/base/root';
 import { RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { CheckoutStepsSetGuardFacade } from '../../root/facade/checkout-steps-set-guard.facade';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutStepsSetGuard implements CanActivate {
+export class CheckoutStepsSetGuard
+  implements CheckoutStepsSetGuardFacade, CanActivate
+{
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,
@@ -28,7 +31,9 @@ export class CheckoutStepsSetGuard implements CanActivate {
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected router: Router
-  ) {}
+  ) {
+    console.log('base called');
+  }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
     let currentIndex = -1;
@@ -59,7 +64,8 @@ export class CheckoutStepsSetGuard implements CanActivate {
           }
           return of(this.getUrl('checkout'));
         }
-      })
+      }),
+      tap((who) => console.log('base', who))
     );
   }
 
@@ -119,7 +125,8 @@ export class CheckoutStepsSetGuard implements CanActivate {
         paymentDetails && Object.keys(paymentDetails).length !== 0
           ? true
           : this.getUrl(step.routeName)
-      )
+      ),
+      tap((detailsset) => console.log('detailsset', detailsset))
     );
   }
 

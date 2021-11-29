@@ -7,7 +7,11 @@ import {
 import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
 import { CheckoutEventModule } from './events/checkout-event.module';
-import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
+import {
+  CHECKOUT_CORE_FEATURE,
+  CHECKOUT_FEATURE,
+  CHECKOUT_GUARDS,
+} from './feature-name';
 import { interceptors } from './http-interceptors/index';
 
 export function defaultCheckoutComponentsConfig() {
@@ -34,6 +38,8 @@ export function defaultCheckoutComponentsConfig() {
       },
       // by default core is bundled together with components
       [CHECKOUT_CORE_FEATURE]: CHECKOUT_FEATURE,
+      // SOLUTION 1: in progress but not currently working
+      [CHECKOUT_GUARDS]: CHECKOUT_FEATURE,
     },
   };
   return config;

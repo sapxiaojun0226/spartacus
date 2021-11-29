@@ -22,7 +22,9 @@ export class CheckoutAuthGuard implements CanActivate {
     protected activeCartService: ActiveCartService,
     protected semanticPathService: SemanticPathService,
     protected router: Router
-  ) {}
+  ) {
+    console.log('noooo');
+  }
 
   canActivate(): Observable<boolean | UrlTree> {
     return combineLatest([

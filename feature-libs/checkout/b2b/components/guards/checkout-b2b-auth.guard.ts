@@ -43,6 +43,7 @@ export class CheckoutB2BAuthGuard
       semanticPathService,
       router
     );
+    console.log('b2b auth guard not working too');
   }
 
   canActivate(): Observable<boolean | UrlTree> {

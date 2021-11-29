@@ -11,6 +11,7 @@ import { CheckoutProgressMobileTopModule } from './checkout-progress/checkout-pr
 import { CheckoutProgressModule } from './checkout-progress/checkout-progress.module';
 import { CheckoutReviewSubmitModule } from './checkout-review-submit/checkout-review-submit.module';
 import { CheckoutShippingAddressModule } from './checkout-shipping-address/checkout-shipping-address.module';
+import { facadeProviders } from './guards/facade-providers';
 
 @NgModule({
   imports: [
@@ -27,5 +28,6 @@ import { CheckoutShippingAddressModule } from './checkout-shipping-address/check
     CheckoutOrderConfirmationModule,
     CheckoutLoginModule,
   ],
+  providers: [...facadeProviders],
 })
 export class CheckoutComponentsModule {}
