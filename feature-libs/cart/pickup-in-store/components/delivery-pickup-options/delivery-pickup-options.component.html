@@ -1,6 +1,15 @@
 <div *ngIf="cartLocation === 'CART'">
-  <button>get it delivered</button> |
-  <button (click)="openDialog(orderEntry)">Pickup from [store name]</button>
+  <input type="radio" id="delivery" name="deliveryPointOfService" checked />
+  <label for="delivery">Get it Delivered</label>
+  <input
+    type="radio"
+    id="pickupInStore"
+    name="deliveryPointOfService"
+    (click)="openDialog(orderEntry)"
+  />
+  <label for="delivery"
+    >Free Pickup In store: [store name] | Change Store
+  </label>
   <pre>
   <!-- {{ orderEntry | json }} -->
   {{ orderEntry?.deliveryPointOfService | json }}
