@@ -39,8 +39,6 @@
 # ================================================
 
 #  Platonn - Krzysztof Platis
-#  marlass - Marcin Lasak
-#  LTiger14 - Louis Pierrestiger
 #  znikola - Nikola Zarić
 #  developpeurweb - Miguel Estrada
 #  psmul - Patryk Smul
@@ -54,50 +52,6 @@
 # ===========================================================
 #  Used for approving minor changes, large-scale refactorings, and emergency situations.
 #  (secret team to avoid review requests)
-
-
-# ===========================================================
-#  @SAP/spartacus-core-owners
-# ===========================================================
-#  Used for approving changes in core library for non explicitly owned parts and new features
-#
-#   - Platonn
-#   - marlass
-#   - LTiger14
-#   - znikola
-
-
-# ===========================================================
-#  @SAP/spartacus-style-owners
-# ===========================================================
-#  Used for approving changes in style library
-#
-#   - developpeurweb
-#   - LTiger14
-
-
-# ===========================================================
-#  @SAP/spartacus-cart-owners
-# ===========================================================
-#
-#   - Platonn
-#   - marlass
-
-
-# ===========================================================
-#  @SAP/spartacus-routing-owners
-# ===========================================================
-#
-#   - Platonn
-
-
-# ===========================================================
-#  @SAP/spartacus-schematics-owners
-# ===========================================================
-#
-#   - znikola
-#   - marlass
-#   - psmul
 
 
 ######################################################################################################
@@ -126,28 +80,28 @@
 # ================================================
 #  Spartacus Core
 # ================================================
-/projects/core/src/**                                                  @SAP/spartacus-core-owners @SAP/spartacus-global-owners
+/projects/core/src/**                                                  @SAP/spartacus-global-owners @platonn @znikola 
 
 # ================================================
 #  Spartacus Styles
 # ================================================
-/projects/storefrontstyles/src/**                                      @SAP/spartacus-style-owners @SAP/spartacus-global-owners
+/projects/storefrontstyles/src/**                                      @SAP/spartacus-global-owners @developpeurweb
 
 # ================================================
 #  Cart Functionality
 # ================================================
-/projects/core/src/cart/**                                             @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
-/projects/storefrontlib/cms-components/cart/**                         @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
+/projects/core/src/cart/**                                             @SAP/spartacus-global-owners @Platonn
+/projects/storefrontlib/cms-components/cart/**                         @SAP/spartacus-global-owners @Platonn
 
 # ================================================
 #  Routing Functionality
 # ================================================
-/projects/core/src/routing/**                                          @SAP/spartacus-routing-owners @SAP/spartacus-global-owners
+/projects/core/src/routing/**                                          @SAP/spartacus-global-owners @Platonn
 
 # ================================================
 #  Schematics
 # ================================================
-/projects/schematics/src/**                                            @SAP/spartacus-schematics-owners @SAP/spartacus-global-owners
+/projects/schematics/src/**                                            @SAP/spartacus-global-owners @Platonn @znikola @psmul
 
 # ================================================
 #  CODEOWNERS Owners owners ...
