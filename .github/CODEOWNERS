@@ -107,4 +107,4 @@
 #  CODEOWNERS Owners owners ...
 # ================================================
 
-/.github/CODEOWNERS                                                    @SAP/spartacus-global-owners
+/.github/CODEOWNERS                                                    @SAP/spartacus-global-owners @hackergil @Platonn
