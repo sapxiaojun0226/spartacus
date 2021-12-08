@@ -90,8 +90,8 @@
 # ================================================================================================================================================
 #  Cart Functionality
 # ================================================================================================================================================
-/projects/core/src/cart/**                                             @SAP/spartacus-global-owners @Platonn
-/projects/storefrontlib/cms-components/cart/**                         @SAP/spartacus-global-owners @Platonn
+/projects/core/src/cart/**                                             @SAP/spartacus-global-owners @Platonn @plabadie @WeizhengSap @Pucek9
+/projects/storefrontlib/cms-components/cart/**                         @SAP/spartacus-global-owners @Platonn @plabadie @WeizhengSap @Pucek9
 
 # ================================================================================================================================================
 #  Routing Functionality
