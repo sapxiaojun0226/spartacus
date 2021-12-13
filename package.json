@@ -94,7 +94,9 @@
     "test:cds:lib": "ng test cds --code-coverage",
     "build:cds:ssr": "cross-env SPARTACUS_CDS=true ng run storefrontapp:server:production",
     "dev:cds:ssr": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_CDS=true ng run storefrontapp:serve-ssr",
-    "prerender:cds:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_CDS=true ng run storefrontapp:prerender --routesFile projects/storefrontapp/prerender.txt"
+    "prerender:cds:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_CDS=true ng run storefrontapp:prerender --routesFile projects/storefrontapp/prerender.txt",
+    "test:jest:watch": "jest --watch --config projects/core/jest.config.js",
+    "test:jest": "jest --config projects/core/jest.config.js"
   },
   "private": false,
   "dependencies": {
@@ -153,7 +155,7 @@
     "@types/i18next": "^12.1.0",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
-    "@types/jest": "^26.0.19",
+    "@types/jest": "^27.0.3",
     "@types/node": "^12.11.1",
     "@types/parse5": "^5.0.3",
     "@types/semver": "6",
@@ -184,7 +186,8 @@
     "i18n-lint": "^1.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-marbles": "^0.6.0",
-    "jest": "^26.6.3",
+    "jest": "^27.4.4",
+    "jest-preset-angular": "^11.0.1",
     "jsonc-parser": "^3.0.0",
     "karma": "~6.3.4",
     "karma-chrome-launcher": "~3.1.0",
