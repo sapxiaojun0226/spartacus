@@ -12,7 +12,6 @@ import { IconModule } from '../icon/index';
 import { LanguageCurrencyComponent } from './language-currency.component';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
-import { SiteThemeSwitcherComponent } from '../site-theme-switcher/site-theme-switcher.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, SiteContextModule, IconModule],
@@ -31,21 +30,12 @@ import { SiteThemeSwitcherComponent } from '../site-theme-switcher/site-theme-sw
         },
         LanguageCurrencyComponent: {
           component: LanguageCurrencyComponent,
-          SiteThemeSwitcherComponent,
         },
       },
     }),
     SiteContextComponentService,
   ],
-  declarations: [
-    SiteContextSelectorComponent,
-    LanguageCurrencyComponent,
-    SiteThemeSwitcherComponent,
-  ],
-  exports: [
-    SiteContextSelectorComponent,
-    LanguageCurrencyComponent,
-    SiteThemeSwitcherComponent,
-  ],
+  declarations: [SiteContextSelectorComponent, LanguageCurrencyComponent],
+  exports: [SiteContextSelectorComponent, LanguageCurrencyComponent],
 })
 export class SiteContextSelectorModule {}
