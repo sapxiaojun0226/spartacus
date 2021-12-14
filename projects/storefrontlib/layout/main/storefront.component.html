@@ -9,6 +9,22 @@
     >
       <cx-page-layout section="header"></cx-page-layout>
       <cx-page-layout section="navigation"></cx-page-layout>
+      <div
+        style="
+          max-width: var(--cx-page-width-max);
+          margin: 0 auto;
+          position: relative;
+          height: 0;
+        "
+      >
+        <button
+          (click)="switchTheme()"
+          class="theme-switcher"
+          style="position: absolute; top: -185px; left: 135px"
+        >
+          Theme
+        </button>
+      </div>
     </header>
     <cx-page-slot position="BottomHeaderSlot"></cx-page-slot>
     <cx-global-message
@@ -18,7 +34,6 @@
   </ng-template>
 
   <main cxSkipLink="cx-main" [cxFocus]="{ disableMouseFocus: true }">
-    <button (click)="switchTheme()">Theme</button>
     <router-outlet></router-outlet>
   </main>
 
