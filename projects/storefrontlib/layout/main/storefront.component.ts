@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
   FocusConfig,
@@ -29,6 +30,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   matchMediaPrefDark: MediaQueryList;
 
   readonly StorefrontOutlets = StorefrontOutlets;
+  iconTypes = ICON_TYPE;
 
   @HostBinding('class.start-navigating') startNavigating;
   @HostBinding('class.stop-navigating') stopNavigating;

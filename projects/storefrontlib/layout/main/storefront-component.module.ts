@@ -9,6 +9,7 @@ import { PageSlotModule } from '../../cms-structure/page/slot/page-slot.module';
 import { StorefrontComponent } from './storefront.component';
 import { KeyboardFocusModule } from '../a11y/keyboard-focus/keyboard-focus.module';
 import { SkipLinkModule } from '../a11y/skip-link/skip-link.module';
+import { IconModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { SkipLinkModule } from '../a11y/skip-link/skip-link.module';
     PageSlotModule,
     KeyboardFocusModule,
     SkipLinkModule,
+    IconModule,
   ],
   declarations: [StorefrontComponent],
   exports: [StorefrontComponent],
