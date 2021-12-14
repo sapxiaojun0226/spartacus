@@ -60,8 +60,9 @@
       color: var(--cx-color-light);
     }
 
-    input[type='text'],
-    textarea {
+    input,
+    textarea,
+    .ng-select-container {
       color: var(--cx-color-contrast);
       background-color: var(--cx-color-secondary);
     }
