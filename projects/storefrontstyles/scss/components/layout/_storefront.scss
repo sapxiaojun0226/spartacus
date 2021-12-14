@@ -2,14 +2,35 @@
 
 %cx-storefront {
   .theme-switcher {
-    position: absolute;
-    top: 8px;
-    left: 21vw;
-    color: #fff;
-    font-size: 15px;
-    border: none;
-    background: transparent;
+    max-width: var(--cx-page-width-max);
+    margin: 0 auto;
+    position: relative;
+    height: 0;
+    &-btn {
+      position: absolute;
+      top: -182px;
+      left: 140px;
+      color: #fff;
+      font-size: 15px;
+      border: none;
+      background: transparent;
+    }
+    &-options {
+      position: absolute;
+      top: -148px;
+      left: 135px;
+      background: var(--cx-color-theme);
+      color: var(--cx-color-text);
+      font-size: 14px;
+      ul {
+        list-style: none;
+        padding: 10px;
+        padding-left: 10px;
+        margin-bottom: 0;
+      }
+    }
   }
+
   display: flex;
   flex-direction: column;
   min-height: 100vh;

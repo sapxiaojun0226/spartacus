@@ -9,11 +9,20 @@
     >
       <cx-page-layout section="header"></cx-page-layout>
       <cx-page-layout section="navigation"></cx-page-layout>
-      <div>
-        <button (click)="switchTheme()" class="theme-switcher">
+      <div class="theme-switcher">
+        <button (click)="switchTheme()" class="theme-switcher-btn">
           <cx-icon *ngIf="darkOn" [type]="iconTypes.SUN"></cx-icon>
           <cx-icon *ngIf="!darkOn" [type]="iconTypes.MOON"></cx-icon>
         </button>
+        <div class="theme-switcher-options">
+          <ul>
+            <li><a href="">Default</a></li>
+            <li><a href="">Dark Mode</a></li>
+            <li><a href="">Auto</a></li>
+            <li><a href="">High-Contrast Dark</a></li>
+            <li><a href="">High-Contrast Light</a></li>
+          </ul>
+        </div>
       </div>
     </header>
     <cx-page-slot position="BottomHeaderSlot"></cx-page-slot>
