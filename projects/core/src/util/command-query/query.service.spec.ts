@@ -193,7 +193,7 @@ describe('QueryService', () => {
             // loaderFactory throws error
             {
               loading: false,
-              error: jasmine.any(Error),
+              error: expect.any(Error),
               data: undefined,
             },
           ]);
@@ -223,13 +223,13 @@ describe('QueryService', () => {
             // loaderFactory throws error
             {
               loading: false,
-              error: jasmine.any(Error),
+              error: expect.any(Error),
               data: undefined,
             },
             // reload trigger happened
             {
               loading: true,
-              error: jasmine.any(Error),
+              error: expect.any(Error),
               data: undefined,
             },
             // loaderFactory returns value
