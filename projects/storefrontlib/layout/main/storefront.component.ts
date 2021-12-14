@@ -25,6 +25,9 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;
   isExpanded$: Observable<boolean> = this.hamburgerMenuService.isExpanded;
 
+  html: HTMLElement | null;
+  matchMediaPrefDark: MediaQueryList;
+
   readonly StorefrontOutlets = StorefrontOutlets;
 
   @HostBinding('class.start-navigating') startNavigating;
@@ -57,16 +60,18 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const matchMediaPrefDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    );
-    const prefersDarkMode = matchMediaPrefDark.matches;
+    this.matchMediaPrefDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+    this.matchMediaPrefDark.addEventListener('change', (event) => {
+      this.onSystemThemeChange(event);
+    });
+    const prefersDarkMode = this.matchMediaPrefDark.matches;
 
     const theme = localStorage.getItem('theme');
-    const html = document.querySelector('html');
+    this.html = document.querySelector('html');
 
-    if (html) {
-      html.dataset.theme =
+    if (this.html) {
+      this.html.dataset.theme =
         theme ?? (prefersDarkMode ? `theme-dark` : `theme-light`);
     }
 
@@ -88,15 +93,29 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     }
   }
 
-  switchTheme(): void {
-    const html = document.querySelector('html');
-    if (html) {
-      if (html.dataset.theme === `theme-dark`) {
-        html.dataset.theme = `theme-light`;
-        localStorage.setItem('theme', 'theme-light');
+  onSystemThemeChange(e: MediaQueryListEvent): void {
+    const isDark = e.matches;
+
+    if (isDark) {
+      this.switchTheme(`theme-dark`);
+    } else {
+      this.switchTheme(`theme-light`);
+    }
+  }
+
+  switchTheme(theme?: string): void {
+    if (this.html) {
+      if (theme) {
+        this.html.dataset.theme = theme;
+        localStorage.setItem('theme', theme);
       } else {
-        html.dataset.theme = `theme-dark`;
-        localStorage.setItem('theme', 'theme-dark');
+        if (this.html.dataset.theme === `theme-dark`) {
+          this.html.dataset.theme = `theme-light`;
+          localStorage.setItem('theme', `theme-light`);
+        } else {
+          this.html.dataset.theme = `theme-dark`;
+          localStorage.setItem('theme', `theme-dark`);
+        }
       }
     }
   }
@@ -106,6 +125,10 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.matchMediaPrefDark.removeEventListener(
+      'change',
+      this.onSystemThemeChange
+    );
     if (this.navigateSubscription) {
       this.navigateSubscription.unsubscribe();
     }
