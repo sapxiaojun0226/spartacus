@@ -9,28 +9,10 @@
     >
       <cx-page-layout section="header"></cx-page-layout>
       <cx-page-layout section="navigation"></cx-page-layout>
-      <div
-        style="
-          max-width: var(--cx-page-width-max);
-          margin: 0 auto;
-          position: relative;
-          height: 0;
-        "
-      >
-        <button
-          (click)="switchTheme()"
-          class="theme-switcher"
-          style="
-            position: absolute;
-            top: -185px;
-            left: 135px;
-            color: #fff;
-            font-size: 20px;
-            border: none;
-            background: transparent;
-          "
-        >
-          <cx-icon [type]="iconTypes.SUN"></cx-icon>
+      <div>
+        <button (click)="switchTheme()" class="theme-switcher">
+          <cx-icon *ngIf="darkOn" [type]="iconTypes.SUN"></cx-icon>
+          <cx-icon *ngIf="!darkOn" [type]="iconTypes.MOON"></cx-icon>
         </button>
       </div>
     </header>

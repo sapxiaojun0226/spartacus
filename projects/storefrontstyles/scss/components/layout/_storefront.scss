@@ -1,6 +1,15 @@
 @import './progress-bar';
 
 %cx-storefront {
+  .theme-switcher {
+    position: absolute;
+    top: 8px;
+    left: 21vw;
+    color: #fff;
+    font-size: 15px;
+    border: none;
+    background: transparent;
+  }
   display: flex;
   flex-direction: column;
   min-height: 100vh;

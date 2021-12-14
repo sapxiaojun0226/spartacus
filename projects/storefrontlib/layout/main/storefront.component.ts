@@ -26,6 +26,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;
   isExpanded$: Observable<boolean> = this.hamburgerMenuService.isExpanded;
 
+  darkOn: boolean;
   html: HTMLElement | null;
   matchMediaPrefDark: MediaQueryList;
 
@@ -75,6 +76,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     if (this.html) {
       this.html.dataset.theme =
         theme ?? (prefersDarkMode ? `theme-dark` : `theme-light`);
+      this.darkOn = this.html.dataset.theme === `theme-dark` ? true : false;
     }
 
     this.navigateSubscription = this.routingService
@@ -100,8 +102,10 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
     if (isDark) {
       this.switchTheme(`theme-dark`);
+      this.darkOn = true;
     } else {
       this.switchTheme(`theme-light`);
+      this.darkOn = false;
     }
   }
 
@@ -114,9 +118,11 @@ export class StorefrontComponent implements OnInit, OnDestroy {
         if (this.html.dataset.theme === `theme-dark`) {
           this.html.dataset.theme = `theme-light`;
           localStorage.setItem('theme', `theme-light`);
+          this.darkOn = false;
         } else {
           this.html.dataset.theme = `theme-dark`;
           localStorage.setItem('theme', `theme-dark`);
+          this.darkOn = true;
         }
       }
     }

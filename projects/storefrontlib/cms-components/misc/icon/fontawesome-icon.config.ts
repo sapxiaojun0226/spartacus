@@ -40,6 +40,7 @@ export const fontawesomeIconConfig: IconConfig = {
       SORT: 'fas fa-sort',
       EXPAND_ARROWS: 'fas fa-expand',
       SUN: 'fas fa-sun',
+      MOON: 'far fa-moon',
     },
     resources: [
       {

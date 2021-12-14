@@ -40,6 +40,7 @@ export enum ICON_TYPE {
   LINK_OUT = 'LINK_OUT',
   EXPAND_ARROWS = 'EXPAND_ARROWS',
   SUN = 'SUN',
+  MOON = 'MOON',
 }
 
 @Injectable({
