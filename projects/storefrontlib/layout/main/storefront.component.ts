@@ -57,6 +57,19 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    const matchMediaPrefDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    );
+    const prefersDarkMode = matchMediaPrefDark.matches;
+
+    const theme = localStorage.getItem('theme');
+    const html = document.querySelector('html');
+
+    if (html) {
+      html.dataset.theme =
+        theme ?? (prefersDarkMode ? `theme-dark` : `theme-light`);
+    }
+
     this.navigateSubscription = this.routingService
       .isNavigating()
       .subscribe((val) => {
@@ -72,6 +85,19 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       element.className.includes('is-expanded')
     ) {
       this.collapseMenu();
+    }
+  }
+
+  switchTheme(): void {
+    const html = document.querySelector('html');
+    if (html) {
+      if (html.dataset.theme === `theme-dark`) {
+        html.dataset.theme = `theme-light`;
+        localStorage.setItem('theme', 'theme-light');
+      } else {
+        html.dataset.theme = `theme-dark`;
+        localStorage.setItem('theme', 'theme-dark');
+      }
     }
   }
 

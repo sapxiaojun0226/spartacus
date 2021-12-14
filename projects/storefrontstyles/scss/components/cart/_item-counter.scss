@@ -33,9 +33,12 @@
     border-radius: 4px;
     border: solid 1px var(--cx-color-light);
     display: inline-flex;
+    background: var(--cx-color-theme);
 
     input {
       border: solid 1px var(--cx-color-light);
+      background: var(--cx-color-theme);
+      color: var(--cx-color-contrast);
       border-width: 0 1px;
       padding: 12px 9px;
       max-height: 48px;

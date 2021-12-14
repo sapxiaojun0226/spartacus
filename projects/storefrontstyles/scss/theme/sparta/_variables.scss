@@ -33,6 +33,24 @@ $text: #212738 !default;
 $transparent: transparent !default;
 $visual-focus: #6d9df7 !default;
 $background-focus: rgba(80, 176, 244, 0.1);
+$results: #ffffff !default;
+$contrast: #000000 !default;
+
+$primary-dark: #4e5c83 !default;
+$secondary-dark: #5f5f5f !default;
+$success-dark: #3a6e03 !default;
+$warning-dark: #aa8002 !default;
+$info-dark: #05505c !default;
+$dark-1: #2d2d2e !default;
+$dark-2: #1f1f1f !default;
+$background-dark: #252525 !default;
+$inverse-dark: #eeecec !default;
+$text-dark: #dddddd !default;
+$transparent-dark: transparent !default;
+$visual-focus-dark: #6d9df7 !default;
+$results-dark: #666565 !default;
+$background-focus-dark: rgba(248, 252, 255, 0.774);
+$contrast-dark: #ffffff !default;
 
 $theme-colors: (
   'primary': $primary,
@@ -49,6 +67,30 @@ $theme-colors: (
   'transparent': $transparent,
   'visual-focus': $visual-focus,
   'background-focus': $background-focus,
+  'results': $results,
+  'contrast': $contrast,
+  'theme': $results,
+);
+
+$theme-colors-dark: (
+  'primary': $primary-dark,
+  'secondary': $secondary-dark,
+  'success': $success-dark,
+  'danger': $danger,
+  'warning': $warning-dark,
+  'info': $info-dark,
+  'light': $light,
+  'dark': $dark-1,
+  'dark-2': $dark-2,
+  'background': $background-dark,
+  'inverse': $inverse-dark,
+  'text': $text-dark,
+  'transparent': $transparent-dark,
+  'visual-focus': $visual-focus-dark,
+  'background-focus': $background-focus-dark,
+  'results': $results-dark,
+  'contrast': $contrast-dark,
+  'theme': $dark-1,
 );
 
 //type — https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L225

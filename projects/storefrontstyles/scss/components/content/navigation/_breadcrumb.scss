@@ -15,6 +15,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
+    color: var(--cx-color-text);
   }
 
   nav {
