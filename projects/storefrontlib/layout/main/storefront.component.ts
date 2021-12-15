@@ -63,11 +63,19 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.setTheme();
+
+    this.navigateSubscription = this.routingService
+      .isNavigating()
+      .subscribe((val) => {
+        this.startNavigating = val === true;
+        this.stopNavigating = val === false;
+      });
+  }
+
+  setTheme(): void {
     this.matchMediaPrefDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-    this.matchMediaPrefDark.addEventListener('change', (event) => {
-      this.onSystemThemeChange(event);
-    });
     const prefersDarkMode = this.matchMediaPrefDark.matches;
 
     const theme = localStorage.getItem('theme');
@@ -78,13 +86,13 @@ export class StorefrontComponent implements OnInit, OnDestroy {
         theme ?? (prefersDarkMode ? `theme-dark` : `theme-light`);
       this.darkOn = this.html.dataset.theme === `theme-dark` ? true : false;
     }
+  }
 
-    this.navigateSubscription = this.routingService
-      .isNavigating()
-      .subscribe((val) => {
-        this.startNavigating = val === true;
-        this.stopNavigating = val === false;
-      });
+  setThemeAuto(): void {
+    this.matchMediaPrefDark.addEventListener('change', (event) => {
+      this.onSystemThemeChange(event);
+    });
+    this.themeOptionsMenuToggle();
   }
 
   collapseMenuIfClickOutside(event: any): void {
@@ -116,7 +124,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       : (elm.style.display = 'block');
   }
 
-  switchTheme(theme?: string): void {
+  switchTheme(theme?: string, turnOffAuto = false): void {
     if (this.html) {
       if (theme) {
         this.html.dataset.theme = theme;
@@ -133,7 +141,13 @@ export class StorefrontComponent implements OnInit, OnDestroy {
         }
       }
     }
-    this.themeOptionsMenuToggle();
+
+    if (turnOffAuto) {
+      this.matchMediaPrefDark.removeEventListener('change', (event) => {
+        this.onSystemThemeChange(event);
+      });
+      this.themeOptionsMenuToggle();
+    }
   }
 
   collapseMenu(): void {
@@ -141,10 +155,9 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.matchMediaPrefDark.removeEventListener(
-      'change',
-      this.onSystemThemeChange
-    );
+    this.matchMediaPrefDark.removeEventListener('change', (event) => {
+      this.onSystemThemeChange(event);
+    });
     if (this.navigateSubscription) {
       this.navigateSubscription.unsubscribe();
     }

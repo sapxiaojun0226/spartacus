@@ -10,7 +10,7 @@
       position: absolute;
       top: -182px;
       left: 140px;
-      color: #fff;
+      color: var(--cx-page-width-text);
       font-size: 15px;
       border: none;
       background: transparent;
@@ -20,9 +20,10 @@
       position: absolute;
       top: -148px;
       left: 135px;
-      background: var(--cx-color-theme);
+      background: var(--cx-color-results);
       color: var(--cx-color-text);
       font-size: 14px;
+      border: 1px solid var(--cx-color-inverse);
       ul {
         list-style: none;
         padding: 10px;
@@ -30,6 +31,10 @@
         margin-bottom: 0;
         a {
           cursor: pointer;
+
+          &:hover{
+            color: var(--cx-color-primary);
+          }
         }
       }
     }
