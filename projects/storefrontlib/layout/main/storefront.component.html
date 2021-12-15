@@ -11,16 +11,16 @@
       <cx-page-layout section="navigation"></cx-page-layout>
       <div class="theme-switcher">
         <button (click)="themeOptionsMenuToggle()" class="theme-switcher-btn">
-          <cx-icon *ngIf="!darkOn" [type]="iconTypes.SUN"></cx-icon>
-          <cx-icon *ngIf="darkOn" [type]="iconTypes.MOON"></cx-icon>
+          <cx-icon *ngIf="mode === 'theme-light'" [type]="iconTypes.SUN"></cx-icon>
+          <cx-icon *ngIf="mode === 'theme-dark'" [type]="iconTypes.MOON"></cx-icon>
           <span style="font-size: 12px; margin: 0 5px">Theme</span>
           <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
         </button>
         <div class="theme-switcher-options">
           <ul>
-            <li><a (click)="switchTheme(default, true)">Default</a></li>
-            <li><a (click)="switchTheme(dark, true)">Dark Mode</a></li>
-            <li><a (click)="setThemeAuto()">Auto</a></li>
+            <li><a (click)="switchTheme('theme-light', true)">Default</a></li>
+            <li><a (click)="switchTheme('theme-dark', true)">Dark Mode</a></li>
+            <li><a (click)="setThemeAuto('auto')">Auto</a></li>
             <li><a>High-Contrast Dark</a></li>
             <li><a>High-Contrast Light</a></li>
           </ul>

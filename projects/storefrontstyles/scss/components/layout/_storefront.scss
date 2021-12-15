@@ -31,10 +31,9 @@
         margin-bottom: 0;
         a {
           cursor: pointer;
-
-          &:hover{
-            color: var(--cx-color-primary);
-          }
+        }
+        li:hover {
+          color: var(--cx-color-primary);
         }
       }
     }
