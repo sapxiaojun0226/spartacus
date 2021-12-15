@@ -109,6 +109,13 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     }
   }
 
+  themeOptionsMenuToggle(): void {
+    const elm = document.querySelector<HTMLElement>('.theme-switcher-options')!;
+    elm.style.display === 'block'
+      ? (elm.style.display = 'none')
+      : (elm.style.display = 'block');
+  }
+
   switchTheme(theme?: string): void {
     if (this.html) {
       if (theme) {
@@ -126,6 +133,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
         }
       }
     }
+    this.themeOptionsMenuToggle();
   }
 
   collapseMenu(): void {

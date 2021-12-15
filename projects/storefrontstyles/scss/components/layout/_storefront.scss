@@ -16,6 +16,7 @@
       background: transparent;
     }
     &-options {
+      display: none;
       position: absolute;
       top: -148px;
       left: 135px;
@@ -27,6 +28,9 @@
         padding: 10px;
         padding-left: 10px;
         margin-bottom: 0;
+        a {
+          cursor: pointer;
+        }
       }
     }
   }
