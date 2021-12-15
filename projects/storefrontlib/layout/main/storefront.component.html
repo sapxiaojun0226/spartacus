@@ -42,7 +42,10 @@
             <li>
               <a (click)="switchTheme('theme-dark-hc', true)"
                 >High-Contrast Dark</a
-              >
+              ><cx-icon
+              *ngIf="mode === 'theme-dark-hc'"
+              [type]="iconTypes.CHECK"
+            ></cx-icon>
             </li>
           </ul>
         </div>

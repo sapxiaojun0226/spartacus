@@ -53,20 +53,20 @@ $results-dark: #2b2b2b !default;
 $background-focus-dark: rgba(248, 252, 255, 0.774);
 $contrast-dark: #ffffff !default;
 
-$primary-dark-hc: #6d9df7 !default;
-$secondary-dark-hc: #818181 !default;
+$primary-dark-hc: #2dfd6b !default;
+$secondary-dark-hc: #c300eb !default;
 $success-dark-hc: #478306 !default;
 $warning-dark-hc: #aa8002 !default;
-$info-dark-hc: #05505c !default;
-$light-dark-hc: #a1a2a4 !default;
-$dark-hc-1: #2d2d2e !default;
+$info-dark-hc: #007d91 !default;
+$light-dark-hc: #fdfdff !default;
+$dark-hc-1: #060607 !default;
 $dark-hc-2: #1f1f1f !default;
-$background-dark-hc: #252525 !default;
+$background-dark-hc: #000000 !default;
 $inverse-dark-hc: #eeecec !default;
 $text-dark-hc: #dddddd !default;
 $transparent-dark-hc: transparent !default;
 $visual-focus-dark-hc: #6d9df7 !default;
-$results-dark-hc: #2b2b2b !default;
+$results-dark-hc: #070327 !default;
 $background-focus-dark-hc: rgba(248, 252, 255, 0.774);
 $contrast-dark-hc: #ffffff !default;
 
@@ -108,6 +108,27 @@ $theme-colors-dark: (
   'background-focus': $background-focus-dark,
   'results': $results-dark,
   'contrast': $contrast-dark,
+  'theme': $dark-1,
+);
+
+$theme-colors-dark-hc: (
+  'primary': $primary-dark-hc,
+  'secondary': $secondary-dark-hc,
+  'success': $success-dark-hc,
+  'danger': $danger,
+  'warning': $warning-dark-hc,
+  'info': $info-dark-hc,
+  'light': $light,
+  'dark': $dark-hc-1,
+  'dark-2': $dark-hc-2,
+  'background': $background-dark-hc,
+  'inverse': $inverse-dark-hc,
+  'text': $text-dark-hc,
+  'transparent': $transparent-dark-hc,
+  'visual-focus': $visual-focus-dark-hc,
+  'background-focus': $background-focus-dark-hc,
+  'results': $results-dark-hc,
+  'contrast': $contrast-dark-hc,
   'theme': $dark-1,
 );
 
