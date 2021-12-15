@@ -24,10 +24,13 @@
         </button>
         <div class="theme-switcher-options">
           <ul>
-            <li><a (click)="switchTheme('theme-light', true)">Default</a><cx-icon
-              *ngIf="mode === 'theme-light'"
-              [type]="iconTypes.CHECK"
-            ></cx-icon></li>
+            <li>
+              <a (click)="switchTheme('theme-light', true)">Default</a
+              ><cx-icon
+                *ngIf="mode === 'theme-light'"
+                [type]="iconTypes.CHECK"
+              ></cx-icon>
+            </li>
             <li>
               <a (click)="switchTheme('theme-dark', true)">Dark Mode</a>
               <cx-icon
@@ -36,8 +39,11 @@
               ></cx-icon>
             </li>
             <li><a (click)="setThemeAuto('auto')">Auto</a></li>
-            <li><a>High-Contrast Dark</a></li>
-            <li><a>High-Contrast Light</a></li>
+            <li>
+              <a (click)="switchTheme('theme-dark-hc', true)"
+                >High-Contrast Dark</a
+              >
+            </li>
           </ul>
         </div>
       </div>
