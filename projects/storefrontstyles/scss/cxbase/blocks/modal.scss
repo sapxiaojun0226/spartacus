@@ -21,6 +21,7 @@ $modal-min-width-sm: 100% !important;
   &-content {
     border-radius: $modal-content-border-radius;
     border: none;
+    background: var(--cx-color-background);
   }
   .close {
     font-size: 38px;
@@ -30,6 +31,9 @@ $modal-min-width-sm: 100% !important;
     margin-inline-start: 0;
     margin-inline-end: 0;
     align-self: flex-end;
+    .cx-icon {
+      color: var(--cx-color-text);
+    }
   }
 
   &[aria-hidden='false'] {

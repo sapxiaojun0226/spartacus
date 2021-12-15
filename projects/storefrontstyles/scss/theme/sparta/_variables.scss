@@ -38,7 +38,7 @@ $contrast: #000000 !default;
 
 $primary-dark: #6d9df7 !default;
 $secondary-dark: #818181 !default;
-$success-dark: #3a6e03 !default;
+$success-dark: #478306 !default;
 $warning-dark: #aa8002 !default;
 $info-dark: #05505c !default;
 $light-dark: #a1a2a4 !default;
@@ -144,7 +144,7 @@ $label-margin-bottom: 0.375rem;
 $alert-padding-y: 20px;
 $alert-border-radius: 0;
 
-$input-placeholder-color: lighten($body-color, 50);
+$input-placeholder-color: var(--cx-color-light);
 $input-border-color: theme-color('light');
 $input-focus-border-color: theme-color('dark');
 $input-focus-bg: theme-color('background');
