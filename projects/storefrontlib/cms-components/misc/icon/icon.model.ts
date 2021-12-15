@@ -41,6 +41,7 @@ export enum ICON_TYPE {
   EXPAND_ARROWS = 'EXPAND_ARROWS',
   SUN = 'SUN',
   MOON = 'MOON',
+  CHECK = 'CHECK',
 }
 
 @Injectable({

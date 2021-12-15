@@ -26,7 +26,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;
   isExpanded$: Observable<boolean> = this.hamburgerMenuService.isExpanded;
 
-  darkOn: boolean;
   mode: string;
   html: HTMLElement | null;
   matchMediaPrefDark: MediaQueryList;
@@ -117,10 +116,8 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
     if (isDark) {
       this.switchTheme(`theme-dark`);
-      this.darkOn = true;
     } else {
       this.switchTheme(`theme-light`);
-      this.darkOn = false;
     }
   }
 
