@@ -31,6 +31,7 @@ $useTabsOnPDP: false !default;
   > button {
     @include button-reset();
     margin-bottom: 0;
+    color: var(--cx-color-text);
     &.active,
     &:hover {
       color: var(--cx-color-primary);
@@ -197,6 +198,6 @@ $useTabsOnPDP: false !default;
   }
 
   .active {
-    background-color: var(--cx-color-inverse);
+    background-color: var(--cx-color-dark-2);
   }
 }

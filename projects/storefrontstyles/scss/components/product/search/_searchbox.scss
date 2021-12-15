@@ -172,7 +172,7 @@
     position: absolute;
     left: 0;
     width: 100%;
-    color: #000;
+    color: var(--cx-color-text);
     background-color: var(--cx-color-results);
     font-size: var(--cx-font-small, 1rem);
 
@@ -195,7 +195,7 @@
 
       &:hover,
       &:focus {
-        background: var(--cx-color-light);
+        background: var(--cx-color-results);
         color: currentColor;
       }
     }

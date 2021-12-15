@@ -24,7 +24,7 @@
         height: 0;
         overflow: hidden;
       }
-      color: #000;
+      color: var(--cx-color-text);
     }
     @include media-breakpoint-up(lg) {
       .wrapper {

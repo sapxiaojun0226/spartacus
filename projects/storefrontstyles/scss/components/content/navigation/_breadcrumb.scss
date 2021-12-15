@@ -33,7 +33,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
       list-style: none;
       li {
         display: inline;
-        color: var(--cx-color-secondary);
+        color: var(--cx-color-text);
 
         &:not(:last-child):after {
           content: '/';
