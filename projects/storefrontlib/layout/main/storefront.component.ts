@@ -27,6 +27,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   isExpanded$: Observable<boolean> = this.hamburgerMenuService.isExpanded;
 
   darkOn: boolean;
+  mode: string;
   html: HTMLElement | null;
   matchMediaPrefDark: MediaQueryList;
 
@@ -84,7 +85,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     if (this.html) {
       this.html.dataset.theme =
         theme ?? (prefersDarkMode ? `theme-dark` : `theme-light`);
-      this.darkOn = this.html.dataset.theme === `theme-dark` ? true : false;
+      this.mode = this.html.dataset.theme;
     }
   }
 
@@ -92,6 +93,12 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     this.matchMediaPrefDark.addEventListener('change', (event) => {
       this.onSystemThemeChange(event);
     });
+    const prefersDarkMode = this.matchMediaPrefDark.matches;
+    if (this.html) {
+      this.html.dataset.theme = prefersDarkMode ? `theme-dark` : `theme-light`;
+      localStorage.setItem('theme', this.html.dataset.theme);
+      this.mode = this.html.dataset.theme;
+    }
     this.themeOptionsMenuToggle();
   }
 
@@ -126,18 +133,19 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   switchTheme(theme?: string, turnOffAuto = false): void {
     if (this.html) {
-      if (theme) {
+      if (theme && theme !== 'auto') {
         this.html.dataset.theme = theme;
         localStorage.setItem('theme', theme);
+        this.mode = theme;
       } else {
         if (this.html.dataset.theme === `theme-dark`) {
           this.html.dataset.theme = `theme-light`;
           localStorage.setItem('theme', `theme-light`);
-          this.darkOn = false;
+          this.mode = `theme-light`;
         } else {
           this.html.dataset.theme = `theme-dark`;
           localStorage.setItem('theme', `theme-dark`);
-          this.darkOn = true;
+          this.mode = `theme-dark`;
         }
       }
     }
