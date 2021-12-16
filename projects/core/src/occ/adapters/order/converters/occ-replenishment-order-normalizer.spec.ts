@@ -49,7 +49,7 @@ describe('OccReplenishmentOrderNormalizer', () => {
     normalizer = TestBed.inject(OccReplenishmentOrderNormalizer);
     converter = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'convert').and.callFake(
+    jest.spyOn(converter, 'convert').mockImplementation(
       (product) =>
         ({
           ...product,

@@ -42,7 +42,7 @@ describe('ProductService', () => {
     });
     store = TestBed.inject(Store);
     service = TestBed.inject(ProductService);
-    spyOn(store, 'dispatch').and.stub();
+    jest.spyOn(store, 'dispatch').mockImplementation();
   });
 
   it('should ProductService is injected', inject(
@@ -78,7 +78,7 @@ describe('ProductService', () => {
 
   describe('isLoading(productCode)', () => {
     it('should be able to get loading flag by code', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      jest.spyOn(ngrxStore, 'select').mockImplementation(
         () => () =>
           of({
             loading: true,
@@ -94,7 +94,7 @@ describe('ProductService', () => {
 
   describe('hasError(productCode)', () => {
     it('should be able to get loading flag by code', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      jest.spyOn(ngrxStore, 'select').mockImplementation(
         () => () =>
           of({
             error: true,
@@ -110,7 +110,7 @@ describe('ProductService', () => {
 
   describe('hasError(productCode)', () => {
     it('should be able to get loading flag by code', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      jest.spyOn(ngrxStore, 'select').mockImplementation(
         () => () =>
           of({
             success: true,
@@ -126,7 +126,7 @@ describe('ProductService', () => {
 
   describe('isProductLoaded(productCode)', () => {
     it('should be true that the product is loaded when a product is returned by the store', async () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      jest.spyOn(ngrxStore, 'select').mockImplementation(
         () => () => of({ value: mockedProduct })
       );
       const result: Product = await service.get('existingProduct').toPromise();

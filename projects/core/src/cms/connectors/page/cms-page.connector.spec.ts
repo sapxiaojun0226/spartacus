@@ -4,17 +4,16 @@ import { of } from 'rxjs';
 import { PageType } from '../../../model/cms.model';
 import { CmsPageAdapter } from './cms-page.adapter';
 import { CmsPageConnector } from './cms-page.connector';
-import createSpy = jasmine.createSpy;
 
 class MockCmsPageAdapter implements CmsPageAdapter {
-  load = createSpy('CmsComponentAdapter.load').and.callFake(({ id }) =>
+  load = jest.fn().mockImplementation(({ id }) =>
     of('page' + id)
   );
 }
 
 class MockCmsStructureConfigService {
-  mergePageStructure = createSpy().and.callFake((id) => of(id));
-  shouldIgnoreBackend = createSpy().and.returnValue(of(false));
+  mergePageStructure = jest.fn().mockImplementation((id) => of(id));
+  shouldIgnoreBackend = jest.fn().mockReturnValue(of(false));
 }
 
 const context: PageContext = {

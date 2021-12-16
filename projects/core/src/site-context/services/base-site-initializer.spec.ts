@@ -4,7 +4,6 @@ import { ConfigInitializerService } from '../../config';
 import { SiteContextConfig } from '../config/site-context-config';
 import { BaseSiteService } from '../facade/base-site.service';
 import { BaseSiteInitializer } from './base-site-initializer';
-import createSpy = jasmine.createSpy;
 
 const mockSiteContextConfig: SiteContextConfig = {
   context: {
@@ -16,7 +15,7 @@ class MockBaseSiteService implements Partial<BaseSiteService> {
   isInitialized() {
     return false;
   }
-  setActive = createSpy().and.stub();
+  setActive = jest.fn().mockImplementation();
 }
 
 class MockConfigInitializerService
@@ -56,7 +55,7 @@ describe('BaseSiteInitializer', () => {
     });
 
     it('should NOT set default from config is the currency is initialized', () => {
-      spyOn(baseSiteService, 'isInitialized').and.returnValue(true);
+      jest.spyOn(baseSiteService, 'isInitialized').mockReturnValue(true);
       initializer.initialize();
       expect(baseSiteService.setActive).not.toHaveBeenCalled();
     });

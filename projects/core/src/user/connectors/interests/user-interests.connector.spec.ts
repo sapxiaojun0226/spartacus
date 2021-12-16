@@ -7,14 +7,13 @@ import {
 import { UserInterestsAdapter } from './user-interests.adapter';
 import { UserInterestsConnector } from './user-interests.connector';
 
-import createSpy = jasmine.createSpy;
 
 class MockUserInterestsAdapter implements UserInterestsAdapter {
-  getInterests = createSpy('getInterests').and.callFake((userId) =>
+  getInterests = jest.fn().mockImplementation((userId) =>
     of(`loadList-${userId}`)
   );
-  removeInterest = createSpy('removeInterest').and.returnValue(of([]));
-  addInterest = createSpy('addInterest').and.stub();
+  removeInterest = jest.fn().mockReturnValue(of([]));
+  addInterest = jest.fn().mockImplementation();
 }
 
 describe('UserInterestsConnector', () => {

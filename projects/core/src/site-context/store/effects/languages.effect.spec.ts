@@ -40,7 +40,7 @@ describe('Languages Effects', () => {
     connector = TestBed.inject(SiteConnector);
     effects = TestBed.inject(fromEffects.LanguagesEffects);
 
-    spyOn(connector, 'getLanguages').and.returnValue(of(languages));
+    jest.spyOn(connector, 'getLanguages').mockReturnValue(of(languages));
   });
 
   describe('loadLanguages$', () => {

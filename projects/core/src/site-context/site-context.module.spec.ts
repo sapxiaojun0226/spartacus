@@ -31,7 +31,7 @@ describe('SiteContextModule', () => {
     config = TestBed.inject(SiteContextConfig);
     initializer = TestBed.inject(SiteContextConfigInitializer);
 
-    spyOn(initializer, 'configFactory').and.callThrough();
+    jest.spyOn(initializer, 'configFactory');
   });
 
   it(`should not resolve SiteContextConfig when it was already configured statically `, () => {

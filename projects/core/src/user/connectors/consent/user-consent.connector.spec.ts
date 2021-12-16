@@ -2,12 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UserConsentAdapter } from './user-consent.adapter';
 import { UserConsentConnector } from './user-consent.connector';
-import createSpy = jasmine.createSpy;
 
 class MockUserAdapter implements UserConsentAdapter {
-  loadConsents = createSpy('loadConsents').and.returnValue(of({}));
-  giveConsent = createSpy('giveConsent').and.returnValue(of({}));
-  withdrawConsent = createSpy('withdrawConsent').and.returnValue(of({}));
+  loadConsents = jest.fn().mockReturnValue(of({}));
+  giveConsent = jest.fn().mockReturnValue(of({}));
+  withdrawConsent = jest.fn().mockReturnValue(of({}));
 }
 
 describe('UserConsentConnector', () => {

@@ -17,7 +17,6 @@ import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
-import createSpy = jasmine.createSpy;
 
 class MockUserIdService implements Partial<UserIdService> {
   public takeUserId(): Observable<string> {
@@ -30,7 +29,7 @@ const mockAddressVerificationResult: AddressValidation = {
 };
 
 class MockUserAddressConnector implements Partial<UserAddressConnector> {
-  verify = createSpy('MockUserAddressConnector.verify Spy').and.returnValue(
+  verify = jest.fn().mockReturnValue(
     of(mockAddressVerificationResult)
   );
 }
@@ -71,7 +70,7 @@ describe('UserAddressService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
     service = TestBed.inject(UserAddressService);
     userAddressConnector = TestBed.inject(UserAddressConnector);
   });
@@ -267,7 +266,7 @@ describe('UserAddressService', () => {
           country,
         })
       );
-      spyOn(service, 'clearRegions').and.stub();
+      jest.spyOn(service, 'clearRegions').mockImplementation();
       service.getRegions(null).subscribe((data) => {
         regions = data;
         expect(regions).toEqual([]);
@@ -279,8 +278,8 @@ describe('UserAddressService', () => {
     it('should return empty array while loading', (done) => {
       let regions: Region[];
       store.dispatch(new UserActions.LoadRegions(country));
-      spyOn(service, 'clearRegions').and.stub();
-      spyOn(service, 'loadRegions').and.stub();
+      jest.spyOn(service, 'clearRegions').mockImplementation();
+      jest.spyOn(service, 'loadRegions').mockImplementation();
       service.getRegions(country).subscribe((data) => {
         regions = data;
         expect(regions).toEqual([]);
@@ -293,8 +292,8 @@ describe('UserAddressService', () => {
 
     it('should return empty array and invoke clear and load when changing country', (done) => {
       let regions: Region[];
-      spyOn(service, 'clearRegions').and.stub();
-      spyOn(service, 'loadRegions').and.stub();
+      jest.spyOn(service, 'clearRegions').mockImplementation();
+      jest.spyOn(service, 'loadRegions').mockImplementation();
       const country2 = 'AB';
       store.dispatch(
         new UserActions.LoadRegionsSuccess({
@@ -319,8 +318,8 @@ describe('UserAddressService', () => {
           country,
         })
       );
-      spyOn(service, 'clearRegions').and.stub();
-      spyOn(service, 'loadRegions').and.stub();
+      jest.spyOn(service, 'clearRegions').mockImplementation();
+      jest.spyOn(service, 'loadRegions').mockImplementation();
       service.getRegions(country).subscribe((data) => {
         regions = data;
         expect(regions).toEqual(regionsList);

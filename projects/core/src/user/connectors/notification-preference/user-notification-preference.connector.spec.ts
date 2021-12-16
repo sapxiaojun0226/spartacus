@@ -3,7 +3,6 @@ import { of } from 'rxjs';
 import { NotificationPreference } from '../../../model/notification-preference.model';
 import { UserNotificationPreferenceAdapter } from './user-notification-preference.adapter';
 import { UserNotificationPreferenceConnector } from './user-notification-preference.connector';
-import createSpy = jasmine.createSpy;
 
 const user = 'testUser';
 const mockNotificationPreference: NotificationPreference[] = [
@@ -16,10 +15,10 @@ const mockNotificationPreference: NotificationPreference[] = [
 ];
 
 class MocktAdapter implements UserNotificationPreferenceAdapter {
-  loadAll = createSpy('loadAll').and.callFake((userId) =>
+  loadAll = jest.fn().mockImplementation((userId) =>
     of(`loadAll-notification-preferences-${userId}`)
   );
-  update = createSpy('update').and.callFake((userId, preferences) =>
+  update = jest.fn().mockImplementation((userId, preferences) =>
     of(`update-notification-preferences-${userId}-${preferences[0].channel}`)
   );
 }

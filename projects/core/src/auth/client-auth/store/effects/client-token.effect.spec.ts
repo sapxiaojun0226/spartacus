@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import * as fromStore from '..';
 import { ClientToken } from '../../models/client-token.model';
@@ -40,10 +40,10 @@ describe('ClientTokenEffect', () => {
       ClientAuthenticationTokenService
     );
 
-    spyOn(
+    jest.spyOn(
       clientAuthenticationTokenService,
       'loadClientAuthenticationToken'
-    ).and.returnValue(of(testToken));
+    ).mockReturnValue(of(testToken));
   });
 
   describe('loadClientToken$', () => {

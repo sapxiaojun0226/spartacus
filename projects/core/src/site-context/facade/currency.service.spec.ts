@@ -10,7 +10,6 @@ import { SiteContextActions } from '../store/actions/index';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { StateWithSiteContext } from '../store/state';
 import { CurrencyService } from './currency.service';
-import createSpy = jasmine.createSpy;
 
 const mockCurrencies: Currency[] = [
   { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
@@ -35,11 +34,11 @@ class MockSiteConnector {
 }
 
 describe('CurrencyService', () => {
-  const mockSelect0 = createSpy('select').and.returnValue(() => of(undefined));
-  const mockSelect1 = createSpy('select').and.returnValue(() =>
+  const mockSelect0 = jest.fn().mockReturnValue(() => of(undefined));
+  const mockSelect1 = jest.fn().mockReturnValue(() =>
     of(mockCurrencies)
   );
-  const mockSelect2 = createSpy('select').and.returnValue(() =>
+  const mockSelect2 = jest.fn().mockReturnValue(() =>
     of(mockActiveCurr)
   );
 
@@ -61,7 +60,7 @@ describe('CurrencyService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
     service = TestBed.inject(CurrencyService);
   });
 
@@ -77,7 +76,7 @@ describe('CurrencyService', () => {
   });
 
   it('should be able to load currencies', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect0);
+    jest.spyOn(ngrxStore, 'select').mockReturnValue(mockSelect0);
     service.getAll().subscribe();
     expect(store.dispatch).toHaveBeenCalledWith(
       new SiteContextActions.LoadCurrencies()
@@ -85,7 +84,7 @@ describe('CurrencyService', () => {
   });
 
   it('should be able to get currencies', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+    jest.spyOn(ngrxStore, 'select').mockReturnValue(mockSelect1);
 
     service.getAll().subscribe((results) => {
       expect(results).toEqual(mockCurrencies);
@@ -93,7 +92,7 @@ describe('CurrencyService', () => {
   });
 
   it('should be able to get active currencies', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+    jest.spyOn(ngrxStore, 'select').mockReturnValue(mockSelect2);
     service.getActive().subscribe((results) => {
       expect(results).toEqual(mockActiveCurr);
     });
@@ -101,7 +100,7 @@ describe('CurrencyService', () => {
 
   describe('setActive(isocode)', () => {
     it('should be able to set active currency', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+      jest.spyOn(ngrxStore, 'select').mockReturnValue(mockSelect2);
       service.setActive('JPY');
       expect(store.dispatch).toHaveBeenCalledWith(
         new SiteContextActions.SetActiveCurrency('JPY')
@@ -109,7 +108,7 @@ describe('CurrencyService', () => {
     });
 
     it('should not dispatch action if isocode is currenyly actuve', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+      jest.spyOn(ngrxStore, 'select').mockReturnValue(mockSelect2);
       service.setActive(mockActiveCurr);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new SiteContextActions.SetActiveCurrency(mockActiveCurr)
@@ -119,7 +118,7 @@ describe('CurrencyService', () => {
 
   describe('isInitialized', () => {
     it('should return TRUE if a currency is initialized', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+      jest.spyOn(ngrxStore, 'select').mockReturnValue(mockSelect1);
       expect(service.isInitialized()).toBeTruthy();
     });
   });

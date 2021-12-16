@@ -5,17 +5,15 @@ import { UrlMatcherService } from '../services/url-matcher.service';
 import { DEFAULT_URL_MATCHER } from './default-url-matcher';
 
 class MockRoutingConfigService implements Partial<RoutingConfigService> {
-  getRouteConfig = jasmine.createSpy('getRouteConfig').and.returnValue({
-    paths: ['test-path'],
-  });
+  getRouteConfig = jest.fn(() => ({
+    paths: ['test-path']
+  }));
 }
 
 const fromPathsUrlMatcher: UrlMatcher = () => null;
 
 class MockUrlMatcherService implements Partial<UrlMatcherService> {
-  getFromPaths = jasmine
-    .createSpy('fromPaths')
-    .and.returnValue(fromPathsUrlMatcher);
+  getFromPaths = jest.fn(() => fromPathsUrlMatcher);
 }
 
 describe('DEFAULT_URL_MATCHER', () => {

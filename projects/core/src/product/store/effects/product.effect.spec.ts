@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { cold, getTestScheduler, hot } from 'jasmine-marbles';
+import { cold, getTestScheduler, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../../model/cms.model';
 import { Product } from '../../../model/product.model';
@@ -12,7 +12,6 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { ProductConnector } from '../../connectors/product/product.connector';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from './product.effect';
-import createSpy = jasmine.createSpy;
 
 const router = {
   state: {
@@ -35,7 +34,7 @@ const product: Product = {
 };
 
 class MockProductConnector {
-  getMany = createSpy().and.callFake((products) =>
+  getMany = jest.fn().mockImplementation((products) =>
     products.map((pr) => ({ ...pr, data$: of(product) }))
   );
 }

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import { GlobalMessageService } from '../../../global-message/index';
 import {
@@ -18,7 +18,7 @@ import { CustomerCouponEffects } from './customer-coupon.effect';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 
 class MockUserService {
-  loadAddresses = jasmine.createSpy();
+  loadAddresses = jest.fn();
 
   get(): Observable<User> {
     return of({});
@@ -26,7 +26,7 @@ class MockUserService {
 }
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy();
+  add = jest.fn();
 }
 
 const userId = '123';
@@ -91,17 +91,17 @@ describe('Customer Coupon effect', () => {
     customerCouponsEffect = TestBed.inject(CustomerCouponEffects);
     customerCouponConnector = TestBed.inject(CustomerCouponConnector);
 
-    spyOn(customerCouponConnector, 'getCustomerCoupons').and.returnValue(
+    jest.spyOn(customerCouponConnector, 'getCustomerCoupons').mockReturnValue(
       of(customerSearcherResult)
     );
-    spyOn(customerCouponConnector, 'turnOnNotification').and.returnValue(
+    jest.spyOn(customerCouponConnector, 'turnOnNotification').mockReturnValue(
       of(customerCouponNotification)
     );
 
-    spyOn(customerCouponConnector, 'turnOffNotification').and.returnValue(
+    jest.spyOn(customerCouponConnector, 'turnOffNotification').mockReturnValue(
       of({})
     );
-    spyOn(customerCouponConnector, 'claimCustomerCoupon').and.returnValue(
+    jest.spyOn(customerCouponConnector, 'claimCustomerCoupon').mockReturnValue(
       of(customerCoupon2Customer)
     );
   });

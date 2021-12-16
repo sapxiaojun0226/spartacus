@@ -178,16 +178,16 @@ describe('PageMetaService', () => {
       service = TestBed.inject(PageMetaService);
       cmsService = TestBed.inject(CmsService);
 
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockProductPage));
+      jest.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(mockProductPage));
       resolver = TestBed.inject(PageWithAllResolvers);
-      spyOn(resolver, 'resolveTitle').and.callThrough();
-      spyOn(resolver, 'resolveDescription').and.callThrough();
-      spyOn(resolver, 'resolveRobots').and.callThrough();
-      spyOn(resolver, 'resolveImage').and.callThrough();
+      jest.spyOn(resolver, 'resolveTitle');
+      jest.spyOn(resolver, 'resolveDescription');
+      jest.spyOn(resolver, 'resolveRobots');
+      jest.spyOn(resolver, 'resolveImage');
     });
 
     it('should not resolve disabled resolvers', () => {
-      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
+      jest.spyOn(AngularCore, 'isDevMode').mockImplementation(() => false);
       service.getMeta().subscribe().unsubscribe();
       expect(resolver.resolveTitle).toHaveBeenCalled();
       expect(resolver.resolveDescription).not.toHaveBeenCalled();
@@ -196,7 +196,7 @@ describe('PageMetaService', () => {
     });
 
     it('should resolve disabled resolvers in devMode', () => {
-      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
+      jest.spyOn(AngularCore, 'isDevMode').mockImplementation(() => true);
       service.getMeta().subscribe().unsubscribe();
       expect(resolver.resolveTitle).toHaveBeenCalled();
       expect(resolver.resolveDescription).toHaveBeenCalled();
@@ -242,13 +242,13 @@ describe('PageMetaService', () => {
 
     it('should resolve page title using resolveTitle()', () => {
       const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
-      spyOn(resolver, 'resolveTitle').and.callThrough();
+      jest.spyOn(resolver, 'resolveTitle');
       service.getMeta().subscribe().unsubscribe();
       expect(resolver.resolveTitle).toHaveBeenCalled();
     });
 
     it('should resolve page heading', () => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(
+      jest.spyOn(cmsService, 'getCurrentPage').mockReturnValue(
         of(mockContentPageWithTemplate)
       );
       let result: PageMeta | null;
@@ -263,7 +263,7 @@ describe('PageMetaService', () => {
     });
 
     it('should resolve meta data for product page', () => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockProductPage));
+      jest.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(mockProductPage));
       let result: PageMeta;
       service
         .getMeta()
@@ -343,7 +343,7 @@ describe('Custom PageTitleService', () => {
   });
 
   it('should resolve keywords for custom page meta service', () => {
-    spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockKeywordPage));
+    jest.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(mockKeywordPage));
     let result: CustomPageMeta;
     service
       .getMeta()

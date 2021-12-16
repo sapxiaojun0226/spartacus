@@ -25,7 +25,7 @@ describe('ProductSearch Selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
   });
 
   describe('getSearchResults', () => {

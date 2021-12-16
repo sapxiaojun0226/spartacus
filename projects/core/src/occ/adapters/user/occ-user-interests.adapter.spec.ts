@@ -54,8 +54,8 @@ describe('OccUserInterestsAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    jest.spyOn(converter, 'pipeable');
+    jest.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

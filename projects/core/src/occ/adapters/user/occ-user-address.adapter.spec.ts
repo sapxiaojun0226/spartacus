@@ -50,10 +50,10 @@ describe('OccUserAddressAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    jest.spyOn(converter, 'pipeable');
+    jest.spyOn(converter, 'pipeableMany');
+    jest.spyOn(converter, 'convert');
+    jest.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

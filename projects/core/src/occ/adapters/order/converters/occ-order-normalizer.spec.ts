@@ -33,7 +33,7 @@ describe('OccOrderNormalizer', () => {
     });
     service = TestBed.inject(OccOrderNormalizer);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callFake(
+    jest.spyOn(converter, 'convert').mockImplementation(
       (product) =>
         ({
           ...product,

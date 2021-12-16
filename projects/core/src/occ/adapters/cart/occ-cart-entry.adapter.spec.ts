@@ -56,8 +56,8 @@ describe('OccCartEntryAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    jest.spyOn(converterService, 'pipeable');
+    jest.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

@@ -37,7 +37,7 @@ describe('Product References selectors', () => {
   });
 
   it('getSelectedProductReferencesFactory should return all references when no referenceType is provided', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(list));
+    spyOnProperty(ngrxStore, 'select').mockReturnValue(() => () => of(list));
 
     let result: ProductReference[];
     const referenceType = '';

@@ -1,11 +1,10 @@
-import createSpy = jasmine.createSpy;
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { SaveCartAdapter } from './save-cart.adapter';
 import { SaveCartConnector } from './save-cart.connecter';
 
 class MockSaveCartAdapter implements SaveCartAdapter {
-  saveCart = createSpy().and.callFake(
+  saveCart = jest.fn().mockImplementation(
     (userId, cartId, saveCartName, saveCartDescription) =>
       of('save' + userId + cartId + saveCartName + saveCartDescription)
   );

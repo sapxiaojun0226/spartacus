@@ -39,8 +39,8 @@ describe('OccUserPaymentAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    jest.spyOn(converter, 'pipeableMany');
+    jest.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

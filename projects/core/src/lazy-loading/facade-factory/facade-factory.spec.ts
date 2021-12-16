@@ -3,7 +3,6 @@ import { FacadeFactoryService } from './facade-factory.service';
 import { Injectable } from '@angular/core';
 import { facadeFactory } from './facade-factory';
 import { FacadeDescriptor } from './facade-descriptor';
-import createSpy = jasmine.createSpy;
 
 @Injectable()
 abstract class TestFacade {}
@@ -11,7 +10,7 @@ abstract class TestFacade {}
 function facadeResult() {}
 
 class MockFacadeFactoryService implements Partial<FacadeFactoryService> {
-  create = createSpy('create').and.returnValue(facadeResult);
+  create = jest.fn().mockReturnValue(facadeResult);
 }
 
 const TEST_FEATURE_NAME = 'testFeature';

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import { Region } from '../../../model/index';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
@@ -41,7 +41,7 @@ describe('', () => {
     effect = TestBed.inject(RegionsEffects);
     service = TestBed.inject(SiteConnector);
 
-    spyOn(service, 'getRegions').and.returnValue(of(mockRegions));
+    jest.spyOn(service, 'getRegions').mockReturnValue(of(mockRegions));
   });
 
   describe('loadRegions$', () => {

@@ -6,16 +6,15 @@ import { PageType } from '../../../model/cms.model';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { CmsComponentAdapter } from './cms-component.adapter';
 import { CmsComponentConnector } from './cms-component.connector';
-import createSpy = jasmine.createSpy;
 
 class MockCmsComponentAdapter implements CmsComponentAdapter {
-  load = createSpy('CmsComponentAdapter.load').and.callFake((id) =>
+  load = jest.fn('CmsComponentAdapter.load').mockImplementation((id) =>
     of('component' + id)
   );
 
-  findComponentsByIds = createSpy(
+  findComponentsByIds = jest.fn(
     'CmsComponentAdapter.findComponentsByIds'
-  ).and.callFake((idList) => of(idList.map((id) => 'component' + id)));
+  ).mockImplementation((idList) => of(idList.map((id) => 'component' + id)));
 }
 
 const ids = ['comp_uid1', 'comp_uid2'];
@@ -25,8 +24,8 @@ const context: PageContext = {
 };
 
 class MockCmsStructureConfigService {
-  getComponentFromConfig = createSpy().and.returnValue(of(undefined));
-  getComponentsFromConfig = createSpy().and.returnValue(
+  getComponentFromConfig = jest.fn().mockReturnValue(of(undefined));
+  getComponentsFromConfig = jest.fn().mockReturnValue(
     of([undefined, undefined, 'config-component'])
   );
 }

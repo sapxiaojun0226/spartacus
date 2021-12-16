@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable } from 'rxjs';
 import * as operators from 'rxjs/operators';
 import * as utils from '../../../util/compare-equal-objects';
@@ -26,7 +26,7 @@ function spyOnOperator(obj: any, prop: string): any {
     value: oldProp,
     writable: true,
   });
-  return spyOn(obj, prop);
+  return jest.spyOn(obj, prop);
 }
 
 const message: GlobalMessage = {
@@ -82,7 +82,7 @@ describe('GlobalMessage Effects', () => {
 
   describe('hideAfterDelay$', () => {
     it('should hide message after delay', () => {
-      spyOnOperator(operators, 'delay').and.returnValue((data) => data);
+      spyOnOperator(operators, 'delay').mockReturnValue((data) => data);
 
       const action = new GlobalMessageActions.AddMessage(message);
       const completion = new GlobalMessageActions.RemoveMessage({
@@ -99,7 +99,7 @@ describe('GlobalMessage Effects', () => {
     });
 
     it('should hide messages after delay', () => {
-      const spyDelay = spyOnOperator(operators, 'delay').and.returnValue(
+      const spyDelay = spyOnOperator(operators, 'delay').mockReturnValue(
         (data) => data
       );
       const action = new GlobalMessageActions.AddMessage(message);
@@ -124,7 +124,7 @@ describe('GlobalMessage Effects', () => {
   });
 
   it('should hide message after duration defined in message model', () => {
-    spyOnOperator(operators, 'delay').and.returnValue((data) => data);
+    spyOnOperator(operators, 'delay').mockReturnValue((data) => data);
 
     const action = new GlobalMessageActions.AddMessage(messageWithDuration);
     const completion = new GlobalMessageActions.RemoveMessage({
@@ -140,8 +140,8 @@ describe('GlobalMessage Effects', () => {
 
   describe('removeDuplicated$', () => {
     it('should not remove message if there is only one', () => {
-      spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(1);
-      spyOn(utils, 'indexOfFirstOccurrence').and.returnValue(0);
+      jest.spyOn(utils, 'countOfDeepEqualObjects').mockReturnValue(1);
+      jest.spyOn(utils, 'indexOfFirstOccurrence').mockReturnValue(0);
 
       const action = new GlobalMessageActions.AddMessage(message2);
 
@@ -157,8 +157,8 @@ describe('GlobalMessage Effects', () => {
     });
 
     it('should remove message if already exist', () => {
-      spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(2);
-      spyOn(utils, 'indexOfFirstOccurrence').and.returnValue(0);
+      jest.spyOn(utils, 'countOfDeepEqualObjects').mockReturnValue(2);
+      jest.spyOn(utils, 'indexOfFirstOccurrence').mockReturnValue(0);
 
       const action = new GlobalMessageActions.AddMessage(message2);
       const completion = new GlobalMessageActions.RemoveMessage({

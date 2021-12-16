@@ -6,7 +6,7 @@ import {
   GlobalMessage,
   GlobalMessageService,
 } from '../../../global-message/index';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import { Review } from '../../../model/product.model';
 import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
@@ -14,7 +14,6 @@ import { OccConfig } from '../../../occ/config/occ-config';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-reviews.effect';
 import { ProductReviewsConnector } from '../../connectors/index';
-import createSpy = jasmine.createSpy;
 
 const reviewData: Review[] = [
   {
@@ -37,7 +36,7 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 class MockProductReviewsConnector {
-  get = createSpy('getList').and.returnValue(of(reviewData));
+  get = jest.fn().mockReturnValue(of(reviewData));
 }
 
 class GlobalMessageServiceMock {

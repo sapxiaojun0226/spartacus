@@ -52,7 +52,7 @@ describe('ClientTokenService', () => {
   });
 
   it('should call loadClientToken() when no token is present', () => {
-    spyOn(store, 'dispatch').and.stub();
+    jest.spyOn(store, 'dispatch').mockImplementation();
 
     const subscription = service.getClientToken().subscribe((_token) => {});
     subscription.unsubscribe();
@@ -67,7 +67,7 @@ describe('ClientTokenService', () => {
       new ClientAuthActions.LoadClientTokenSuccess(mockClientToken)
     );
 
-    spyOn(store, 'dispatch').and.stub();
+    jest.spyOn(store, 'dispatch').mockImplementation();
 
     const sub = service.refreshClientToken().subscribe();
     sub.unsubscribe();

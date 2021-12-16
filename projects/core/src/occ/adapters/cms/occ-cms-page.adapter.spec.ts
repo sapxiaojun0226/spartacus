@@ -10,7 +10,6 @@ import { HOME_PAGE_CONTEXT, PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
-import createSpy = jasmine.createSpy;
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -40,7 +39,7 @@ class OccEndpointsServiceMock {
 }
 
 class MockConverterService {
-  pipeable = createSpy().and.returnValue((x) => x);
+  pipeable = jest.fn().mockReturnValue((x) => x);
 }
 
 const homePageContext: PageContext = {
@@ -96,7 +95,7 @@ describe('OccCmsPageAdapter', () => {
 
   describe('endpoint configuration', () => {
     it('should get cms home page by specific context', () => {
-      spyOn(endpointsService, 'buildUrl');
+      jest.spyOn(endpointsService, 'buildUrl').mockImplementation();
       service.load(homePageContext);
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
         queryParams: {},
@@ -104,7 +103,7 @@ describe('OccCmsPageAdapter', () => {
     });
 
     it('should get cms pages by page type and id for any page', () => {
-      spyOn(endpointsService, 'buildUrl');
+      jest.spyOn(endpointsService, 'buildUrl').mockImplementation();
       service.load(contentPageContext);
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
         queryParams: {
@@ -115,7 +114,7 @@ describe('OccCmsPageAdapter', () => {
     });
 
     it('should get cms pages by page type and id for any page', () => {
-      spyOn(endpointsService, 'buildUrl');
+      jest.spyOn(endpointsService, 'buildUrl').mockImplementation();
       service.load(homePageContext);
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
         queryParams: {},
@@ -123,7 +122,7 @@ describe('OccCmsPageAdapter', () => {
     });
 
     it('should get cms product page by product code and ProductPage type', () => {
-      spyOn(endpointsService, 'buildUrl');
+      jest.spyOn(endpointsService, 'buildUrl').mockImplementation();
       service.load(productPageContext);
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
         queryParams: {
@@ -134,7 +133,7 @@ describe('OccCmsPageAdapter', () => {
     });
 
     it('should get cms category page by category code and CategoryPage type', () => {
-      spyOn(endpointsService, 'buildUrl');
+      jest.spyOn(endpointsService, 'buildUrl').mockImplementation();
       service.load(categoryPageContext);
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
         queryParams: {
@@ -145,7 +144,7 @@ describe('OccCmsPageAdapter', () => {
     });
 
     it('should get cms page by pageId if there is no PageType', () => {
-      spyOn(endpointsService, 'buildUrl');
+      jest.spyOn(endpointsService, 'buildUrl').mockImplementation();
       service.load(contextWithoutType);
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('page', {
         urlParams: { id: contextWithoutType.id },
@@ -155,7 +154,7 @@ describe('OccCmsPageAdapter', () => {
 
   describe('http', () => {
     it('Should get home page', () => {
-      spyOn(endpointsService, 'buildUrl').and.returnValue(endpoint + `/pages`);
+      jest.spyOn(endpointsService, 'buildUrl').mockReturnValue(endpoint + `/pages`);
 
       service.load(homePageContext).subscribe((result) => {
         expect(result).toEqual(cmsPageData);
@@ -174,7 +173,7 @@ describe('OccCmsPageAdapter', () => {
     });
 
     it('Should get cms content page data', () => {
-      spyOn(endpointsService, 'buildUrl').and.returnValue(
+      jest.spyOn(endpointsService, 'buildUrl').mockReturnValue(
         endpoint +
           `/pages?pageType=${contentPageContext.type}&pageLabelOrId=${contentPageContext.id}`
       );
@@ -204,7 +203,7 @@ describe('OccCmsPageAdapter', () => {
     });
 
     it('should get cms product page data', () => {
-      spyOn(endpointsService, 'buildUrl').and.returnValue(
+      jest.spyOn(endpointsService, 'buildUrl').mockReturnValue(
         endpoint +
           `/pages?pageType=${productPageContext.type}&code=${productPageContext.id}`
       );
@@ -233,7 +232,7 @@ describe('OccCmsPageAdapter', () => {
     });
 
     it('should get cms page data by pageId if PageType is unknown', () => {
-      spyOn(endpointsService, 'buildUrl').and.returnValue(
+      jest.spyOn(endpointsService, 'buildUrl').mockReturnValue(
         endpoint + `/pages/${contextWithoutType.id}`
       );
       service.load(contextWithoutType).subscribe((result) => {
@@ -255,7 +254,7 @@ describe('OccCmsPageAdapter', () => {
 
   describe('normalizer', () => {
     it('should use normalizer', () => {
-      spyOn(endpointsService, 'buildUrl').and.returnValue(endpoint + '/pages');
+      jest.spyOn(endpointsService, 'buildUrl').mockReturnValue(endpoint + '/pages');
       const converter = TestBed.inject(ConverterService);
 
       service.load(contentPageContext).subscribe();

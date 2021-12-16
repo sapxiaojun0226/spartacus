@@ -87,7 +87,7 @@ describe('ClientTokenInterceptor', () => {
     it('Should only add token to specified requests', inject(
       [HttpClient],
       (http: HttpClient) => {
-        spyOn(clientTokenService, 'getClientToken').and.returnValue(
+        jest.spyOn(clientTokenService, 'getClientToken').mockReturnValue(
           of(testToken)
         );
 
@@ -101,7 +101,7 @@ describe('ClientTokenInterceptor', () => {
         let authHeader: string = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(null);
 
-        spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(
+        jest.spyOn<any>(InterceptorUtil, 'getInterceptorParam').mockReturnValue(
           true
         );
         http
@@ -132,10 +132,7 @@ describe('ClientTokenInterceptor', () => {
       http.get('/test', options).subscribe((result) => {
         expect(result).toBeTruthy();
       });
-      spyOn(
-        clientErrorHandlingService,
-        'handleExpiredClientToken'
-      ).and.callThrough();
+      jest.spyOn(clientErrorHandlingService, 'handleExpiredClientToken');
 
       const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';

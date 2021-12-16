@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import { ProductSearchPage } from '../../../model/product-search.model';
 import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
@@ -11,14 +11,13 @@ import { ProductSearchConnector } from '../../connectors/search/product-search.c
 import { SearchConfig } from '../../model/search-config';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from './product-search.effect';
-import createSpy = jasmine.createSpy;
 
 const searchResult: ProductSearchPage = { products: [] };
 const suggestionList: Occ.SuggestionList = { suggestions: [] };
 
 class MockProductSearchConnector {
-  search = createSpy().and.returnValue(of(searchResult));
-  getSuggestions = createSpy().and.returnValue(of(suggestionList.suggestions));
+  search = jest.fn().mockReturnValue(of(searchResult));
+  getSuggestions = jest.fn().mockReturnValue(of(suggestionList.suggestions));
 }
 
 describe('ProductSearch Effects', () => {

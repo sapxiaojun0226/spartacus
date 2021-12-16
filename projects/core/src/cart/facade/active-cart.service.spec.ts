@@ -97,7 +97,7 @@ describe('ActiveCartService', () => {
         processesCount: 0,
       });
       service['activeCartId$'] = of('code');
-      spyOn<any>(service, 'load').and.callThrough();
+      jest.spyOn(service, 'load');
       service['initActiveCart']();
       let result;
       service
@@ -175,7 +175,7 @@ describe('ActiveCartService', () => {
 
   describe('getEntries', () => {
     it('should return cart entries', () => {
-      spyOn(multiCartService, 'getEntries').and.returnValue(
+      jest.spyOn(multiCartService, 'getEntries').mockReturnValue(
         of([mockCartEntry])
       );
       service['activeCartId$'] = of('cartId');
@@ -193,7 +193,7 @@ describe('ActiveCartService', () => {
 
   describe('getLastEntry', () => {
     it('should return last entry by product code', () => {
-      spyOn(multiCartService, 'getLastEntry').and.returnValue(
+      jest.spyOn(multiCartService, 'getLastEntry').mockReturnValue(
         of(mockCartEntry)
       );
       service['activeCartId$'] = of('cartId');
@@ -214,7 +214,7 @@ describe('ActiveCartService', () => {
 
   describe('isStable', () => {
     it('should return true when isStable returns true', (done) => {
-      spyOn(multiCartService, 'isStable').and.returnValue(of(true));
+      jest.spyOn(multiCartService, 'isStable').mockReturnValue(of(true));
 
       service
         .isStable()
@@ -226,7 +226,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should return false when isStable returns false', (done) => {
-      spyOn(multiCartService, 'isStable').and.returnValue(of(false));
+      jest.spyOn(multiCartService, 'isStable').mockReturnValue(of(false));
 
       service
         .isStable()
@@ -240,7 +240,7 @@ describe('ActiveCartService', () => {
 
   describe('loadOrMerge', () => {
     it('should load cart when cartId is default "current"', () => {
-      spyOn(multiCartService, 'loadCart').and.callThrough();
+      jest.spyOn(multiCartService, 'loadCart');
 
       service['loadOrMerge'](
         OCC_CART_ID_CURRENT,
@@ -257,8 +257,8 @@ describe('ActiveCartService', () => {
     });
 
     it('should merge guest cart', () => {
-      spyOn<any>(service, 'guestCartMerge').and.callFake(() => {});
-      spyOn(service, 'isGuestCart').and.returnValue(true);
+      jest.spyOn<any>(service, 'guestCartMerge').mockImplementation(() => {});
+      jest.spyOn(service, 'isGuestCart').mockReturnValue(true);
       service['loadOrMerge'](
         'cartId',
         OCC_USER_ID_CURRENT,
@@ -269,7 +269,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should dispatch load for current -> emulated user switch', () => {
-      spyOn(multiCartService, 'loadCart').and.callThrough();
+      jest.spyOn(multiCartService, 'loadCart');
 
       service['loadOrMerge']('cartId', 'ala-ma-kota', OCC_USER_ID_CURRENT);
       expect(multiCartService['loadCart']).toHaveBeenCalledWith({
@@ -282,7 +282,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should dispatch merge for non guest cart', () => {
-      spyOn(multiCartService, 'mergeToCurrentCart').and.stub();
+      jest.spyOn(multiCartService, 'mergeToCurrentCart').mockImplementation();
 
       service['loadOrMerge']('cartId', 'userId', OCC_USER_ID_ANONYMOUS);
 
@@ -298,7 +298,7 @@ describe('ActiveCartService', () => {
 
   describe('load', () => {
     it('should load if user is not anonymous and cartId is the default "current"', () => {
-      spyOn(multiCartService, 'loadCart').and.callThrough();
+      jest.spyOn(multiCartService, 'loadCart');
       service['load'](OCC_CART_ID_CURRENT, OCC_USER_ID_CURRENT);
 
       expect(multiCartService['loadCart']).toHaveBeenCalledWith({
@@ -311,7 +311,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should load if user is anonymous and cartId is provided', () => {
-      spyOn(multiCartService, 'loadCart').and.callThrough();
+      jest.spyOn(multiCartService, 'loadCart');
       service['load']('cartId', OCC_USER_ID_ANONYMOUS);
 
       expect(multiCartService['loadCart']).toHaveBeenCalledWith({
@@ -324,7 +324,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should not load if user is anonymous and cartId is default "current"', () => {
-      spyOn(multiCartService, 'loadCart').and.callThrough();
+      jest.spyOn(multiCartService, 'loadCart');
       service['load'](OCC_CART_ID_CURRENT, OCC_USER_ID_ANONYMOUS);
 
       expect(multiCartService['loadCart']).not.toHaveBeenCalled();
@@ -333,10 +333,10 @@ describe('ActiveCartService', () => {
 
   describe('addEntry', () => {
     it('should just add entry after cart is provided', () => {
-      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+      jest.spyOn<any>(service, 'requireLoadedCart').mockReturnValue(
         of({ value: { code: 'code', guid: 'guid' } })
       );
-      spyOn(multiCartService, 'addEntry').and.callThrough();
+      jest.spyOn(multiCartService, 'addEntry');
       userId$.next(OCC_USER_ID_ANONYMOUS);
 
       service.addEntry('productCode', 2);
@@ -354,7 +354,7 @@ describe('ActiveCartService', () => {
     it('should call multiCartService remove entry method with active cart', () => {
       userId$.next('userId');
       service['activeCartId$'] = of('cartId');
-      spyOn(multiCartService, 'removeEntry').and.callThrough();
+      jest.spyOn(multiCartService, 'removeEntry');
 
       service.removeEntry({
         entryNumber: 3,
@@ -370,7 +370,7 @@ describe('ActiveCartService', () => {
   describe('updateEntry', () => {
     it('should call multiCartService update entry method with active cart', () => {
       service['activeCartId$'] = of('cartId');
-      spyOn(multiCartService, 'updateEntry').and.callThrough();
+      jest.spyOn(multiCartService, 'updateEntry');
 
       service.updateEntry(1, 2);
       expect(multiCartService['updateEntry']).toHaveBeenCalledWith(
@@ -384,7 +384,7 @@ describe('ActiveCartService', () => {
 
   describe('getEntry', () => {
     it('should return entry by product code', () => {
-      spyOn(multiCartService, 'getEntry').and.returnValue(of(mockCartEntry));
+      jest.spyOn(multiCartService, 'getEntry').mockReturnValue(of(mockCartEntry));
       service['activeCartId$'] = of('cartId');
 
       let result;
@@ -403,7 +403,7 @@ describe('ActiveCartService', () => {
 
   describe('getLastEntry', () => {
     it('should return last entry by product code', () => {
-      spyOn(multiCartService, 'getLastEntry').and.returnValue(
+      jest.spyOn(multiCartService, 'getLastEntry').mockReturnValue(
         of(mockCartEntry)
       );
       service['activeCartId$'] = of('cartId');
@@ -425,7 +425,7 @@ describe('ActiveCartService', () => {
   describe('addEmail', () => {
     it('should assign email to active cart', () => {
       service['activeCartId$'] = of('cartId');
-      spyOn(multiCartService, 'assignEmail').and.callThrough();
+      jest.spyOn(multiCartService, 'assignEmail');
 
       service.addEmail('test@email.com');
       expect(multiCartService.assignEmail).toHaveBeenCalledWith(
@@ -442,7 +442,7 @@ describe('ActiveCartService', () => {
         name: OCC_USER_ID_ANONYMOUS,
         uid: 'test|test@email.com',
       };
-      spyOn(service, 'getActive').and.returnValue(
+      jest.spyOn(service, 'getActive').mockReturnValue(
         of({
           code: 'xxx',
           user: mockCartUser,
@@ -518,8 +518,8 @@ describe('ActiveCartService', () => {
 
   describe('addEntries', () => {
     it('should add multiple entries at once', () => {
-      spyOn(multiCartService, 'addEntries').and.callThrough();
-      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+      jest.spyOn(multiCartService, 'addEntries');
+      jest.spyOn<any>(service, 'requireLoadedCart').mockReturnValue(
         of({ value: { code: 'someCode', guid: 'guid' } })
       );
       userId$.next('someUserId');
@@ -561,10 +561,10 @@ describe('ActiveCartService', () => {
 
   describe('guestCartMerge', () => {
     it('should delete cart and add entries from previous cart', () => {
-      spyOn(multiCartService, 'deleteCart').and.callThrough();
-      spyOn(service, 'addEntries').and.callThrough();
-      spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
-      spyOn<any>(service, 'addEntriesGuestMerge').and.callThrough();
+      jest.spyOn(multiCartService, 'deleteCart');
+      jest.spyOn(service, 'addEntries');
+      jest.spyOn(service, 'getEntries').mockReturnValue(of([mockCartEntry]));
+      jest.spyOn(service, 'addEntriesGuestMerge');
 
       service['guestCartMerge']('cartId');
       expect(service['addEntriesGuestMerge']).toHaveBeenCalledWith([
@@ -634,8 +634,8 @@ describe('ActiveCartService', () => {
     });
 
     it('should return cart if this already exists without loading again and creating new one', (done) => {
-      spyOn<any>(service, 'load').and.callThrough();
-      spyOn(multiCartService, 'createCart').and.callThrough();
+      jest.spyOn(service, 'load');
+      jest.spyOn(multiCartService, 'createCart');
 
       service['cartSelector$'] = of(cartState);
 
@@ -651,7 +651,7 @@ describe('ActiveCartService', () => {
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
         {}
       );
-      spyOn<any>(service, 'load').and.callFake(() => {
+      jest.spyOn<any>(service, 'load').mockImplementation(() => {
         cart$.next({
           loading: false,
           success: true,
@@ -661,7 +661,7 @@ describe('ActiveCartService', () => {
           },
         });
       });
-      spyOn(multiCartService, 'createCart').and.callThrough();
+      jest.spyOn(multiCartService, 'createCart');
 
       service['cartSelector$'] = cart$.asObservable();
       userId$.next(OCC_USER_ID_CURRENT);
@@ -681,7 +681,7 @@ describe('ActiveCartService', () => {
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
         {}
       );
-      spyOn<any>(service, 'load').and.callFake(() => {
+      jest.spyOn<any>(service, 'load').mockImplementation(() => {
         cart$.next({
           loading: false,
           success: false,
@@ -689,7 +689,7 @@ describe('ActiveCartService', () => {
           value: undefined,
         });
       });
-      spyOn(multiCartService, 'createCart').and.callFake(() => {
+      jest.spyOn(multiCartService, 'createCart').mockImplementation(() => {
         cart$.next({
           loading: false,
           success: true,
@@ -723,9 +723,9 @@ describe('ActiveCartService', () => {
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
         {}
       );
-      spyOn<any>(service, 'load').and.callThrough();
+      jest.spyOn(service, 'load');
 
-      spyOn(multiCartService, 'createCart').and.callFake(() => {
+      jest.spyOn(multiCartService, 'createCart').mockImplementation(() => {
         cart$.next({
           loading: false,
           success: true,

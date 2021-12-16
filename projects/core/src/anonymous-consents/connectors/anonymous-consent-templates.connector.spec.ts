@@ -30,7 +30,7 @@ describe('AnonymousConsentTemplatesConnector', () => {
     adapter = TestBed.inject(AnonymousConsentTemplatesAdapter);
     service = TestBed.inject(AnonymousConsentTemplatesConnector);
 
-    spyOn(adapter, 'loadAnonymousConsentTemplates').and.returnValue(of([]));
+    jest.spyOn(adapter, 'loadAnonymousConsentTemplates').mockReturnValue(of([]));
   });
 
   it('should be created', () => {
@@ -52,7 +52,7 @@ describe('AnonymousConsentTemplatesConnector', () => {
   describe('loadAnonymousConsentTemplates', () => {
     it('should call adapter', () => {
       const mockConsents: AnonymousConsent[] = [{ templateCode: 'test' }];
-      spyOn(adapter, 'loadAnonymousConsents').and.returnValue(of(mockConsents));
+      jest.spyOn(adapter, 'loadAnonymousConsents').mockReturnValue(of(mockConsents));
 
       let result: AnonymousConsent[];
       service

@@ -51,7 +51,7 @@ describe('OccSaveCartAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    jest.spyOn(occEndpointsService, 'buildUrl');
   });
 
   afterEach(() => {

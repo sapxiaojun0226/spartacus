@@ -3,11 +3,10 @@ import { ActiveCartService, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';
 import { CartValidationService } from './cart-validation.service';
-import createSpy = jasmine.createSpy;
 
 const cartValidationResult = { cartModificationList: [] };
 class MockCartValidationConnector implements Partial<CartValidationConnector> {
-  validate = createSpy().and.callFake(() => of(cartValidationResult));
+  validate = jest.fn().mockImplementation(() => of(cartValidationResult));
 }
 
 class MockUserIdService implements Partial<UserIdService> {

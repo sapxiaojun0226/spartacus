@@ -23,7 +23,7 @@ describe('normalizeHttpError', () => {
 
       const result = normalizeHttpError(mockError);
       expect(result).toEqual(
-        jasmine.objectContaining({
+        expect.objectContaining({
           message: mockError.message,
           status: mockError.status,
           statusText: mockError.statusText,
@@ -43,7 +43,7 @@ describe('normalizeHttpError', () => {
       });
       const result = normalizeHttpError(mockError);
       expect(result).toEqual(
-        jasmine.objectContaining({
+        expect.objectContaining({
           message: mockError.message,
           status: mockError.status,
           statusText: mockError.statusText,
@@ -68,7 +68,7 @@ describe('normalizeHttpError', () => {
       });
       const result = normalizeHttpError(mockError);
       expect(result).toEqual(
-        jasmine.objectContaining({
+        expect.objectContaining({
           message: mockError.message,
           status: mockError.status,
           statusText: mockError.statusText,

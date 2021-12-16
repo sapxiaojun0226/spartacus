@@ -10,7 +10,6 @@ import { SiteContextActions } from '../store/actions/index';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { StateWithSiteContext } from '../store/state';
 import { LanguageService } from './language.service';
-import createSpy = jasmine.createSpy;
 
 const mockLanguages: Language[] = [
   { active: true, isocode: 'ja', name: 'Japanese' },
@@ -35,10 +34,10 @@ class MockSiteConnector {
 }
 
 describe('LanguageService', () => {
-  const mockSelect1 = createSpy('select').and.returnValue(() =>
+  const mockSelect1 = jest.fn().mockReturnValue(() =>
     of(mockLanguages)
   );
-  const mockSelect2 = createSpy('select').and.returnValue(() =>
+  const mockSelect2 = jest.fn().mockReturnValue(() =>
     of(mockActiveLang)
   );
 
@@ -60,7 +59,7 @@ describe('LanguageService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
     service = TestBed.inject(LanguageService);
   });
 
@@ -76,14 +75,14 @@ describe('LanguageService', () => {
   });
 
   it('should be able to get languages', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+    jest.spyOn(ngrxStore, 'select').mockReturnValue(mockSelect1);
     service.getAll().subscribe((results) => {
       expect(results).toEqual(mockLanguages);
     });
   });
 
   it('should be able to get active languages', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+    jest.spyOn(ngrxStore, 'select').mockReturnValue(mockSelect2);
     service.getActive().subscribe((results) => {
       expect(results).toEqual(mockActiveLang);
     });
@@ -100,7 +99,7 @@ describe('LanguageService', () => {
 
   describe('isInitialized', () => {
     it('should return TRUE if a language is initialized', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+      jest.spyOn(ngrxStore, 'select').mockReturnValue(mockSelect1);
       expect(service.isInitialized()).toBeTruthy();
     });
   });

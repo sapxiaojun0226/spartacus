@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { CLIENT_AUTH_FEATURE } from '../../../auth/client-auth/store/client-auth-state';
 import * as fromClientAuthReducers from '../../../auth/client-auth/store/reducers/index';
@@ -19,7 +19,6 @@ import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
 import { HttpErrorResponse } from '@angular/common/http';
 import { normalizeHttpError } from '@spartacus/core';
-import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {
   code: 'xxx',
@@ -40,7 +39,7 @@ const tempCartId = 'tempCartId';
 describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
   let actions$: Observable<any>;
-  let loadMock: jasmine.Spy;
+  let loadMock;
 
   const MockOccModuleConfig: OccConfig = {
     backend: {
@@ -55,13 +54,13 @@ describe('Cart effect', () => {
   const cartId = 'testCartId';
 
   beforeEach(() => {
-    loadMock = createSpy().and.returnValue(of(testCart));
+    loadMock = jest.fn().mockReturnValue(of(testCart));
 
     class MockCartConnector {
-      create = createSpy().and.returnValue(of(testCart));
+      create = jest.fn().mockReturnValue(of(testCart));
       load = loadMock;
-      addEmail = createSpy().and.returnValue(of({}));
-      delete = createSpy().and.returnValue(of({}));
+      addEmail = jest.fn().mockReturnValue(of({}));
+      delete = jest.fn().mockReturnValue(of({}));
     }
 
     TestBed.configureTestingModule({
@@ -141,7 +140,7 @@ describe('Cart effect', () => {
         userId,
         cartId,
       });
-      loadMock.and.returnValue(of(null));
+      loadMock.mockReturnValue(of(null));
       const loadCartFailCompletion = new CartActions.LoadCartFail({
         userId,
         cartId,
@@ -162,7 +161,7 @@ describe('Cart effect', () => {
         cartId,
         extraData: { active: true },
       });
-      loadMock.and.returnValue(
+      loadMock.mockReturnValue(
         throwError({
           error: {
             errors: [
@@ -197,7 +196,7 @@ describe('Cart effect', () => {
         },
       });
       const action = new CartActions.LoadCart(payload);
-      loadMock.and.returnValue(throwError(httpError));
+      loadMock.mockReturnValue(throwError(httpError));
       const removeCartCompletion = new CartActions.LoadCartFail({
         ...payload,
         error: normalizeHttpError(httpError),

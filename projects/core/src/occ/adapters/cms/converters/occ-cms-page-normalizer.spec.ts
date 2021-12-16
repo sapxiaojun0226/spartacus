@@ -26,7 +26,7 @@ describe('OccCmsPageNormalizer', () => {
 
     occCmsPageNormalizer = TestBed.inject(OccCmsPageNormalizer);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callFake(((page: Occ.CMSPage) => ({
+    jest.spyOn(converter, 'convert').mockImplementation(((page: Occ.CMSPage) => ({
       ...page,
     })) as any);
   });

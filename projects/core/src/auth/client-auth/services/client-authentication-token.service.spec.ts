@@ -46,7 +46,7 @@ describe('ClientAuthenticationTokenService', () => {
     service = TestBed.inject(ClientAuthenticationTokenService);
     httpMock = TestBed.inject(HttpTestingController);
     authConfigService = TestBed.inject(AuthConfigService);
-    spyOn(authConfigService, 'getTokenEndpoint').and.callThrough();
+    jest.spyOn(authConfigService, 'getTokenEndpoint');
   });
 
   afterEach(() => {

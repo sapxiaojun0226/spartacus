@@ -63,9 +63,9 @@ describe('OccCartValidationAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEndpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converter, 'convert').and.callThrough();
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    jest.spyOn(converter, 'convert');
+    jest.spyOn(converter, 'pipeable');
+    jest.spyOn(occEndpointsService, 'buildUrl');
   });
 
   afterEach(() => {

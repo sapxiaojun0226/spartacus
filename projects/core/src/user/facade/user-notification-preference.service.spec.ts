@@ -45,7 +45,7 @@ describe('UserNotificationPreferenceService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
     userNotificationPreferenceService = TestBed.inject(
       UserNotificationPreferenceService
     );

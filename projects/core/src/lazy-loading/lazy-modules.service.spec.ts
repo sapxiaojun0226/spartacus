@@ -100,9 +100,11 @@ describe('LazyModulesService', () => {
 
   describe('runModuleInitializersForModule', () => {
     it('should run init functions provided by dependency injection and return module ref.', (done) => {
-      const initFuncion: () => {} = jasmine.createSpy('initFuncion');
-      const mockInjector = jasmine.createSpyObj('mockInjector', ['get']);
-      mockInjector.get.and.returnValue([initFuncion]);
+      const initFuncion: () => {} = jest.fn();
+      const mockInjector = {
+        'get': jest.fn()
+      };
+      mockInjector.get.mockReturnValue([initFuncion]);
       const mockModuleRef = {
         injector: mockInjector,
       } as NgModuleRef<any>;
@@ -128,9 +130,9 @@ describe('LazyModulesService', () => {
       const promiseResult = new Promise((resolve) => {
         resolve(123);
       });
-      const f1: () => {} = jasmine.createSpy().and.returnValue('');
-      const f2: () => {} = jasmine.createSpy().and.returnValue('');
-      const f3: () => {} = jasmine.createSpy().and.returnValue(promiseResult);
+      const f1: () => {} = jest.fn(() => '');
+      const f2: () => {} = jest.fn(() => '');
+      const f3: () => {} = jest.fn(() => promiseResult);
       const result = service.runModuleInitializerFunctions([f1, f2, f3]);
       expect(result.length).toEqual(1);
       expect(f1).toHaveBeenCalled();

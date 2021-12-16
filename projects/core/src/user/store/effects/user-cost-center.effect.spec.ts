@@ -7,7 +7,7 @@ import {
   UserCostCenterAdapter,
   UserCostCenterConnector,
 } from '@spartacus/core';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import { UserActions } from '../actions/index';
 import { UserCostCenterEffects } from './user-cost-center.effect';
@@ -43,7 +43,7 @@ describe('Payment Types effect', () => {
       UserCostCenterConnector as Type<UserCostCenterConnector>
     );
 
-    spyOn(service, 'getActiveList').and.returnValue(of(mockCostCenters));
+    jest.spyOn(service, 'getActiveList').mockReturnValue(of(mockCostCenters));
   });
 
   describe('loadActiveCostCenters$', () => {

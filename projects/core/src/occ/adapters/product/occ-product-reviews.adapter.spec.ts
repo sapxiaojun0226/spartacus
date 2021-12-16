@@ -11,7 +11,6 @@ import {
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';
-import createSpy = jasmine.createSpy;
 
 const productCode = 'testCode';
 const maxCount = 2;
@@ -24,7 +23,7 @@ const productReviews: Occ.ReviewList = {
 const endpoint = '/productReviews';
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.returnValue(
+  buildUrl = jest.fn().mockReturnValue(
     endpoint
   );
 }
@@ -51,9 +50,9 @@ describe('OccProductReviewsAdapter', () => {
     converter = TestBed.inject(ConverterService);
     endpoints = TestBed.inject(OccEndpointsService);
 
-    spyOn(converter, 'convert').and.callThrough();
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
+    jest.spyOn(converter, 'convert');
+    jest.spyOn(converter, 'pipeable');
+    jest.spyOn(converter, 'pipeableMany');
   });
 
   afterEach(() => {

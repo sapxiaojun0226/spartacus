@@ -7,7 +7,6 @@ import { ConverterService, COST_CENTERS_NORMALIZER } from '@spartacus/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccUserCostCenterAdapter } from './occ-user-cost-centers.adapter';
 
-import createSpy = jasmine.createSpy;
 
 const costCenterCode = 'testCode';
 const userId = 'userId';
@@ -17,7 +16,7 @@ const costCenter = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+  buildUrl = jest.fn().mockImplementation(
     // eslint-disable-next-line no-shadow
     (url, { costCenterCode }) =>
       url === 'costCenter' ? url + costCenterCode : url
@@ -43,7 +42,7 @@ describe('OccUserCostCenterAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     service = TestBed.inject(OccUserCostCenterAdapter);
     httpMock = TestBed.inject(HttpTestingController);
-    spyOn(converterService, 'pipeable').and.callThrough();
+    jest.spyOn(converterService, 'pipeable');
   });
 
   afterEach(() => {

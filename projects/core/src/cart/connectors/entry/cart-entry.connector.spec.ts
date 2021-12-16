@@ -2,13 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CartEntryAdapter } from './cart-entry.adapter';
 import { CartEntryConnector } from './cart-entry.connector';
-import createSpy = jasmine.createSpy;
 
 describe('CartEntryConnector', () => {
   class MockCartEntryAdapter implements CartEntryAdapter {
-    add = createSpy().and.returnValue(of({}));
-    update = createSpy().and.returnValue(of({}));
-    remove = createSpy().and.returnValue(of({}));
+    add = jest.fn().mockReturnValue(of({}));
+    update = jest.fn().mockReturnValue(of({}));
+    remove = jest.fn().mockReturnValue(of({}));
   }
 
   let service: CartEntryConnector;

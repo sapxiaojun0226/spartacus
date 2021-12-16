@@ -80,7 +80,7 @@ describe('OAuthLibWrapperService', () => {
 
   describe('initialize()', () => {
     it('should configure lib with the config', () => {
-      spyOn(oAuthService, 'configure').and.callThrough();
+      jest.spyOn(oAuthService, 'configure');
 
       (service as any)['initialize']();
 
@@ -99,26 +99,26 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should use redirectUrl on SSR when passed', () => {
-      spyOn(oAuthService, 'configure').and.callThrough();
-      spyOn(winRef, 'isBrowser').and.returnValue(false);
+      jest.spyOn(oAuthService, 'configure');
+      jest.spyOn(winRef, 'isBrowser').mockReturnValue(false);
 
       (service as any)['initialize']();
 
       expect(oAuthService.configure).toHaveBeenCalledWith(
-        jasmine.objectContaining({
+        expect.objectContaining({
           redirectUri: 'redUri',
         })
       );
     });
 
     it('should use current location as a redirectUrl when not explicitly set in browser', () => {
-      spyOn(oAuthService, 'configure').and.callThrough();
-      spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({});
+      jest.spyOn(oAuthService, 'configure');
+      jest.spyOn(authConfigService, 'getOAuthLibConfig').mockReturnValue({});
 
       (service as any)['initialize']();
 
       expect(oAuthService.configure).toHaveBeenCalledWith(
-        jasmine.objectContaining({
+        expect.objectContaining({
           redirectUri: winRef.nativeWindow?.location.origin,
           issuer: 'base',
         })
@@ -126,14 +126,14 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should use "" as a redirectUrl when not explicitly set on SSR', () => {
-      spyOn(oAuthService, 'configure').and.callThrough();
-      spyOn(winRef, 'isBrowser').and.returnValue(false);
-      spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({});
+      jest.spyOn(oAuthService, 'configure');
+      jest.spyOn(winRef, 'isBrowser').mockReturnValue(false);
+      jest.spyOn(authConfigService, 'getOAuthLibConfig').mockReturnValue({});
 
       (service as any)['initialize']();
 
       expect(oAuthService.configure).toHaveBeenCalledWith(
-        jasmine.objectContaining({
+        expect.objectContaining({
           redirectUri: '',
         })
       );
@@ -142,7 +142,7 @@ describe('OAuthLibWrapperService', () => {
 
   describe('authorizeWithPasswordFlow()', () => {
     it('should call fetchTokenUsingPasswordFlow method from the lib', async () => {
-      spyOn(oAuthService, 'fetchTokenUsingPasswordFlow').and.callThrough();
+      jest.spyOn(oAuthService, 'fetchTokenUsingPasswordFlow');
 
       const result = await service.authorizeWithPasswordFlow(
         'username',
@@ -159,7 +159,7 @@ describe('OAuthLibWrapperService', () => {
 
   describe('refreshToken()', () => {
     it('should call refreshToken method from lib', () => {
-      spyOn(oAuthService, 'refreshToken').and.callThrough();
+      jest.spyOn(oAuthService, 'refreshToken');
 
       service.refreshToken();
 
@@ -169,8 +169,8 @@ describe('OAuthLibWrapperService', () => {
 
   describe('revokeAndLogout()', () => {
     it('should call revokeTokenAndLogout method from the lib', async () => {
-      spyOn(oAuthService, 'revokeTokenAndLogout').and.callThrough();
-      spyOn(oAuthService, 'logOut').and.callThrough();
+      jest.spyOn(oAuthService, 'revokeTokenAndLogout');
+      jest.spyOn(oAuthService, 'logOut');
 
       await service.revokeAndLogout();
 
@@ -179,8 +179,8 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should call logOut method from the lib when the revoke fails', async () => {
-      spyOn(oAuthService, 'logOut').and.callThrough();
-      spyOn(oAuthService, 'revokeTokenAndLogout').and.returnValue(
+      jest.spyOn(oAuthService, 'logOut');
+      jest.spyOn(oAuthService, 'revokeTokenAndLogout').mockReturnValue(
         Promise.reject()
       );
 
@@ -193,7 +193,7 @@ describe('OAuthLibWrapperService', () => {
 
   describe('logout()', () => {
     it('should call logOut method from the lib', () => {
-      spyOn(oAuthService, 'logOut').and.callThrough();
+      jest.spyOn(oAuthService, 'logOut');
 
       service.logout();
 
@@ -203,7 +203,7 @@ describe('OAuthLibWrapperService', () => {
 
   describe('getIdToken()', () => {
     it('should return the result from the getIdToken method from lib', () => {
-      spyOn(oAuthService, 'getIdToken').and.returnValue('id_tok');
+      jest.spyOn(oAuthService, 'getIdToken').mockReturnValue('id_tok');
 
       const token = service.getIdToken();
       expect(token).toEqual('id_tok');
@@ -212,7 +212,7 @@ describe('OAuthLibWrapperService', () => {
 
   describe('initLoginFlow()', () => {
     it('should call initLoginFlow from the lib', () => {
-      spyOn(oAuthService, 'initLoginFlow').and.callThrough();
+      jest.spyOn(oAuthService, 'initLoginFlow');
 
       service.initLoginFlow();
 
@@ -222,7 +222,7 @@ describe('OAuthLibWrapperService', () => {
 
   describe('tryLogin()', () => {
     it('should call tryLogin method from the lib', () => {
-      spyOn(oAuthService, 'tryLogin').and.callThrough();
+      jest.spyOn(oAuthService, 'tryLogin');
 
       service.tryLogin();
 

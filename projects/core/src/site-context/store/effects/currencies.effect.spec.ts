@@ -40,7 +40,7 @@ describe('Currencies Effects', () => {
     connector = TestBed.inject(SiteConnector);
     effects = TestBed.inject(fromEffects.CurrenciesEffects);
 
-    spyOn(connector, 'getCurrencies').and.returnValue(of(currencies));
+    jest.spyOn(connector, 'getCurrencies').mockReturnValue(of(currencies));
   });
 
   describe('loadCurrencies$', () => {

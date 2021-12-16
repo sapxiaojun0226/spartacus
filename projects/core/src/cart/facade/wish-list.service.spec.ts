@@ -14,7 +14,6 @@ import {
 import { getCartIdByUserId, getWishlistName } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 import { WishListService } from './wish-list.service';
-import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
 const cartCode = 'xxx';
@@ -47,18 +46,18 @@ const mockCartEntry: OrderEntry = {
 };
 
 class MockUserIdService implements Partial<UserIdService> {
-  getUserId = createSpy().and.returnValue(of(userId));
+  getUserId = jest.fn().mockReturnValue(of(userId));
 }
 
 class MockUserService implements Partial<UserService> {
-  get = createSpy().and.returnValue(of(user));
+  get = jest.fn().mockReturnValue(of(user));
 }
 
 class MockMultiCartService implements Partial<MultiCartService> {
-  getCart = createSpy().and.returnValue(of(testCart));
-  addEntry = createSpy();
-  removeEntry = createSpy();
-  isStable = createSpy().and.returnValue(of(true));
+  getCart = jest.fn().mockReturnValue(of(testCart));
+  addEntry = jest.fn();
+  removeEntry = jest.fn();
+  isStable = jest.fn().mockReturnValue(of(true));
 }
 
 describe('WishListService', () => {
@@ -87,7 +86,7 @@ describe('WishListService', () => {
     service = TestBed.inject(WishListService);
     multiCartService = TestBed.inject(MultiCartService);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
   });
 
   describe('createWishList', () => {
@@ -140,7 +139,7 @@ describe('WishListService', () => {
       );
     });
     it('should return wish list if loaded', (done) => {
-      spyOn(service, 'loadWishList');
+      jest.spyOn(service, 'loadWishList').mockImplementation(() => {});
       let result;
 
       store.dispatch(

@@ -67,20 +67,20 @@ describe('AuthInterceptor', () => {
   });
 
   it('should not add header when the request should does not need it', (done) => {
-    spyOn(authHeaderService, 'shouldAddAuthorizationHeader').and.returnValue(
+    jest.spyOn(authHeaderService, 'shouldAddAuthorizationHeader').mockReturnValue(
       false
     );
-    spyOn(authHeaderService, 'alterRequest').and.returnValue(
+    jest.spyOn(authHeaderService, 'alterRequest').mockReturnValue(
       new HttpRequest('GET', '/test')
     );
-    spyOn(authHeaderService, 'getStableToken').and.returnValue(
+    jest.spyOn(authHeaderService, 'getStableToken').mockReturnValue(
       of({ access_token: 'test' } as AuthToken)
     );
 
     const sub: Subscription = http.get('/xxx').subscribe((result) => {
       expect(result).toBeTruthy();
       expect(authHeaderService.alterRequest).toHaveBeenCalledWith(
-        jasmine.anything(),
+        expect.anything(),
         undefined
       );
       done();
@@ -95,16 +95,16 @@ describe('AuthInterceptor', () => {
   });
 
   it(`Should operate on request returned from AuthHeaderService alterRequest method`, (done) => {
-    spyOn(authHeaderService, 'alterRequest').and.returnValue(
+    jest.spyOn(authHeaderService, 'alterRequest').mockReturnValue(
       new HttpRequest('GET', '/test')
     );
     const token = { access_token: 'test' } as AuthToken;
-    spyOn(authHeaderService, 'getStableToken').and.returnValue(of(token));
+    jest.spyOn(authHeaderService, 'getStableToken').mockReturnValue(of(token));
 
     const sub: Subscription = http.get('/xxx').subscribe((result) => {
       expect(result).toBeTruthy();
       expect(authHeaderService.alterRequest).toHaveBeenCalledWith(
-        jasmine.anything(),
+        expect.anything(),
         token
       );
       done();
@@ -119,7 +119,7 @@ describe('AuthInterceptor', () => {
   });
 
   it(`Should handle 401 error for expired token occ calls`, (done) => {
-    spyOn(authHeaderService, 'handleExpiredAccessToken').and.callFake(
+    jest.spyOn(authHeaderService, 'handleExpiredAccessToken').mockImplementation(
       (_, next) => next.handle(new HttpRequest('GET', '/test'))
     );
     const sub: Subscription = http.get('/occ').subscribe((result) => {
@@ -144,7 +144,7 @@ describe('AuthInterceptor', () => {
   });
 
   it(`Should not handle 401 error for expired token non-occ calls`, (done) => {
-    spyOn(authHeaderService, 'shouldCatchError').and.returnValue(false);
+    jest.spyOn(authHeaderService, 'shouldCatchError').mockReturnValue(false);
 
     const sub: Subscription = http.get('/occ').subscribe(
       () => {},
@@ -190,7 +190,7 @@ describe('AuthInterceptor', () => {
   });
 
   it(`Should handle 401 error invalid_token calls`, (done) => {
-    spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
+    jest.spyOn(authHeaderService, 'handleExpiredRefreshToken');
     const sub: Subscription = http.get('/authorizationserver/token').subscribe(
       () => {},
       () => {},
@@ -212,7 +212,7 @@ describe('AuthInterceptor', () => {
   });
 
   it(`Should not handle 401 error invalid_token calls for non token endpoints`, (done) => {
-    spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
+    jest.spyOn(authHeaderService, 'handleExpiredRefreshToken');
     const sub: Subscription = http.get('/custom-url').subscribe(
       () => {},
       (err) => {
@@ -234,7 +234,7 @@ describe('AuthInterceptor', () => {
   });
 
   it(`Should handle 400 error invalid_grant calls`, (done) => {
-    spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
+    jest.spyOn(authHeaderService, 'handleExpiredRefreshToken');
     const params = new HttpParams().set('grant_type', 'refresh_token');
     const sub: Subscription = http
       .post('/authorizationserver/token', params)
@@ -263,7 +263,7 @@ describe('AuthInterceptor', () => {
   });
 
   it(`Should not handle 400 error invalid_grant calls for non token endpoints`, (done) => {
-    spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
+    jest.spyOn(authHeaderService, 'handleExpiredRefreshToken');
     const params = new HttpParams().set('grant_type', 'refresh_token');
     const sub: Subscription = http.post('/custom-url', params).subscribe(
       () => {},
@@ -290,7 +290,7 @@ describe('AuthInterceptor', () => {
   });
 
   it(`Should not handle 400 error invalid_grant calls for non refresh_token grant types`, (done) => {
-    spyOn(authHeaderService, 'handleExpiredRefreshToken').and.callThrough();
+    jest.spyOn(authHeaderService, 'handleExpiredRefreshToken');
     const params = new HttpParams().set('grant_type', 'code');
     const sub: Subscription = http
       .post('/authorizationserver/token', params)

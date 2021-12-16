@@ -6,7 +6,7 @@ describe('CartEventModule', () => {
   let cartEventBuilderFactory;
 
   beforeEach(() => {
-    cartEventBuilderFactory = jasmine.createSpy('cartEventBuilderFactory');
+    cartEventBuilderFactory = jest.fn();
     TestBed.configureTestingModule({
       providers: [
         {

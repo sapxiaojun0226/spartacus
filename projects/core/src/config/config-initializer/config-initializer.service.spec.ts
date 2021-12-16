@@ -240,7 +240,7 @@ describe('ConfigInitializerService', () => {
       'More than one CONFIG_INITIALIZER is initializing the same config scope.';
 
     beforeEach(() => {
-      spyOn(console, 'warn');
+      jest.spyOn(console, 'warn').mockImplementation(() => {});
     });
 
     it('scope1, scope1', async () => {

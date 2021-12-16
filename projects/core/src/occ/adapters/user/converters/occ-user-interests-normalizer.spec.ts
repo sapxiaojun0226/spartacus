@@ -48,7 +48,7 @@ describe('OccUserInterestsNormalizer', () => {
 
     occUserInterestsNormalizer = TestBed.inject(OccUserInterestsNormalizer);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callFake(((p: Product) => ({
+    jest.spyOn(converter, 'convert').mockImplementation(((p: Product) => ({
       ...p,
       code: p.code + 'converted',
     })) as any);

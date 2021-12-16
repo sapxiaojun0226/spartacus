@@ -34,7 +34,7 @@ describe('BadGatewayHandler', () => {
   });
 
   it('should send common error to global message service', () => {
-    spyOn(globalMessageService, 'add');
+    jest.spyOn(globalMessageService, 'add').mockImplementation(() => {});
     service.handleError();
 
     expect(globalMessageService.add).toHaveBeenCalledWith(

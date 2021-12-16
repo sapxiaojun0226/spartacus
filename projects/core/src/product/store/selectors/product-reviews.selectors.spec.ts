@@ -43,7 +43,7 @@ describe('Product Reviews selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(reviews));
+    jest.spyOn(ngrxStore, 'select').mockImplementation(() => () => of(reviews));
   });
 
   it('getSelectedProductReviewsFactory should return reviews', () => {

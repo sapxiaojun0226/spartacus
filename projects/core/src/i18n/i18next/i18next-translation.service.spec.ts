@@ -17,9 +17,7 @@ describe('I18nextTranslationService', () => {
 
   beforeEach(() => {
     const mockTranslationChunk = {
-      getChunkNameForKey: jasmine
-        .createSpy('getChunkNameForKey')
-        .and.returnValue('testChunk'),
+      getChunkNameForKey: jest.fn(() => 'testChunk'),
     };
 
     TestBed.configureTestingModule({
@@ -40,7 +38,7 @@ describe('I18nextTranslationService', () => {
   describe('loadChunks', () => {
     it('should return result of i18next.loadChunks', () => {
       const expectedResult = new Promise(() => {});
-      spyOn(i18next, 'loadNamespaces').and.returnValue(expectedResult as any);
+      jest.spyOn(i18next, 'loadNamespaces').mockReturnValue(expectedResult as any);
       const chunks = ['chunk1', 'chunk2'];
       const result = service.loadChunks(chunks);
       expect(i18next.loadNamespaces).toHaveBeenCalledWith(chunks);
@@ -55,11 +53,11 @@ describe('I18nextTranslationService', () => {
 
     describe(', when key exists,', () => {
       beforeEach(() => {
-        spyOn(i18next, 'exists').and.returnValue(true);
+        jest.spyOn(i18next, 'exists').mockReturnValue(true);
       });
 
       it('should emit result of i18next.t', () => {
-        spyOn(i18next, 't').and.returnValue('value');
+        jest.spyOn(i18next, 't').mockReturnValue('value');
         let result;
         service
           .translate(testKey, testOptions)
@@ -76,8 +74,8 @@ describe('I18nextTranslationService', () => {
 
     describe(', when key does NOT exist,', () => {
       beforeEach(() => {
-        spyOn(i18next, 'exists').and.returnValue(false);
-        spyOn(i18next, 'loadNamespaces').and.returnValue(new Promise(() => {}));
+        jest.spyOn(i18next, 'exists').mockReturnValue(false);
+        jest.spyOn(i18next, 'loadNamespaces').mockReturnValue(new Promise(() => {}));
       });
 
       it('should emit non-breaking space if whitespaceUntilLoaded is true', () => {
@@ -103,15 +101,15 @@ describe('I18nextTranslationService', () => {
 
         expect(i18next.loadNamespaces).toHaveBeenCalledWith(
           'testChunk',
-          jasmine.any(Function)
+          expect.any(Function)
         );
       });
     });
 
     describe(', when key does NOT exist even after chunk was loaded,', () => {
       beforeEach(() => {
-        spyOn(i18next, 'exists').and.returnValues(false, false);
-        spyOn(i18next, 'loadNamespaces').and.callFake(((
+        jest.spyOn(i18next, 'exists').and.returnValues(false, false);
+        jest.spyOn(i18next, 'loadNamespaces').mockImplementation(((
           _namespaces,
           onChunkLoad
         ) => onChunkLoad()) as any);
@@ -127,7 +125,7 @@ describe('I18nextTranslationService', () => {
       });
 
       it('should return non-breaking space for production', () => {
-        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
+        jest.spyOn(AngularCore, 'isDevMode').mockImplementation(() => false);
         let result;
         service
           .translate(testKey, testOptions)
@@ -139,15 +137,15 @@ describe('I18nextTranslationService', () => {
 
     describe(', when key does NOT exist firstly, but it comes with loaded chunk,', () => {
       beforeEach(() => {
-        spyOn(i18next, 'exists').and.returnValues(false, true);
-        spyOn(i18next, 'loadNamespaces').and.callFake(((
+        jest.spyOn(i18next, 'exists').and.returnValues(false, true);
+        jest.spyOn(i18next, 'loadNamespaces').mockImplementation(((
           _namespaces,
           onChunkLoad
         ) => onChunkLoad()) as any);
       });
 
       it('should emit result of i18next.t', () => {
-        spyOn(i18next, 't').and.returnValue('value');
+        jest.spyOn(i18next, 't').mockReturnValue('value');
         let result;
         service
           .translate(testKey, testOptions)
@@ -164,12 +162,12 @@ describe('I18nextTranslationService', () => {
     describe(', when language changed,', () => {
       it('should emit result of i18next.t in new language', () => {
         let languageChangedCallback;
-        spyOn(i18next, 'off');
-        spyOn(i18next, 'on').and.callFake(
+        jest.spyOn(i18next, 'off').mockImplementation(() => {});
+        jest.spyOn(i18next, 'on').mockImplementation(
           (_event, callback) => (languageChangedCallback = callback)
         );
-        spyOn(i18next, 'exists').and.returnValue(true);
-        spyOn(i18next, 't').and.returnValues('value1', 'value2');
+        jest.spyOn(i18next, 'exists').mockReturnValue(true);
+        jest.spyOn(i18next, 't').and.returnValues('value1', 'value2');
 
         let result;
         service

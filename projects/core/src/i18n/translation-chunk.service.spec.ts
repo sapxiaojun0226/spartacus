@@ -57,7 +57,7 @@ describe('TranslationChunkService', () => {
     });
 
     it('should warn if there are duplicated keys in the config', () => {
-      const warnSpy = spyOn(console, 'warn');
+      const warnSpy = jest.spyOn(console, 'warn');
       const mockService = new TranslationChunkService({
         i18n: { chunks: mockChunksConfig },
       });

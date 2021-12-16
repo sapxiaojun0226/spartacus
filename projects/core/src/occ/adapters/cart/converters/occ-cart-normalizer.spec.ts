@@ -40,7 +40,7 @@ describe('OccCartNormalizer', () => {
 
     occCartNormalizer = TestBed.inject(OccCartNormalizer);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callFake(((product) => ({
+    jest.spyOn(converter, 'convert').mockImplementation(((product) => ({
       ...product,
       code: product.code + 'converted',
     })) as any);

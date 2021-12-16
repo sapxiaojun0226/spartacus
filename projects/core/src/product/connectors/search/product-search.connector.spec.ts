@@ -2,16 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ProductSearchAdapter } from './product-search.adapter';
 import { ProductSearchConnector } from './product-search.connector';
-import createSpy = jasmine.createSpy;
 
 class MockProductSearchAdapter implements ProductSearchAdapter {
-  search = createSpy('ProductSearchAdapter.loadSearch').and.callFake((query) =>
+  search = jest.fn().mockImplementation((query) =>
     of('search:' + query)
   );
 
-  loadSuggestions = createSpy(
-    'ProductSearchAdapter.loadSuggestions'
-  ).and.callFake((term) => of('term:' + term));
+  loadSuggestions = jest.fn().mockImplementation((term) => of('term:' + term));
 }
 
 describe('ProductSearchConnector', () => {

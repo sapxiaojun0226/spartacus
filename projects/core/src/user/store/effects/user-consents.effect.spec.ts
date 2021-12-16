@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions';
@@ -54,7 +54,7 @@ describe('User Consents effect', () => {
       },
     ];
     it('should return LoadUserConsentsSuccess', () => {
-      spyOn(userConsentAdapter, 'loadConsents').and.returnValue(
+      jest.spyOn(userConsentAdapter, 'loadConsents').mockReturnValue(
         of(templateList)
       );
 
@@ -77,7 +77,7 @@ describe('User Consents effect', () => {
       version: consentTemplateVersion,
     };
     it('should return GiveUserConsentSuccess', () => {
-      spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
+      jest.spyOn(userConsentAdapter, 'giveConsent').mockReturnValue(
         of(consentTemplate)
       );
 
@@ -101,7 +101,7 @@ describe('User Consents effect', () => {
         status: 409,
         msg: 'Mock error',
       };
-      spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
+      jest.spyOn(userConsentAdapter, 'giveConsent').mockReturnValue(
         throwError(mockError)
       );
 
@@ -128,7 +128,7 @@ describe('User Consents effect', () => {
         status: 409,
         msg: 'Mock error',
       };
-      spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
+      jest.spyOn(userConsentAdapter, 'giveConsent').mockReturnValue(
         throwError(mockError)
       );
 
@@ -150,7 +150,7 @@ describe('User Consents effect', () => {
 
   describe('withdrawConsent$', () => {
     it('should return WithdrawUserConsentSuccess', () => {
-      spyOn(userConsentAdapter, 'withdrawConsent').and.returnValue(of({}));
+      jest.spyOn(userConsentAdapter, 'withdrawConsent').mockReturnValue(of({}));
 
       const action = new UserActions.WithdrawUserConsent({
         userId: 'xxx@xxx.xxx',

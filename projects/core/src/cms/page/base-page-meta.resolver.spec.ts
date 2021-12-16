@@ -126,7 +126,7 @@ describe('BasePageMetaResolver', () => {
   it('should breadcrumbs for Angular child routes', () => {
     let result: BreadcrumbMeta[] | undefined;
 
-    spyOn(routingPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
+    jest.spyOn(routingPageMetaResolver, 'resolveBreadcrumbs').mockReturnValue(
       of([{ label: 'child route breadcrumb', link: '/child' }])
     );
     service
@@ -157,7 +157,7 @@ describe('BasePageMetaResolver', () => {
   });
 
   it(`should resolve canonical url`, () => {
-    spyOn(pageLinkService, 'getCanonicalUrl');
+    jest.spyOn(pageLinkService, 'getCanonicalUrl').mockImplementation(() => {});
     service.resolveCanonicalUrl().subscribe().unsubscribe();
     expect(pageLinkService.getCanonicalUrl).toHaveBeenCalled();
   });

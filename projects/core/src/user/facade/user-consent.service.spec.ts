@@ -49,7 +49,7 @@ describe('UserConsentService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(UserConsentService);
     authService = TestBed.inject(AuthService);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should UserConsentService is injected', inject(
@@ -88,9 +88,9 @@ describe('UserConsentService', () => {
       });
       describe('when the loadIfMissing parameter is set to true', () => {
         it('should call loadConsents()', () => {
-          spyOn(service, 'loadConsents').and.stub();
-          spyOn(service, 'getConsentsResultLoading').and.returnValue(of(false));
-          spyOn(service, 'getConsentsResultSuccess').and.returnValue(of(false));
+          jest.spyOn(service, 'loadConsents').mockImplementation();
+          jest.spyOn(service, 'getConsentsResultLoading').mockReturnValue(of(false));
+          jest.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(of(false));
 
           service.getConsents(true).subscribe().unsubscribe();
 
@@ -101,11 +101,11 @@ describe('UserConsentService', () => {
             store.dispatch(
               new UserActions.LoadUserConsentsSuccess(consentTemplateListMock)
             );
-            spyOn(service, 'loadConsents').and.stub();
-            spyOn(service, 'getConsentsResultLoading').and.returnValue(
+            jest.spyOn(service, 'loadConsents').mockImplementation();
+            jest.spyOn(service, 'getConsentsResultLoading').mockReturnValue(
               of(false)
             );
-            spyOn(service, 'getConsentsResultSuccess').and.returnValue(
+            jest.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(
               of(false)
             );
 
@@ -116,11 +116,11 @@ describe('UserConsentService', () => {
         });
         describe('when the templates are currently being loaded', () => {
           it('should NOT call loadConsents()', () => {
-            spyOn(service, 'loadConsents').and.stub();
-            spyOn(service, 'getConsentsResultLoading').and.returnValue(
+            jest.spyOn(service, 'loadConsents').mockImplementation();
+            jest.spyOn(service, 'getConsentsResultLoading').mockReturnValue(
               of(true)
             );
-            spyOn(service, 'getConsentsResultSuccess').and.returnValue(
+            jest.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(
               of(false)
             );
 
@@ -134,11 +134,11 @@ describe('UserConsentService', () => {
             store.dispatch(
               new UserActions.LoadUserConsentsSuccess(consentTemplateListMock)
             );
-            spyOn(service, 'loadConsents').and.stub();
-            spyOn(service, 'getConsentsResultLoading').and.returnValue(
+            jest.spyOn(service, 'loadConsents').mockImplementation();
+            jest.spyOn(service, 'getConsentsResultLoading').mockReturnValue(
               of(false)
             );
-            spyOn(service, 'getConsentsResultSuccess').and.returnValue(
+            jest.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(
               of(true)
             );
 
@@ -213,8 +213,8 @@ describe('UserConsentService', () => {
 
       describe('when the user is logged in', () => {
         it('should call getConsentByTemplateId selector', () => {
-          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-          spyOn(service, 'getConsents').and.returnValue(
+          jest.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+          jest.spyOn(service, 'getConsents').mockReturnValue(
             of(mockConsentTemplates)
           );
           store.dispatch(
@@ -231,8 +231,8 @@ describe('UserConsentService', () => {
       });
       describe('when the user is anonymous', () => {
         it('should not call getConsents()', () => {
-          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-          spyOn(service, 'getConsents').and.stub();
+          jest.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
+          jest.spyOn(service, 'getConsents').mockImplementation();
 
           service.getConsent(mockTemplateId).subscribe().unsubscribe();
 

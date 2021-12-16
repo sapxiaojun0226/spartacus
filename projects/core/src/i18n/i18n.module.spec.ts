@@ -31,7 +31,7 @@ describe('I18nModule', () => {
     config = TestBed.inject(I18nConfig);
     initializer = TestBed.inject(I18nConfigInitializer);
 
-    spyOn(initializer, 'configFactory').and.callThrough();
+    jest.spyOn(initializer, 'configFactory');
   });
 
   it(`should not resolve I18nConfig when it was already configured statically `, () => {

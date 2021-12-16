@@ -25,7 +25,6 @@ import {
   UnknownErrorHandler,
 } from './handlers';
 import { HttpErrorInterceptor } from './http-error.interceptor';
-import createSpy = jasmine.createSpy;
 
 describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -35,8 +34,8 @@ describe('HttpErrorInterceptor', () => {
 
   beforeEach(() => {
     mockMessageService = {
-      add: createSpy(),
-      remove: createSpy(),
+      add: jest.fn(),
+      remove: jest.fn(),
     };
 
     mockAuthService = {
@@ -116,7 +115,7 @@ describe('HttpErrorInterceptor', () => {
 
         const handler = TestBed.inject(handlerClass) as ErrorHandler;
 
-        spyOn(handler, 'handleError');
+        jest.spyOn(handler, 'handleError').mockImplementation(() => {});
         mockReq.flush({}, { status: responseStatus, statusText: '' });
 
         expect(handler.handleError).toHaveBeenCalled();
@@ -171,7 +170,7 @@ describe('HttpErrorInterceptor', () => {
 
     describe('Unknown response warning for non production env', () => {
       it(`should display proper warning message in the console`, () => {
-        spyOn(console, 'warn');
+        jest.spyOn(console, 'warn').mockImplementation(() => {});
         http
           .get('/unknown')
           .pipe(catchError((error: any) => throwError(error)))

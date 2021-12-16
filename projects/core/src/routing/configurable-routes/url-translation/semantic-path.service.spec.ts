@@ -33,14 +33,14 @@ describe('SemanticPathService', () => {
 
   describe('get', () => {
     it(`should return absolute url with path from routes config`, () => {
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
+      jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue({
         paths: ['some/url'],
       });
       expect(service.get('test')).toBe('/some/url');
     });
 
     it(`should return undefined when there is no configured path for given route`, () => {
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValue(undefined);
+      jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue(undefined);
       expect(service.get('test')).toBe(undefined);
     });
   });
@@ -48,7 +48,7 @@ describe('SemanticPathService', () => {
   describe('transform', () => {
     describe(`, when commands contain 'route' property,`, () => {
       it('should return absolute path', () => {
-        spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
+        jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue({
           paths: ['path/:param1'],
         });
         const resultPath = service.transform({
@@ -59,7 +59,7 @@ describe('SemanticPathService', () => {
       });
 
       it('should return relative path when the first command is not object with "route" property', () => {
-        spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
+        jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue({
           paths: ['path/:param1'],
         });
         const resultPath = service.transform([
@@ -81,7 +81,7 @@ describe('SemanticPathService', () => {
         routesConfigs: RouteConfig[];
         expectedResult: any[];
       }) {
-        spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
+        jest.spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
           ...routesConfigs
         );
         expect(service.transform(urlCommands)).toEqual(expectedResult);

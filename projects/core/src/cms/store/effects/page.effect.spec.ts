@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, StoreModule } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import * as fromCmsReducer from '../../../cms/store/reducers';
@@ -115,7 +115,7 @@ describe('Page Effects', () => {
   describe('loadPageData$', () => {
     describe('when LoadPageData is dispatched', () => {
       it('should dispatch LoadPageDataSuccess and GetComponentFromPage actions', () => {
-        spyOn(cmsPageConnector, 'get').and.returnValue(of(pageStructure));
+        jest.spyOn(cmsPageConnector, 'get').mockReturnValue(of(pageStructure));
         const action = new CmsActions.LoadCmsPageData(pageContext);
 
         const completion1 = new CmsActions.CmsGetComponentFromPage(
@@ -137,7 +137,7 @@ describe('Page Effects', () => {
 
       it('should dispatch LoadPageDataFail action', () => {
         const error = new HttpErrorResponse({ error: 'error' });
-        spyOn<any>(cmsPageConnector, 'get').and.returnValue(throwError(error));
+        jest.spyOn<any>(cmsPageConnector, 'get').mockReturnValue(throwError(error));
         const action = new CmsActions.LoadCmsPageData(pageContext);
 
         const completion = new CmsActions.LoadCmsPageDataFail(
@@ -158,7 +158,7 @@ describe('Page Effects', () => {
   describe('refreshPage$', () => {
     describe('when a language changes', () => {
       it('should dispatch LoadPageIndex action', () => {
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        jest.spyOn(routingService, 'getRouterState').mockReturnValue(
           of(mockRouterState as any)
         );
 
@@ -176,7 +176,7 @@ describe('Page Effects', () => {
     });
     describe('when a user logs in', () => {
       it('should dispatch LoadPageIndex action', () => {
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        jest.spyOn(routingService, 'getRouterState').mockReturnValue(
           of(mockRouterState as any)
         );
 
@@ -191,7 +191,7 @@ describe('Page Effects', () => {
     });
     describe('when a user logs out', () => {
       it('should dispatch LoadPageIndex action', () => {
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        jest.spyOn(routingService, 'getRouterState').mockReturnValue(
           of(mockRouterState as any)
         );
 

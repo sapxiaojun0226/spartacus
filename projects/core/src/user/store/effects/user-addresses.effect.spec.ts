@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import { GlobalMessageService } from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
@@ -12,11 +12,11 @@ import { UserActions } from '../actions/index';
 import * as fromUserAddressesEffect from './user-addresses.effect';
 
 class MockUserAddressService {
-  loadAddresses = jasmine.createSpy();
+  loadAddresses = jest.fn();
 }
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy();
+  add = jest.fn();
 }
 
 const mockUserAddresses: Address[] = [{ id: 'address123' }];
@@ -53,13 +53,13 @@ describe('User Addresses effect', () => {
     );
     userAddressConnector = TestBed.inject(UserAddressConnector);
 
-    spyOn(userAddressConnector, 'getAll').and.returnValue(
+    jest.spyOn(userAddressConnector, 'getAll').mockReturnValue(
       of(mockUserAddresses)
     );
-    spyOn(userAddressConnector, 'add').and.returnValue(of({}));
+    jest.spyOn(userAddressConnector, 'add').mockReturnValue(of({}));
 
-    spyOn(userAddressConnector, 'update').and.returnValue(of({}));
-    spyOn(userAddressConnector, 'delete').and.returnValue(of({}));
+    jest.spyOn(userAddressConnector, 'update').mockReturnValue(of({}));
+    jest.spyOn(userAddressConnector, 'delete').mockReturnValue(of({}));
   });
 
   describe('loadUserAddresses$', () => {

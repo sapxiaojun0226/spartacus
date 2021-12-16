@@ -1,4 +1,4 @@
-import { cold, getTestScheduler, hot } from 'jasmine-marbles';
+import { cold, getTestScheduler, hot } from 'jest-marbles';
 import { withdrawOn } from './withdraw-on';
 import { EMPTY } from 'rxjs';
 import { delay } from 'rxjs/operators';

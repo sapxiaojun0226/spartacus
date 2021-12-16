@@ -6,7 +6,6 @@ import { TestBed } from '@angular/core/testing';
 import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductAdapter } from './occ-product.adapter';
-import createSpy = jasmine.createSpy;
 
 const productCode = 'testCode';
 const product = {
@@ -15,7 +14,7 @@ const product = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
+  buildUrl = jest.fn().mockImplementation(
     // eslint-disable-next-line no-shadow
     (url, { urlParams: { productCode }, queryParams: {}, scope }) =>
       `${url}${productCode}` + (scope ? `?fields=${scope}` : '')
@@ -23,7 +22,7 @@ class MockOccEndpointsService {
 }
 
 class MockConvertService {
-  pipeable = createSpy().and.returnValue((x) => x);
+  pipeable = jest.fn().mockReturnValue((x) => x);
 }
 
 describe('OccProductAdapter', () => {

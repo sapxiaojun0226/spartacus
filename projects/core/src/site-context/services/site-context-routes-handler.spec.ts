@@ -5,7 +5,6 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { SiteContextParamsService } from './site-context-params.service';
 import { SiteContextRoutesHandler } from './site-context-routes-handler';
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
-import createSpy = jasmine.createSpy;
 
 describe('SiteContextRoutesHandler', () => {
   let mockRouterEvents;
@@ -23,26 +22,26 @@ describe('SiteContextRoutesHandler', () => {
     mockRouter = {
       events: mockRouterEvents,
       url: 'test',
-      parseUrl: createSpy().and.callFake((url) => url + '_a'),
-      serializeUrl: createSpy().and.callFake((url) => url + '_b'),
+      parseUrl: jest.fn().mockImplementation((url) => url + '_a'),
+      serializeUrl: jest.fn().mockImplementation((url) => url + '_b'),
     };
 
     mockLocation = {
-      replaceState: createSpy(),
+      replaceState: jest.fn(),
       path: () => 'test',
     };
 
     activeLanguage = new BehaviorSubject('en');
 
     mockLanguageService = {
-      getActive: createSpy().and.returnValue(activeLanguage),
+      getActive: jest.fn().mockReturnValue(activeLanguage),
     };
 
     mockSiteContextParamsService = {
       getUrlEncodingParameters: () => ['language'],
       getSiteContextService: () => mockLanguageService,
       getParamValues: () => ['en', 'de'],
-      setValue: createSpy('setValue'),
+      setValue: jest.fn(),
     };
 
     mockSiteContextUrlSerializer = {

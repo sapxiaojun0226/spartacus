@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UserCostCenterAdapter } from './user-cost-center.adapter';
 import { UserCostCenterConnector } from './user-cost-center.connector';
-import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const costCenterCode = 'costCenterCode';
@@ -13,9 +12,7 @@ const costCenter = {
 };
 
 class MockUserCostCenterAdapter implements UserCostCenterAdapter {
-  loadActiveList = createSpy(
-    'CostCenterAdapter.loadActiveList'
-  ).and.returnValue(of([costCenter]));
+  loadActiveList = jest.fn().mockReturnValue(of([costCenter]));
 }
 
 describe('UserCostCenterConnector', () => {

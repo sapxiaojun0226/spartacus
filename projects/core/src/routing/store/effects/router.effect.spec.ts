@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { hot } from 'jasmine-marbles';
+import { hot } from 'jest-marbles';
 import { Observable } from 'rxjs';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import * as fromEffects from './router.effect';
@@ -37,7 +37,7 @@ describe('Router Effects', () => {
 
       actions$ = hot('-a', { a: action });
 
-      spyOn(router, 'resetConfig');
+      jest.spyOn(router, 'resetConfig').mockImplementation(() => {});
       effects.clearCmsRoutes$.subscribe(() => {
         expect(router.resetConfig).toHaveBeenCalledWith([
           { path: 'test2', component: true } as any,

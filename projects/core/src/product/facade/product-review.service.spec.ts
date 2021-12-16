@@ -27,7 +27,7 @@ describe('ReviewService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(ProductReviewService);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should ReviewService is injected', inject(
@@ -39,7 +39,7 @@ describe('ReviewService', () => {
 
   describe('getByProductCode(productCode)', () => {
     it('should be able to get product reviews if reviews exist', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      jest.spyOn(ngrxStore, 'select').mockImplementation(
         () => () => of([mockReview])
       );
       let result: Review[];
@@ -50,7 +50,7 @@ describe('ReviewService', () => {
     });
 
     it('should be able to load product reviews if reviews not exist', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      jest.spyOn(ngrxStore, 'select').mockImplementation(
         () => () => of(undefined)
       );
       service.getByProductCode('testId').subscribe().unsubscribe();

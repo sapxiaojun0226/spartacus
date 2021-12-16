@@ -35,7 +35,7 @@ describe('ProductReferenceService', () => {
 
     store = TestBed.inject(Store);
     service = TestBed.inject(ProductReferenceService);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should ProductReferenceService is injected', inject(
@@ -61,7 +61,7 @@ describe('ProductReferenceService', () => {
   });
 
   it('should be able to get product references', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(
+    jest.spyOn(ngrxStore, 'select').mockImplementation(
       () => () => of(mockProductReferences)
     );
 

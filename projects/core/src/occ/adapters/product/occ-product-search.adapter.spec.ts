@@ -13,10 +13,9 @@ import { SearchConfig } from '../../../product/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductSearchAdapter } from './occ-product-search.adapter';
-import createSpy = jasmine.createSpy;
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+  buildUrl = jest.fn().mockImplementation(
     // eslint-disable-next-line no-shadow
     (url) => url
   );
@@ -51,8 +50,8 @@ describe('OccProductSearchAdapter', () => {
     converter = TestBed.inject(ConverterService);
     endpoints = TestBed.inject(OccEndpointsService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
+    jest.spyOn(converter, 'pipeable');
+    jest.spyOn(converter, 'pipeableMany');
   });
 
   afterEach(() => {

@@ -114,11 +114,11 @@ describe('Selective Cart Service', () => {
       success: false,
       error: false,
     });
-    spyOn(store, 'dispatch').and.stub();
+    jest.spyOn(store, 'dispatch').mockImplementation();
   });
 
   it('should not return cart when loading', () => {
-    spyOn(multiCartService, 'getCartEntity').and.returnValue(
+    jest.spyOn(multiCartService, 'getCartEntity').mockReturnValue(
       of({
         value: { code: TEST_CART_ID },
         loading: true,
@@ -126,7 +126,7 @@ describe('Selective Cart Service', () => {
         error: false,
       })
     );
-    spyOn(multiCartService, 'loadCart').and.stub();
+    jest.spyOn(multiCartService, 'loadCart').mockImplementation();
     let result;
     service
       .getCart()
@@ -137,14 +137,14 @@ describe('Selective Cart Service', () => {
   });
 
   it('should not load cart when loaded', () => {
-    spyOn(multiCartService, 'getCartEntity').and.returnValue(
+    jest.spyOn(multiCartService, 'getCartEntity').mockReturnValue(
       of({
         loading: false,
         success: true,
         error: false,
       })
     );
-    spyOn(multiCartService, 'loadCart').and.stub();
+    jest.spyOn(multiCartService, 'loadCart').mockImplementation();
     let result;
     service
       .getCart()
@@ -155,9 +155,9 @@ describe('Selective Cart Service', () => {
   });
 
   it('should not load selective cart for anonymous user', () => {
-    spyOn<any>(service, 'load').and.callThrough();
-    spyOn(multiCartService, 'loadCart').and.stub();
-    spyOn(multiCartService, 'getCartEntity').and.returnValue(
+    jest.spyOn(service, 'load');
+    jest.spyOn(multiCartService, 'loadCart').mockImplementation();
+    jest.spyOn(multiCartService, 'getCartEntity').mockReturnValue(
       of({
         value: { code: TEST_CART_ID },
         loading: false,
@@ -172,8 +172,8 @@ describe('Selective Cart Service', () => {
   });
 
   it('should return selective cart', () => {
-    spyOn<any>(service, 'load').and.callThrough();
-    spyOn(multiCartService, 'loadCart').and.stub();
+    jest.spyOn(service, 'load');
+    jest.spyOn(multiCartService, 'loadCart').mockImplementation();
     let result;
     service
       .getCart()
@@ -188,7 +188,7 @@ describe('Selective Cart Service', () => {
   });
 
   it('should return cart entries', () => {
-    spyOn(multiCartService, 'getEntries').and.returnValue(of([mockCartEntry]));
+    jest.spyOn(multiCartService, 'getEntries').mockReturnValue(of([mockCartEntry]));
     service.getCart().subscribe().unsubscribe();
     let result;
     service
@@ -208,15 +208,15 @@ describe('Selective Cart Service', () => {
       success: false,
       error: false,
     });
-    spyOn(multiCartService, 'addEntry').and.callThrough();
-    spyOn(multiCartService, 'loadCart').and.callThrough();
+    jest.spyOn(multiCartService, 'addEntry');
+    jest.spyOn(multiCartService, 'loadCart');
     service.getCart().subscribe().unsubscribe();
 
     service.addEntry('productCode', 2);
     expect(multiCartService['loadCart']).toHaveBeenCalled();
   });
   it('should add entry one by one ', () => {
-    spyOn(multiCartService, 'addEntry').and.callThrough();
+    jest.spyOn(multiCartService, 'addEntry');
     service.getCart().subscribe().unsubscribe();
 
     service.addEntry('productCode1', 2);
@@ -240,7 +240,7 @@ describe('Selective Cart Service', () => {
   it('should call multiCartService remove entry method with selective cart', () => {
     service['cartId'] = 'cartId';
     service['userId'] = 'userId';
-    spyOn(multiCartService, 'removeEntry').and.callThrough();
+    jest.spyOn(multiCartService, 'removeEntry');
 
     service.removeEntry({
       entryNumber: 3,
@@ -255,7 +255,7 @@ describe('Selective Cart Service', () => {
   it('should call multiCartService update entry method with selective cart', () => {
     service['cartId'] = 'cartId';
     service['userId'] = 'userId';
-    spyOn(multiCartService, 'updateEntry').and.callThrough();
+    jest.spyOn(multiCartService, 'updateEntry');
 
     service.updateEntry(1, 2);
     expect(multiCartService['updateEntry']).toHaveBeenCalledWith(
@@ -267,7 +267,7 @@ describe('Selective Cart Service', () => {
   });
 
   it('should return entry by product code', () => {
-    spyOn(multiCartService, 'getEntry').and.returnValue(of(mockCartEntry));
+    jest.spyOn(multiCartService, 'getEntry').mockReturnValue(of(mockCartEntry));
     service.getCart().subscribe().unsubscribe();
 
     let result;
@@ -289,7 +289,7 @@ describe('Selective Cart Service', () => {
     });
 
     it('should return false when selectiveCart is disabled', () => {
-      spyOn(cartConfigService, 'isSelectiveCartEnabled').and.returnValue(false);
+      jest.spyOn(cartConfigService, 'isSelectiveCartEnabled').mockReturnValue(false);
       expect(service.isEnabled()).toEqual(false);
     });
   });
@@ -297,7 +297,7 @@ describe('Selective Cart Service', () => {
   describe('isStable', () => {
     it('should return false when cartId$ is null', (done) => {
       service['cartId$'].next(null);
-      spyOn(multiCartService, 'isStable').and.returnValue(of(true));
+      jest.spyOn(multiCartService, 'isStable').mockReturnValue(of(true));
 
       service
         .isStable()
@@ -309,7 +309,7 @@ describe('Selective Cart Service', () => {
     });
 
     it('should return true when isStable returns true', (done) => {
-      spyOn(multiCartService, 'isStable').and.returnValue(of(true));
+      jest.spyOn(multiCartService, 'isStable').mockReturnValue(of(true));
 
       service
         .isStable()
@@ -321,7 +321,7 @@ describe('Selective Cart Service', () => {
     });
 
     it('should return false when isStable returns false', (done) => {
-      spyOn(multiCartService, 'isStable').and.returnValue(of(false));
+      jest.spyOn(multiCartService, 'isStable').mockReturnValue(of(false));
 
       service
         .isStable()
@@ -360,15 +360,15 @@ describe('Selective Cart Service', () => {
     });
 
     it('should do nothing in load if no cart id', () => {
-      spyOn(multiCartService, 'loadCart').and.callThrough();
+      jest.spyOn(multiCartService, 'loadCart');
       service['cartId$'].next(null);
       service['load']();
       expect(multiCartService['loadCart']).toHaveBeenCalledTimes(0);
     });
 
     it('should do nothing in load if user not logged in ', () => {
-      spyOn(multiCartService, 'loadCart').and.callThrough();
-      spyOn<any>(service, 'isLoggedIn').and.returnValue(false);
+      jest.spyOn(multiCartService, 'loadCart');
+      jest.spyOn<any>(service, 'isLoggedIn').mockReturnValue(false);
       service['load']();
       expect(multiCartService['loadCart']).toHaveBeenCalledTimes(0);
     });

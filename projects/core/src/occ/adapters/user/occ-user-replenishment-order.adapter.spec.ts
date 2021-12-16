@@ -71,8 +71,8 @@ describe('OccUserReplenishmentOrderAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEndpointService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEndpointService, 'buildUrl').and.callThrough();
+    jest.spyOn(converter, 'pipeable');
+    jest.spyOn(occEndpointService, 'buildUrl');
   });
 
   afterEach(() => {

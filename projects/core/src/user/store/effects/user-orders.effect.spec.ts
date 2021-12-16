@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { OrderHistoryList } from '../../../model/order.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
@@ -53,7 +53,7 @@ describe('User Orders effect', () => {
   describe('loadUserOrders$', () => {
     describe('Order History', () => {
       it('should load user Orders', () => {
-        spyOn(orderConnector, 'getHistory').and.returnValue(of(mockUserOrders));
+        jest.spyOn(orderConnector, 'getHistory').mockReturnValue(of(mockUserOrders));
 
         const action = new UserActions.LoadUserOrders({
           userId: 'test@sap.com',
@@ -71,7 +71,7 @@ describe('User Orders effect', () => {
       });
 
       it('should handle failures for load user Orders', () => {
-        spyOn(orderConnector, 'getHistory').and.returnValue(
+        jest.spyOn(orderConnector, 'getHistory').mockReturnValue(
           throwError(mockError)
         );
 
@@ -93,10 +93,10 @@ describe('User Orders effect', () => {
 
     describe('Order History for a Replenishment Order Details', () => {
       it('should load user Orders for replenishment order details', () => {
-        spyOn(
+        jest.spyOn(
           userReplenishmentOrderConnector,
           'loadReplenishmentDetailsHistory'
-        ).and.returnValue(of(mockUserOrders));
+        ).mockReturnValue(of(mockUserOrders));
 
         const action = new UserActions.LoadUserOrders({
           userId: 'test@sap.com',
@@ -115,10 +115,10 @@ describe('User Orders effect', () => {
       });
 
       it('should handle failures for load user Orders for replenishment order details', () => {
-        spyOn(
+        jest.spyOn(
           userReplenishmentOrderConnector,
           'loadReplenishmentDetailsHistory'
-        ).and.returnValue(throwError(mockError));
+        ).mockReturnValue(throwError(mockError));
 
         const action = new UserActions.LoadUserOrders({
           userId: 'test@sap.com',

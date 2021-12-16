@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import { OccConfig } from '../../../occ/config/occ-config';
@@ -51,7 +51,7 @@ describe('Consignment Tracking effect', () => {
 
   describe('loadConsignmentTracking$', () => {
     it('should load consignment tracking', () => {
-      spyOn(userOrderConnector, 'getConsignmentTracking').and.returnValue(
+      jest.spyOn(userOrderConnector, 'getConsignmentTracking').mockReturnValue(
         of(mockTracking)
       );
       const action = new UserActions.LoadConsignmentTracking(
@@ -69,7 +69,7 @@ describe('Consignment Tracking effect', () => {
     });
 
     it('should handle failures for load consignment tracking', () => {
-      spyOn(userOrderConnector, 'getConsignmentTracking').and.returnValue(
+      jest.spyOn(userOrderConnector, 'getConsignmentTracking').mockReturnValue(
         throwError('Error')
       );
 

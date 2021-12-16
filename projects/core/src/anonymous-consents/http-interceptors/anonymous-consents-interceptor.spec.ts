@@ -105,7 +105,7 @@ describe('AnonymousConsentsInterceptor', () => {
       }
     });
 
-    spyOn<any>(interceptor, 'isOccUrl').and.returnValue(true);
+    jest.spyOn<any>(interceptor, 'isOccUrl').mockReturnValue(true);
   });
 
   const handleRequestMethod = 'handleRequest';
@@ -114,7 +114,7 @@ describe('AnonymousConsentsInterceptor', () => {
 
   describe('handleRequestMethod', () => {
     it('should return the provided request if the consents are falsy', () => {
-      spyOn(anonymousConsentsService, 'serializeAndEncode').and.stub();
+      jest.spyOn(anonymousConsentsService, 'serializeAndEncode').mockImplementation();
 
       const request = new HttpRequest('GET', 'xxx');
       const result = interceptor[handleRequestMethod](null, request);
@@ -126,7 +126,7 @@ describe('AnonymousConsentsInterceptor', () => {
 
     it('should call serializeAndEncode and add the consents to the headers', () => {
       const mockHeaderValue = 'dummy headers';
-      spyOn(anonymousConsentsService, 'serializeAndEncode').and.returnValue(
+      jest.spyOn(anonymousConsentsService, 'serializeAndEncode').mockReturnValue(
         mockHeaderValue
       );
 
@@ -151,8 +151,8 @@ describe('AnonymousConsentsInterceptor', () => {
   describe(handleResponseMethod, () => {
     describe('when newRawConsents are falsy', () => {
       it('should NOT call decodeAndDeserialize and giveRequiredConsents', () => {
-        spyOn(anonymousConsentsService, 'decodeAndDeserialize').and.stub();
-        spyOn<any>(interceptor, giveRequiredConsentsMethod).and.stub();
+        jest.spyOn(anonymousConsentsService, 'decodeAndDeserialize').mockImplementation();
+        jest.spyOn<any>(interceptor, giveRequiredConsentsMethod).mockImplementation();
 
         interceptor[handleResponseMethod](true, null, []);
 
@@ -166,8 +166,8 @@ describe('AnonymousConsentsInterceptor', () => {
     describe('when rawCosents are NOT falsy', () => {
       describe('and user is logged in', () => {
         it('should NOT call decodeAndDeserialize and giveRequiredConsents', () => {
-          spyOn(anonymousConsentsService, 'decodeAndDeserialize').and.stub();
-          spyOn<any>(interceptor, giveRequiredConsentsMethod).and.stub();
+          jest.spyOn(anonymousConsentsService, 'decodeAndDeserialize').mockImplementation();
+          jest.spyOn<any>(interceptor, giveRequiredConsentsMethod).mockImplementation();
 
           interceptor[handleResponseMethod](true, 'dummy headers', []);
 
@@ -182,11 +182,11 @@ describe('AnonymousConsentsInterceptor', () => {
       describe('and user is NOT logged in', () => {
         it('should call consentsUpdated', () => {
           const mockHeaderValue = 'dummy headers';
-          spyOn(anonymousConsentsService, 'decodeAndDeserialize').and.stub();
-          spyOn<any>(interceptor, giveRequiredConsentsMethod).and.returnValue(
+          jest.spyOn(anonymousConsentsService, 'decodeAndDeserialize').mockImplementation();
+          jest.spyOn<any>(interceptor, giveRequiredConsentsMethod).mockReturnValue(
             mockAnonymousConsents
           );
-          spyOn(anonymousConsentsService, 'consentsUpdated').and.returnValue(
+          jest.spyOn(anonymousConsentsService, 'consentsUpdated').mockReturnValue(
             false
           );
 
@@ -208,14 +208,14 @@ describe('AnonymousConsentsInterceptor', () => {
       describe('when the consentsUpdated returns true', () => {
         it('should call anonymousConsentsService.setConsents()', () => {
           const mockHeaderValue = 'dummy headers';
-          spyOn(anonymousConsentsService, 'decodeAndDeserialize').and.stub();
-          spyOn<any>(interceptor, giveRequiredConsentsMethod).and.returnValue(
+          jest.spyOn(anonymousConsentsService, 'decodeAndDeserialize').mockImplementation();
+          jest.spyOn<any>(interceptor, giveRequiredConsentsMethod).mockReturnValue(
             mockAnonymousConsents
           );
-          spyOn(anonymousConsentsService, 'consentsUpdated').and.returnValue(
+          jest.spyOn(anonymousConsentsService, 'consentsUpdated').mockReturnValue(
             true
           );
-          spyOn(anonymousConsentsService, 'setConsents').and.stub();
+          jest.spyOn(anonymousConsentsService, 'setConsents').mockImplementation();
 
           interceptor[handleResponseMethod](
             false,
@@ -276,10 +276,10 @@ describe('AnonymousConsentsInterceptor', () => {
     describe('when sending a request', () => {
       it(`should handle http call even when 'isUserLoggedIn' emits with a delay`, fakeAsync(() => {
         const DELAY_TIME = 1;
-        spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
+        jest.spyOn(anonymousConsentsService, 'getConsents').mockReturnValue(
           of(mockAnonymousConsents)
         );
-        spyOn(authService, 'isUserLoggedIn').and.returnValue(
+        jest.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
           of(false).pipe(delay(DELAY_TIME))
         );
 
@@ -292,10 +292,10 @@ describe('AnonymousConsentsInterceptor', () => {
 
       it(`should handle http call even when 'getConsents' emits with a delay`, fakeAsync(() => {
         const DELAY_TIME = 1;
-        spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
+        jest.spyOn(anonymousConsentsService, 'getConsents').mockReturnValue(
           of(mockAnonymousConsents).pipe(delay(DELAY_TIME))
         );
-        spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+        jest.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
 
         http.get('/xxx').subscribe();
         tick(DELAY_TIME);
@@ -305,11 +305,11 @@ describe('AnonymousConsentsInterceptor', () => {
       }));
 
       it(`should call ${handleRequestMethod}`, () => {
-        spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
+        jest.spyOn(anonymousConsentsService, 'getConsents').mockReturnValue(
           of(mockAnonymousConsents)
         );
-        spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-        spyOn<any>(interceptor, handleRequestMethod).and.callThrough();
+        jest.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
+        jest.spyOn(interceptor, handleRequestMethod);
 
         http.get('/xxx').subscribe();
 

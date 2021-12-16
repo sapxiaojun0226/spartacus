@@ -13,6 +13,7 @@ import { AuthHttpHeaderService } from './auth-http-header.service';
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
+// import { toHaveBeenCalledBefore } from 'jest-extended';
 
 const testToken: AuthToken = {
   access_token: 'acc_token',
@@ -65,7 +66,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
+  saveCurrentNavigationUrl = jest.fn();
 }
 
 describe('AuthHttpHeaderService', () => {
@@ -116,7 +117,7 @@ describe('AuthHttpHeaderService', () => {
         service.shouldAddAuthorizationHeader(
           new HttpRequest('GET', 'some-server/occ/cart')
         )
-      ).toBeTrue();
+      ).toBeTruthy();
     });
 
     it('should return false for non occ urls', () => {
@@ -124,7 +125,7 @@ describe('AuthHttpHeaderService', () => {
         service.shouldAddAuthorizationHeader(
           new HttpRequest('GET', 'some-server/auth')
         )
-      ).toBeFalse();
+      ).toBeFalsy();
     });
 
     it('should return false if request already have Authorization header', () => {
@@ -134,7 +135,7 @@ describe('AuthHttpHeaderService', () => {
             headers: new HttpHeaders({ Authorization: 'Bearer acc_token' }),
           })
         )
-      ).toBeFalse();
+      ).toBeFalsy();
     });
   });
 
@@ -142,13 +143,13 @@ describe('AuthHttpHeaderService', () => {
     it('should return true for occ urls', () => {
       expect(
         service.shouldCatchError(new HttpRequest('GET', 'some-server/occ/cart'))
-      ).toBeTrue();
+      ).toBeTruthy();
     });
 
     it('should return false for non occ urls', () => {
       expect(
         service.shouldCatchError(new HttpRequest('GET', 'some-server/auth'))
-      ).toBeFalse();
+      ).toBeFalsy();
     });
   });
 
@@ -194,7 +195,7 @@ describe('AuthHttpHeaderService', () => {
       };
       getTokenFromStorage.next(initialToken);
       const handler = (a: any) => of(a);
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
+      jest.spyOn(oAuthLibWrapperService, 'refreshToken').mockImplementation(() => {
         getTokenFromStorage.next({
           access_token: `new_token`,
           access_token_stored_at: '456',
@@ -224,9 +225,9 @@ describe('AuthHttpHeaderService', () => {
         access_token_stored_at: `123`,
       };
       getTokenFromStorage.next(initialToken);
-      const handler = jasmine.createSpy('handler', (a: any) => of(a));
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
-      spyOn(service, 'handleExpiredRefreshToken').and.callFake(() => {
+      const handler = jest.fn();
+      jest.spyOn(oAuthLibWrapperService, 'refreshToken');
+      jest.spyOn(service, 'handleExpiredRefreshToken').mockImplementation(() => {
         getTokenFromStorage.next({} as AuthToken);
       });
       service
@@ -254,7 +255,7 @@ describe('AuthHttpHeaderService', () => {
       };
       getTokenFromStorage.next(initialToken);
       const handler = (a: any) => of(a);
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
+      jest.spyOn(oAuthLibWrapperService, 'refreshToken').mockImplementation(() => {
         getTokenFromStorage.next({
           access_token: `new_token`,
           access_token_stored_at: '456',
@@ -296,10 +297,10 @@ describe('AuthHttpHeaderService', () => {
         access_token_stored_at: '123',
       };
       getTokenFromStorage.next(initialToken);
-      const handler = jasmine.createSpy('handler', (a: any) => of(a));
+      const handler = jest.fn();
       logoutInProgressSubject.next(true);
 
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
+      jest.spyOn(oAuthLibWrapperService, 'refreshToken');
 
       service
         .handleExpiredAccessToken(
@@ -326,7 +327,7 @@ describe('AuthHttpHeaderService', () => {
         access_token_stored_at: '123',
       };
       const handler = (a: any) => of(a);
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.stub();
+      jest.spyOn(oAuthLibWrapperService, 'refreshToken').mockImplementation();
 
       service
         .handleExpiredAccessToken(
@@ -354,9 +355,9 @@ describe('AuthHttpHeaderService', () => {
     }
 
     it('should logout user, save current navigation url, and redirect to login page', async () => {
-      spyOn(authService, 'coreLogout').and.callFake(wait);
-      spyOn(routingService, 'go').and.callThrough();
-      spyOn(globalMessageService, 'add').and.callThrough();
+      jest.spyOn(authService, 'coreLogout').mockImplementation(wait);
+      jest.spyOn(routingService, 'go');
+      jest.spyOn(globalMessageService, 'add');
 
       service.handleExpiredRefreshToken();
 

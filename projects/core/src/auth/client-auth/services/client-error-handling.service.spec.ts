@@ -45,12 +45,12 @@ describe('ClientErrorHandlingService', () => {
     clientTokenService = TestBed.inject(ClientTokenService);
     httpHandler = TestBed.inject(HttpHandler);
 
-    spyOn(httpHandler, 'handle').and.callThrough();
+    jest.spyOn(httpHandler, 'handle');
   });
 
   describe(`handleExpiredClientToken`, () => {
     it('should get a new client token and resend the request', () => {
-      spyOn(clientTokenService, 'refreshClientToken').and.callThrough();
+      jest.spyOn(clientTokenService, 'refreshClientToken');
 
       const sub = service
         .handleExpiredClientToken(httpRequest, httpHandler)

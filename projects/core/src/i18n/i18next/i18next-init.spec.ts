@@ -25,7 +25,7 @@ describe('i18nextGetHttpClient should return a http client that', () => {
     httpClient = TestBed.inject(HttpClient);
 
     const func = i18nextGetHttpClient(httpClient);
-    testCallback = jasmine.createSpy('testCallback');
+    testCallback = jest.fn();
     func({}, testUrl, {}, testCallback);
     req = httpMock.expectOne({ url: testUrl, method: 'GET' });
   });

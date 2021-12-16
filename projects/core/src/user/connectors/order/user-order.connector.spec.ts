@@ -2,44 +2,38 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UserOrderAdapter } from './user-order.adapter';
 import { UserOrderConnector } from './user-order.connector';
-import createSpy = jasmine.createSpy;
 
 class MockOrderAdapter implements UserOrderAdapter {
-  load = createSpy('UserOrderAdapter.load').and.callFake((userId, orderCode) =>
+  load = jest.fn().mockImplementation((userId, orderCode) =>
     of(`order-${userId}-${orderCode}`)
   );
 
-  loadHistory = createSpy('UserOrderAdapter.loadHistory').and.callFake(
+  loadHistory = jest.fn().mockImplementation(
     (userId) => of(`orderHistory-${userId}`)
   );
 
-  getConsignmentTracking = createSpy(
-    'UserOrderAdapter.getConsignmentTracking'
-  ).and.callFake((orderCode, consignmentCode, userId) =>
+  getConsignmentTracking = jest.fn(
+  ).mockImplementation((orderCode, consignmentCode, userId) =>
     of(`consignmentTracking-${userId}-${orderCode}-${consignmentCode}`)
   );
 
-  createReturnRequest = createSpy(
-    'UserOrderAdapter.createReturnRequest'
-  ).and.callFake((userId, {}) => of(`orderReturnRequest-${userId}`));
+  createReturnRequest = jest.fn(
+  ).mockImplementation((userId, {}) => of(`orderReturnRequest-${userId}`));
 
-  loadReturnRequestList = createSpy(
-    'UserOrderAdapter.loadReturnRequestList'
-  ).and.callFake((userId) => of(`loadReturnRequestList-${userId}`));
+  loadReturnRequestList = jest.fn(
+  ).mockImplementation((userId) => of(`loadReturnRequestList-${userId}`));
 
-  loadReturnRequestDetail = createSpy(
-    'UserOrderAdapter.loadReturnRequestDetail'
-  ).and.callFake((userId, returnRequestCode) =>
+  loadReturnRequestDetail = jest.fn(
+  ).mockImplementation((userId, returnRequestCode) =>
     of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
   );
 
-  cancel = createSpy('UserOrderAdapter.cancel').and.callFake(
+  cancel = jest.fn().mockImplementation(
     (userId, orderCode, {}) => of(`cancel-${userId}-${orderCode}`)
   );
 
-  cancelReturnRequest = createSpy(
-    'UserOrderAdapter.cancelReturnRequest'
-  ).and.callFake((userId, returnRequestCode, {}) =>
+  cancelReturnRequest = jest.fn(
+  ).mockImplementation((userId, returnRequestCode, {}) =>
     of(`cancelReturnRequest-${userId}-${returnRequestCode}`)
   );
 }

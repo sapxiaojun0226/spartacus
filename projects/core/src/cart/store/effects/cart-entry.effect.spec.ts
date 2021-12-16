@@ -2,14 +2,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import { CartModification } from '../../../model/cart.model';
 import { OccConfig } from '../../../occ/index';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import { CartActions } from '../actions/index';
 import * as fromEffects from './cart-entry.effect';
-import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -39,9 +38,9 @@ describe('Cart effect', () => {
     };
 
     const mockCartEntryConnector: Partial<CartEntryConnector> = {
-      add: createSpy().and.returnValue(of(mockCartModification)),
-      remove: createSpy().and.returnValue(of({})),
-      update: createSpy().and.returnValue(of(mockCartModification)),
+      add: jest.fn().mockReturnValue(of(mockCartModification)),
+      remove: jest.fn().mockReturnValue(of({})),
+      update: jest.fn().mockReturnValue(of(mockCartModification)),
     };
 
     TestBed.configureTestingModule({

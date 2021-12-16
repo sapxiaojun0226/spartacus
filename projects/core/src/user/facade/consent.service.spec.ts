@@ -60,8 +60,8 @@ describe('ConsentService', () => {
 
   describe('getConsent', () => {
     it('should merge both anonymous and registered-consent getConsent methods', () => {
-      spyOn(userConsentService, 'getConsent').and.returnValue(of(mockConsent));
-      spyOn(anonymousConsentsService, 'getConsent').and.returnValue(
+      jest.spyOn(userConsentService, 'getConsent').mockReturnValue(of(mockConsent));
+      jest.spyOn(anonymousConsentsService, 'getConsent').mockReturnValue(
         of(mockAnonymousConsent)
       );
 
@@ -82,7 +82,7 @@ describe('ConsentService', () => {
 
   describe('checkConsentGivenByTemplateId', () => {
     it('should return false if the consent is falsy', () => {
-      spyOn(service, 'getConsent').and.returnValue(of(undefined));
+      jest.spyOn(service, 'getConsent').mockReturnValue(of(undefined));
       let result = true;
       service
         .checkConsentGivenByTemplateId(mockTemplateId)
@@ -92,10 +92,10 @@ describe('ConsentService', () => {
     });
     describe('when the returned consent is of type anonymous consent', () => {
       it('should call anonymousConsentsService.isConsentGiven', () => {
-        spyOn(service, 'getConsent').and.returnValue(of(mockAnonymousConsent));
-        spyOn(service, 'isAnonymousConsentType').and.returnValue(true);
-        spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValue(true);
-        spyOn(userConsentService, 'isConsentGiven').and.stub();
+        jest.spyOn(service, 'getConsent').mockReturnValue(of(mockAnonymousConsent));
+        jest.spyOn(service, 'isAnonymousConsentType').mockReturnValue(true);
+        jest.spyOn(anonymousConsentsService, 'isConsentGiven').mockReturnValue(true);
+        jest.spyOn(userConsentService, 'isConsentGiven').mockImplementation();
         let result = false;
         service
           .checkConsentGivenByTemplateId(mockTemplateId)
@@ -110,10 +110,10 @@ describe('ConsentService', () => {
     });
     describe('when the returned consent is of type registered consent', () => {
       it('should call userConsentService.isConsentGiven', () => {
-        spyOn(service, 'getConsent').and.returnValue(of(mockConsent));
-        spyOn(service, 'isAnonymousConsentType').and.returnValue(false);
-        spyOn(anonymousConsentsService, 'isConsentGiven').and.stub();
-        spyOn(userConsentService, 'isConsentGiven').and.returnValue(true);
+        jest.spyOn(service, 'getConsent').mockReturnValue(of(mockConsent));
+        jest.spyOn(service, 'isAnonymousConsentType').mockReturnValue(false);
+        jest.spyOn(anonymousConsentsService, 'isConsentGiven').mockImplementation();
+        jest.spyOn(userConsentService, 'isConsentGiven').mockReturnValue(true);
         let result = false;
         service
           .checkConsentGivenByTemplateId(mockTemplateId)
@@ -130,7 +130,7 @@ describe('ConsentService', () => {
 
   describe('checkConsentWithdrawnByTemplateId', () => {
     it('should return true if the consent is falsy', () => {
-      spyOn(service, 'getConsent').and.returnValue(of(undefined));
+      jest.spyOn(service, 'getConsent').mockReturnValue(of(undefined));
       let result = false;
       service
         .checkConsentWithdrawnByTemplateId(mockTemplateId)
@@ -140,12 +140,12 @@ describe('ConsentService', () => {
     });
     describe('when the returned consent is of type anonymous consent', () => {
       it('should call anonymousConsentsService.isConsentWithdrawn', () => {
-        spyOn(service, 'getConsent').and.returnValue(of(mockAnonymousConsent));
-        spyOn(service, 'isAnonymousConsentType').and.returnValue(true);
-        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValue(
+        jest.spyOn(service, 'getConsent').mockReturnValue(of(mockAnonymousConsent));
+        jest.spyOn(service, 'isAnonymousConsentType').mockReturnValue(true);
+        jest.spyOn(anonymousConsentsService, 'isConsentWithdrawn').mockReturnValue(
           true
         );
-        spyOn(userConsentService, 'isConsentWithdrawn').and.stub();
+        jest.spyOn(userConsentService, 'isConsentWithdrawn').mockImplementation();
         let result = false;
         service
           .checkConsentWithdrawnByTemplateId(mockTemplateId)
@@ -160,10 +160,10 @@ describe('ConsentService', () => {
     });
     describe('when the returned consent is of type registered consent', () => {
       it('should call userConsentService.isConsentWithdrawn', () => {
-        spyOn(service, 'getConsent').and.returnValue(of(mockConsent));
-        spyOn(service, 'isAnonymousConsentType').and.returnValue(false);
-        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.stub();
-        spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
+        jest.spyOn(service, 'getConsent').mockReturnValue(of(mockConsent));
+        jest.spyOn(service, 'isAnonymousConsentType').mockReturnValue(false);
+        jest.spyOn(anonymousConsentsService, 'isConsentWithdrawn').mockImplementation();
+        jest.spyOn(userConsentService, 'isConsentWithdrawn').mockReturnValue(true);
         let result = false;
         service
           .checkConsentWithdrawnByTemplateId(mockTemplateId)
@@ -183,8 +183,8 @@ describe('ConsentService', () => {
   describe('isConsentGiven', () => {
     describe('when anonymous consent is provided', () => {
       it('should delegate to anonymousConsentsService.isConsentGiven()', () => {
-        spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValue(true);
-        spyOn(userConsentService, 'isConsentGiven').and.stub();
+        jest.spyOn(anonymousConsentsService, 'isConsentGiven').mockReturnValue(true);
+        jest.spyOn(userConsentService, 'isConsentGiven').mockImplementation();
 
         const result = service.isConsentGiven(mockAnonymousConsent);
 
@@ -197,8 +197,8 @@ describe('ConsentService', () => {
     });
     describe('when registered consent is provided', () => {
       it('should delegate to userConsentService.isConsentGiven()', () => {
-        spyOn(anonymousConsentsService, 'isConsentGiven').and.stub();
-        spyOn(userConsentService, 'isConsentGiven').and.returnValue(true);
+        jest.spyOn(anonymousConsentsService, 'isConsentGiven').mockImplementation();
+        jest.spyOn(userConsentService, 'isConsentGiven').mockReturnValue(true);
 
         const result = service.isConsentGiven(mockConsent);
 
@@ -214,10 +214,10 @@ describe('ConsentService', () => {
   describe('isConsentWithdrawn', () => {
     describe('when anonymous consent is provided', () => {
       it('should delegate to anonymousConsentsService.isConsentWithdrawn()', () => {
-        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValue(
+        jest.spyOn(anonymousConsentsService, 'isConsentWithdrawn').mockReturnValue(
           true
         );
-        spyOn(userConsentService, 'isConsentWithdrawn').and.stub();
+        jest.spyOn(userConsentService, 'isConsentWithdrawn').mockImplementation();
 
         const result = service.isConsentWithdrawn(mockAnonymousConsent);
 
@@ -230,8 +230,8 @@ describe('ConsentService', () => {
     });
     describe('when registered consent is provided', () => {
       it('should delegate to userConsentService.isConsentWithdrawn()', () => {
-        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.stub();
-        spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
+        jest.spyOn(anonymousConsentsService, 'isConsentWithdrawn').mockImplementation();
+        jest.spyOn(userConsentService, 'isConsentWithdrawn').mockReturnValue(true);
 
         const result = service.isConsentWithdrawn(mockConsent);
 

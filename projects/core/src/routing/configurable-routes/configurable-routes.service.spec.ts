@@ -20,19 +20,13 @@ class MockRouter {
 const combinedUrlMatcher: UrlMatcher = () => null;
 
 class MockUrlMatcherService implements Partial<UrlMatcherService> {
-  getFromPaths = jasmine
-    .createSpy('getFromPaths')
-    .and.callFake((paths) => paths);
-  getFalsy = jasmine.createSpy('getFalsy').and.returnValue(false);
-  getCombined = jasmine
-    .createSpy('getCombined')
-    .and.returnValue(combinedUrlMatcher);
+  getFromPaths = jest.fn((paths) => paths);
+  getFalsy = jest.fn(() => false);
+  getCombined = jest.fn(() => combinedUrlMatcher);
 }
 
 const testUrlMatcherFromFactory: UrlMatcher = () => null;
-const testUrlMatcherFactory: UrlMatcherFactory = jasmine
-  .createSpy('testUrlMatcherFactory')
-  .and.callFake((_route: Route) => testUrlMatcherFromFactory);
+const testUrlMatcherFactory: UrlMatcherFactory = jest.fn((_route: Route) => testUrlMatcherFromFactory);
 
 const TEST_URL_MATCHER_FACTORY = new InjectionToken<UrlMatcherFactory>(
   'TEST_URL_MATCHER_FACTORY',
@@ -42,7 +36,7 @@ const TEST_URL_MATCHER_FACTORY = new InjectionToken<UrlMatcherFactory>(
 describe('ConfigurableRoutesService', () => {
   let service: ConfigurableRoutesService;
   let router: Router;
-  let routingConfigService: RoutingConfigService;
+  let routingConfigService: any;
   let urlMatcherService: UrlMatcherService;
 
   beforeEach(() => {
@@ -75,7 +69,7 @@ describe('ConfigurableRoutesService', () => {
   describe('configureRouter', () => {
     it('should NOT configure "path" of routes that are NOT configurable', async () => {
       router.config = [{ path: 'path1' }, { path: 'path2' }];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
+      jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue(undefined);
       await service.init();
       expect(router.config).toEqual([{ path: 'path1' }, { path: 'path2' }]);
     });
@@ -85,7 +79,7 @@ describe('ConfigurableRoutesService', () => {
         { path: 'path1' },
         { path: 'path2', children: [{ path: 'subPath' }] },
       ];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
+      jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue(undefined);
       await service.init();
       expect(router.config).toEqual([
         { path: 'path1' },
@@ -98,7 +92,7 @@ describe('ConfigurableRoutesService', () => {
         { path: 'path1', redirectTo: 'path100' },
         { path: 'path2', redirectTo: 'path200' },
       ];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
+      jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue(undefined);
       await service.init();
       expect(router.config).toEqual([
         { path: 'path1', redirectTo: 'path100' },
@@ -108,7 +102,7 @@ describe('ConfigurableRoutesService', () => {
 
     it('should generate route matching configured path', async () => {
       router.config = [{ path: null, data: { cxRoute: 'page1' } }];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+      jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue({
         paths: ['path1'],
       });
       await service.init();
@@ -117,7 +111,7 @@ describe('ConfigurableRoutesService', () => {
 
     it('should generate route matching configured multiple paths', async () => {
       router.config = [{ path: null, data: { cxRoute: 'page1' } }];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+      jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue({
         paths: ['path1', 'path100'],
       });
       await service.init();
@@ -126,14 +120,14 @@ describe('ConfigurableRoutesService', () => {
 
     it('should generate route that will never match if there are no configured paths in config', async () => {
       router.config = [{ path: null, data: { cxRoute: 'page1' } }];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(null);
+      jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue(null);
       await service.init();
       expect(router.config[0].matcher).toEqual([]);
     });
 
     it('should generate route that will never match if it was disabled by config', async () => {
       router.config = [{ path: null, data: { cxRoute: 'page1' } }];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+      jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue({
         paths: ['path1', 'path100'],
         disabled: true,
       });
@@ -158,8 +152,8 @@ describe('ConfigurableRoutesService', () => {
         // normal routes
         { path: 'path5' },
       ];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
-        { paths: ['path2', 'path20', 'path200'] },
+      jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce(
+        { paths: ['path2', 'path20', 'path200'] }).mockReturnValueOnce(
         { paths: ['path4'] }
       );
       await service.init();
@@ -193,7 +187,7 @@ describe('ConfigurableRoutesService', () => {
     const matcher2: UrlMatcher = () => null;
 
     router.config = [{ path: null, data: { cxRoute: 'page' } }];
-    spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+    jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue(({
       paths: ['path'],
       matchers: [matcher1, matcher2],
     });
@@ -212,11 +206,11 @@ describe('ConfigurableRoutesService', () => {
     const matcher1: UrlMatcher = () => null;
     const originalRoute = { path: null, data: { cxRoute: 'page' } };
     router.config = [originalRoute];
-    spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+    jest.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce(({
       paths: ['path'],
       matchers: [matcher1, TEST_URL_MATCHER_FACTORY],
     });
-    spyOn(service['injector'], 'get').and.callThrough();
+    jest.spyOn(service['injector'], 'get');
 
     await service.init();
     expect(service['injector'].get).toHaveBeenCalledWith(

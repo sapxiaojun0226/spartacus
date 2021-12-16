@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
@@ -74,7 +74,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
 
   describe('loadReplenishmentOrderDetails$', () => {
     it('should load replenishment order details', () => {
-      spyOn(connector, 'load').and.returnValue(of(mockReplenishmentOrder));
+      jest.spyOn(connector, 'load').mockReturnValue(of(mockReplenishmentOrder));
 
       const action = new UserActions.LoadReplenishmentOrderDetails({
         userId: mockUserId,
@@ -93,7 +93,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
     });
 
     it('should return an error when it fails to load a replenishment order details', () => {
-      spyOn(connector, 'load').and.returnValue(throwError(mockError));
+      jest.spyOn(connector, 'load').mockReturnValue(throwError(mockError));
 
       const action = new UserActions.LoadReplenishmentOrderDetails({
         userId: mockUserId,
@@ -114,7 +114,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
 
   describe('cancelReplenishmentOrder$', () => {
     it('should cancel a replenishment order', () => {
-      spyOn(connector, 'cancelReplenishmentOrder').and.returnValue(
+      jest.spyOn(connector, 'cancelReplenishmentOrder').mockReturnValue(
         of(mockReplenishmentOrder)
       );
 
@@ -135,7 +135,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
     });
 
     it('should return an error when it fails to cancel a replenishment order', () => {
-      spyOn(connector, 'cancelReplenishmentOrder').and.returnValue(
+      jest.spyOn(connector, 'cancelReplenishmentOrder').mockReturnValue(
         throwError(mockError)
       );
 

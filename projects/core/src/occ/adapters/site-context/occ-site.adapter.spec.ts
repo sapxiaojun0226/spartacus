@@ -73,8 +73,8 @@ describe('OccSiteAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converterService = TestBed.inject(ConverterService);
     occEndpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converterService, 'pipeableMany').and.callThrough();
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    jest.spyOn(converterService, 'pipeableMany');
+    jest.spyOn(occEndpointsService, 'buildUrl');
   });
 
   afterEach(() => {

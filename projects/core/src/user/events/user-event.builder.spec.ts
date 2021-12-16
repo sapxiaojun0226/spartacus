@@ -39,7 +39,7 @@ describe('UserEventBuilder', () => {
       .get(UpdateUserAddressEvent)
       .pipe(take(1))
       .subscribe((result) => {
-        expect(result).toEqual(jasmine.objectContaining(payload));
+        expect(result).toEqual(expect.objectContaining(payload));
         done();
       });
 
@@ -53,7 +53,7 @@ describe('UserEventBuilder', () => {
       .get(AddUserAddressEvent)
       .pipe(take(1))
       .subscribe((result) => {
-        expect(result).toEqual(jasmine.objectContaining(payload));
+        expect(result).toEqual(expect.objectContaining(payload));
         done();
       });
 
@@ -67,7 +67,7 @@ describe('UserEventBuilder', () => {
       .get(DeleteUserAddressEvent)
       .pipe(take(1))
       .subscribe((result) => {
-        expect(result).toEqual(jasmine.objectContaining(payload));
+        expect(result).toEqual(expect.objectContaining(payload));
         done();
       });
 

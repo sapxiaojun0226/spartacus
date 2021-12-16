@@ -34,7 +34,7 @@ describe('GatewayTimeoutHandler', () => {
   });
 
   it('should send error to global message service', () => {
-    spyOn(globalMessageService, 'add');
+    jest.spyOn(globalMessageService, 'add').mockImplementation(() => {});
     service.handleError();
 
     expect(globalMessageService.add).toHaveBeenCalledWith(

@@ -3,16 +3,15 @@ import { inject, TestBed } from '@angular/core/testing';
 import { ComponentDecorator } from '../decorators/component-decorator';
 import { SlotDecorator } from '../decorators/slot-decorator';
 import { DynamicAttributeService } from './dynamic-attribute.service';
-import createSpy = jasmine.createSpy;
 
 @Injectable()
 class TestComponentDecorator extends ComponentDecorator {
-  decorate = createSpy('decorate');
+  decorate = jest.fn();
 }
 
 @Injectable()
 class TestSlotDecorator extends ComponentDecorator {
-  decorate = createSpy('decorate');
+  decorate = jest.fn();
 }
 
 describe('DynamicAttributeService', () => {

@@ -113,7 +113,7 @@ describe('CategoryPageMetaResolver', () => {
   });
 
   it('should resolve canonical url from the BasePageMetaResolver.resolveCanonicalUrl()', async () => {
-    spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.callThrough();
+    jest.spyOn(basePageMetaResolver, 'resolveCanonicalUrl');
     service.resolveCanonicalUrl().subscribe().unsubscribe();
     expect(basePageMetaResolver.resolveCanonicalUrl).toHaveBeenCalled();
   });

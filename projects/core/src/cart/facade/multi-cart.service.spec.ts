@@ -10,7 +10,6 @@ import {
   StateWithMultiCart,
 } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
-import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 
 const testCart: Cart = {
@@ -54,7 +53,7 @@ const mockCarts: Cart[] = [testCart, testCart2];
 
 const userId = 'currentUserId';
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.callFake(() => {
+  takeUserId = jest.fn().mockImplementation(() => {
     return of(userId);
   });
 }
@@ -81,7 +80,7 @@ describe('MultiCartService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(MultiCartService);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
   });
 
   describe('getCart', () => {
@@ -245,7 +244,7 @@ describe('MultiCartService', () => {
 
   describe('createCart', () => {
     it('should create cart and return observable with cart', () => {
-      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+      jest.spyOn(service as any, 'generateTempCartId').mockReturnValue('temp-uuid');
 
       const results = [];
 
@@ -290,7 +289,7 @@ describe('MultiCartService', () => {
 
   describe('mergeToCurrentCart', () => {
     it('should merge cart', () => {
-      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+      jest.spyOn(service as any, 'generateTempCartId').mockReturnValue('temp-uuid');
 
       service.mergeToCurrentCart({
         userId: 'userId',
@@ -377,7 +376,7 @@ describe('MultiCartService', () => {
         { productCode: 'productCode2', quantity: 3 },
       ]);
       // @ts-ignore
-      expect(store.dispatch.calls.argsFor(0)[0]).toEqual(
+      expect(store.dispatch.mock.calls.0[0]).toEqual(
         new CartActions.CartAddEntry({
           cartId: 'cartId',
           userId: 'userId',
@@ -386,7 +385,7 @@ describe('MultiCartService', () => {
         })
       );
       // @ts-ignore
-      expect(store.dispatch.calls.argsFor(1)[0]).toEqual(
+      expect(store.dispatch.mock.calls.1[0]).toEqual(
         new CartActions.CartAddEntry({
           cartId: 'cartId',
           userId: 'userId',
@@ -425,7 +424,7 @@ describe('MultiCartService', () => {
     });
 
     it('should dispatch RemoveEntry action for quantity = 0', () => {
-      spyOn(service, 'removeEntry').and.callThrough();
+      jest.spyOn(service, 'removeEntry');
 
       service.updateEntry('userId', 'cartId', 0, 0);
 

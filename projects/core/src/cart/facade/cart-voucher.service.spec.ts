@@ -64,7 +64,7 @@ describe('CartVoucherService', () => {
 
   describe('add Voucher', () => {
     it('should dispatch addVoucher action', () => {
-      spyOn(store, 'dispatch').and.stub();
+      jest.spyOn(store, 'dispatch').mockImplementation();
       service.addVoucher(voucherId, cart.code);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -123,7 +123,7 @@ describe('CartVoucherService', () => {
     });
 
     it('should dispatch a reset action', () => {
-      spyOn(store, 'dispatch').and.stub();
+      jest.spyOn(store, 'dispatch').mockImplementation();
       service.resetAddVoucherProcessingState();
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartResetAddVoucher()
@@ -133,7 +133,7 @@ describe('CartVoucherService', () => {
 
   describe('remove Voucher', () => {
     it('should be able to removeVoucher', () => {
-      spyOn(store, 'dispatch').and.stub();
+      jest.spyOn(store, 'dispatch').mockImplementation();
       service.removeVoucher(voucherId);
 
       expect(store.dispatch).toHaveBeenCalledWith(

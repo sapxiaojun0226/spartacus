@@ -6,9 +6,7 @@ import {
 } from './entity.action';
 
 describe('Entity reducer', () => {
-  const testSubReducer = jasmine
-    .createSpy()
-    .and.callFake((state = 'test', action) =>
+  const testSubReducer = jest.fn((state = 'test', action) =>
       action.payload ? action.payload : state
     );
 

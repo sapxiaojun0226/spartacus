@@ -16,10 +16,10 @@ import {
 } from './anonymous-consents-state-persistence.service';
 
 class MockAnonymousConsentsService {
-  getTemplates = jasmine.createSpy();
-  setConsents = jasmine.createSpy();
-  toggleBannerDismissed = jasmine.createSpy();
-  toggleTemplatesUpdated = jasmine.createSpy();
+  getTemplates = jest.fn();
+  setConsents = jest.fn();
+  toggleBannerDismissed = jest.fn();
+  toggleTemplatesUpdated = jest.fn();
 }
 
 const mockConsent: AnonymousConsent = {
@@ -75,8 +75,8 @@ describe('AnonymousConsentsStatePersistenceService', () => {
     store = TestBed.inject(Store);
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
 
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(persistenceService, 'syncWithStorage').and.stub();
+    jest.spyOn(store, 'dispatch');
+    jest.spyOn(persistenceService, 'syncWithStorage').mockImplementation();
   });
 
   it('should inject service', () => {
@@ -92,8 +92,8 @@ describe('AnonymousConsentsStatePersistenceService', () => {
   });
 
   describe('getAuthState()', () => {
-    it('should return the full state', (done: DoneFn) => {
-      spyOn(store, 'select').and.returnValue(of(mockState));
+    it('should return the full state', (done) => {
+      jest.spyOn(store, 'select').mockReturnValue(of(mockState));
 
       service['getAuthState']().subscribe((state) => {
         expect(state).toEqual(mockState);
@@ -102,11 +102,11 @@ describe('AnonymousConsentsStatePersistenceService', () => {
       });
     });
 
-    it('should return the state partially', (done: DoneFn) => {
+    it('should return the state partially', (done) => {
       const partialState = { ...mockState };
       delete partialState.ui;
 
-      spyOn(store, 'select').and.returnValue(of(partialState));
+      jest.spyOn(store, 'select').mockReturnValue(of(partialState));
 
       service['getAuthState']().subscribe((state) => {
         expect(state).toEqual(partialState);

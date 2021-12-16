@@ -2,23 +2,22 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CustomerCouponAdapter } from './customer-coupon.adapter';
 import { CustomerCouponConnector } from './customer-coupon.connector';
-import createSpy = jasmine.createSpy;
 
 const PAGE_SIZE = 5;
 const currentPage = 1;
 const sort = 'byDate';
 
 class MockUserAdapter implements CustomerCouponAdapter {
-  getCustomerCoupons = createSpy('getCustomerCoupons').and.callFake((userId) =>
+  getCustomerCoupons = jest.fn().mockImplementation((userId) =>
     of(`loadList-${userId}`)
   );
-  turnOnNotification = createSpy('turnOnNotification').and.callFake((userId) =>
+  turnOnNotification = jest.fn().mockImplementation((userId) =>
     of(`subscribe-${userId}`)
   );
-  turnOffNotification = createSpy('turnOffNotification').and.returnValue(
+  turnOffNotification = jest.fn().mockReturnValue(
     of({})
   );
-  claimCustomerCoupon = createSpy('claimCustomerCoupon').and.callFake(
+  claimCustomerCoupon = jest.fn().mockImplementation(
     (userId) => of(`claim-${userId}`)
   );
 }

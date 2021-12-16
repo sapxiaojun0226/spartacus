@@ -20,7 +20,7 @@ class SemanticPathServiceStub implements Partial<SemanticPathService> {
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
+  saveCurrentNavigationUrl = jest.fn();
 }
 
 describe('AuthGuard', () => {
@@ -53,7 +53,7 @@ describe('AuthGuard', () => {
 
   describe(', when user is NOT authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+      jest.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
     });
 
     it('should return login url to redirect', () => {
@@ -73,7 +73,7 @@ describe('AuthGuard', () => {
 
   describe(', when user is authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+      jest.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
     });
 
     it('should return true', () => {

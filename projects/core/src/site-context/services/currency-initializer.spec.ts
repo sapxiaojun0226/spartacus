@@ -5,7 +5,6 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { CurrencyService } from '../facade/currency.service';
 import { CurrencyInitializer } from './currency-initializer';
 import { CurrencyStatePersistenceService } from './currency-state-persistence.service';
-import createSpy = jasmine.createSpy;
 
 const mockSiteContextConfig: SiteContextConfig = {
   context: {
@@ -17,13 +16,13 @@ class MockCurrencyService implements Partial<CurrencyService> {
   isInitialized() {
     return false;
   }
-  setActive = createSpy().and.stub();
+  setActive = jest.fn().mockImplementation();
 }
 
 class MockCurrencyStatePersistenceService
   implements Partial<CurrencyStatePersistenceService>
 {
-  initSync = createSpy().and.returnValue(of(EMPTY));
+  initSync = jest.fn().mockReturnValue(of(EMPTY));
 }
 
 class MockConfigInitializerService
@@ -66,7 +65,7 @@ describe('CurrencyInitializer', () => {
 
   describe('initialize', () => {
     it('should call CurrencyStatePersistenceService initSync()', () => {
-      spyOn<any>(initializer, 'setFallbackValue').and.returnValue(of(null));
+      jest.spyOn<any>(initializer, 'setFallbackValue').mockReturnValue(of(null));
       initializer.initialize();
       expect(currencyStatePersistenceService.initSync).toHaveBeenCalled();
       expect(initializer['setFallbackValue']).toHaveBeenCalled();
@@ -78,7 +77,7 @@ describe('CurrencyInitializer', () => {
     });
 
     it('should NOT set default from config is the currency is initialized', () => {
-      spyOn(currencyService, 'isInitialized').and.returnValue(true);
+      jest.spyOn(currencyService, 'isInitialized').mockReturnValue(true);
       initializer.initialize();
       expect(currencyService.setActive).not.toHaveBeenCalled();
     });

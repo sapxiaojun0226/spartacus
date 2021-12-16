@@ -18,7 +18,7 @@ describe('ProductReferenceConverterService', () => {
   it('should convert product reference', inject(
     [ProductReferenceNormalizer],
     (productReferenceConverterService: ProductReferenceNormalizer) => {
-      spyOn(productReferenceConverterService, 'convert');
+      jest.spyOn(productReferenceConverterService, 'convert').mockImplementation(() => {});
       expect(productReferenceConverterService.convert).toBeTruthy();
     }
   ));

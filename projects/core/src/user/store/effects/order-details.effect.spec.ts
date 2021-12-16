@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { Order } from '../../../model/order.model';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
@@ -56,7 +56,7 @@ describe('Order Details effect', () => {
 
   describe('loadOrderDetails$', () => {
     it('should load order details', () => {
-      spyOn(orderConnector, 'get').and.returnValue(of(mockOrderDetails));
+      jest.spyOn(orderConnector, 'get').mockReturnValue(of(mockOrderDetails));
       const action = new UserActions.LoadOrderDetails(mockOrderDetailsParams);
 
       const completion = new UserActions.LoadOrderDetailsSuccess(
@@ -70,7 +70,7 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for load order details', () => {
-      spyOn(orderConnector, 'get').and.returnValue(throwError('Error'));
+      jest.spyOn(orderConnector, 'get').mockReturnValue(throwError('Error'));
 
       const action = new UserActions.LoadOrderDetails(mockOrderDetailsParams);
 
@@ -85,7 +85,7 @@ describe('Order Details effect', () => {
 
   describe('cancelOrder$', () => {
     it('should cancel an order', () => {
-      spyOn(orderConnector, 'cancel').and.returnValue(of({}));
+      jest.spyOn(orderConnector, 'cancel').mockReturnValue(of({}));
 
       const action = new UserActions.CancelOrder(mockCancelOrderParams);
 
@@ -98,7 +98,7 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for cancel an order', () => {
-      spyOn(orderConnector, 'cancel').and.returnValue(throwError('Error'));
+      jest.spyOn(orderConnector, 'cancel').mockReturnValue(throwError('Error'));
 
       const action = new UserActions.CancelOrder(mockCancelOrderParams);
 

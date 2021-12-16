@@ -123,8 +123,8 @@ describe('BadRequestHandler', () => {
     service = TestBed.inject(BadRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(globalMessageService, 'add');
-    spyOn(globalMessageService, 'remove');
+    jest.spyOn(globalMessageService, 'add').mockImplementation(() => {});
+    jest.spyOn(globalMessageService, 'remove').mockImplementation(() => {});
   });
 
   it('should be created', () => {

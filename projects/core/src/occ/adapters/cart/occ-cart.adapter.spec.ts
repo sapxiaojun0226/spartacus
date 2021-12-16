@@ -71,9 +71,9 @@ describe('OccCartAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     occEndpointService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(converterService, 'pipeableMany').and.callThrough();
-    spyOn(occEndpointService, 'buildUrl').and.callThrough();
+    jest.spyOn(converterService, 'pipeable');
+    jest.spyOn(converterService, 'pipeableMany');
+    jest.spyOn(occEndpointService, 'buildUrl');
   });
 
   afterEach(() => {

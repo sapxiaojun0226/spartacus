@@ -94,11 +94,11 @@ describe('AuthService', () => {
 
   describe('checkOAuthParamsInUrl()', () => {
     it('should login user when token is present', async () => {
-      spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
-      spyOn(userIdService, 'setUserId').and.callThrough();
-      spyOn(authRedirectService, 'redirect').and.callThrough();
-      spyOn(store, 'dispatch').and.callThrough();
-      spyOn(authStorageService, 'getItem').and.returnValue('token');
+      jest.spyOn(oAuthLibWrapperService, 'tryLogin');
+      jest.spyOn(userIdService, 'setUserId');
+      jest.spyOn(authRedirectService, 'redirect');
+      jest.spyOn(store, 'dispatch');
+      jest.spyOn(authStorageService, 'getItem').mockReturnValue('token');
 
       await service.checkOAuthParamsInUrl();
 
@@ -111,24 +111,21 @@ describe('AuthService', () => {
 
   describe('loginWithRedirect()', () => {
     it('should initialize login flow', () => {
-      spyOn(oAuthLibWrapperService, 'initLoginFlow').and.callThrough();
+      jest.spyOn(oAuthLibWrapperService, 'initLoginFlow');
 
       const result = service.loginWithRedirect();
 
-      expect(result).toBeTrue();
+      expect(result).toBeTruthy();
       expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
     });
   });
 
   describe('loginWithCredentials()', () => {
     it('should login user', async () => {
-      spyOn(
-        oAuthLibWrapperService,
-        'authorizeWithPasswordFlow'
-      ).and.callThrough();
-      spyOn(userIdService, 'setUserId').and.callThrough();
-      spyOn(authRedirectService, 'redirect').and.callThrough();
-      spyOn(store, 'dispatch').and.callThrough();
+      jest.spyOn(oAuthLibWrapperService, 'authorizeWithPasswordFlow');
+      jest.spyOn(userIdService, 'setUserId');
+      jest.spyOn(authRedirectService, 'redirect');
+      jest.spyOn(store, 'dispatch');
 
       await service.loginWithCredentials('username', 'pass');
 
@@ -143,9 +140,9 @@ describe('AuthService', () => {
 
   describe('coreLogout()', () => {
     it('should revoke tokens and logout', async () => {
-      spyOn(userIdService, 'clearUserId').and.callThrough();
-      spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callThrough();
-      spyOn(store, 'dispatch').and.callThrough();
+      jest.spyOn(userIdService, 'clearUserId');
+      jest.spyOn(oAuthLibWrapperService, 'revokeAndLogout');
+      jest.spyOn(store, 'dispatch');
 
       await service.coreLogout();
 
@@ -164,19 +161,19 @@ describe('AuthService', () => {
         .isUserLoggedIn()
         .pipe(take(1))
         .subscribe((result) => {
-          expect(result).toBeTrue();
+          expect(result).toBeTruthy();
           done();
         });
     });
 
     it('should return false when there is not access_token', (done) => {
-      spyOn(authStorageService, 'getToken').and.returnValue(of(undefined));
+      jest.spyOn(authStorageService, 'getToken').mockReturnValue(of(undefined));
 
       service
         .isUserLoggedIn()
         .pipe(take(1))
         .subscribe((result) => {
-          expect(result).toBeFalse();
+          expect(result).toBeFalsy();
           done();
         });
     });
@@ -184,7 +181,7 @@ describe('AuthService', () => {
 
   describe('initLogout()', () => {
     it('should redirect url to logout page', () => {
-      spyOn(routingService, 'go').and.callThrough();
+      jest.spyOn(routingService, 'go');
 
       service.logout();
 

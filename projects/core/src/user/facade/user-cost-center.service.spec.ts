@@ -39,7 +39,7 @@ describe('PaymentTypeService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
     service = TestBed.inject(UserCostCenterService);
   });
 
@@ -70,7 +70,7 @@ describe('PaymentTypeService', () => {
   });
 
   it('should be able to get the active Cost Centers after trigger data loading when they do not exist', () => {
-    spyOn(service, 'loadActiveCostCenters').and.callThrough();
+    jest.spyOn(service, 'loadActiveCostCenters');
 
     let costCenter: CostCenter[];
     service

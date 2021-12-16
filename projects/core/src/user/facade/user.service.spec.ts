@@ -35,7 +35,7 @@ describe('UserService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should UserService is injected', inject(

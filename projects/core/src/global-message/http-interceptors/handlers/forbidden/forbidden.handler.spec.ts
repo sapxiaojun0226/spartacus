@@ -54,8 +54,8 @@ describe('ForbiddenHandler', () => {
   });
 
   it('should logout unauthorized user while logging', () => {
-    spyOn(authService, 'logout');
-    spyOn(occEndpoints, 'buildUrl').and.returnValue('/user');
+    jest.spyOn(authService, 'logout').mockImplementation(() => {});
+    jest.spyOn(occEndpoints, 'buildUrl').mockReturnValue('/user');
     service.handleError({ url: '/user' });
 
     expect(occEndpoints.buildUrl).toHaveBeenCalledWith('user', {
@@ -65,14 +65,14 @@ describe('ForbiddenHandler', () => {
   });
 
   it('should not logout unauthorized user in other case', () => {
-    spyOn(authService, 'logout');
+    jest.spyOn(authService, 'logout').mockImplementation(() => {});
 
     service.handleError({ url: '' });
     expect(authService.logout).not.toHaveBeenCalled();
   });
 
   it('should send common error to global message service', () => {
-    spyOn(globalMessageService, 'add');
+    jest.spyOn(globalMessageService, 'add').mockImplementation(() => {});
 
     service.handleError({ url: '' });
     expect(globalMessageService.add).toHaveBeenCalledWith(

@@ -2,14 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UserPaymentAdapter } from './user-payment.adapter';
 import { UserPaymentConnector } from './user-payment.connector';
-import createSpy = jasmine.createSpy;
 
 class MockUserPaymentAdapter implements UserPaymentAdapter {
-  delete = createSpy('load').and.returnValue(of({}));
-  loadAll = createSpy('loadAll').and.callFake((userId) =>
+  delete = jest.fn().mockReturnValue(of({}));
+  loadAll = jest.fn().mockImplementation((userId) =>
     of(`loadList-${userId}`)
   );
-  setDefault = createSpy('setDefault').and.returnValue(of({}));
+  setDefault = jest.fn().mockReturnValue(of({}));
 }
 
 describe('UserPaymentConnector', () => {

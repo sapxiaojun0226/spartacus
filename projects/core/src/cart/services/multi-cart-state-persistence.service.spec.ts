@@ -44,8 +44,8 @@ describe('MultiCartStatePersistenceService', () => {
     persistenceService = TestBed.inject(StatePersistenceService);
     siteContextParamsService = TestBed.inject(SiteContextParamsService);
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.stub();
-    spyOn(persistenceService, 'syncWithStorage').and.stub();
+    jest.spyOn(store, 'dispatch').mockImplementation();
+    jest.spyOn(persistenceService, 'syncWithStorage').mockImplementation();
   });
 
   it('should inject service', () => {
@@ -77,12 +77,12 @@ describe('MultiCartStatePersistenceService', () => {
   it('should call persistenceService with correct attributes', () => {
     const state$ = of('');
     const context$ = of(['']);
-    spyOn(siteContextParamsService, 'getValues').and.returnValue(context$);
-    spyOn(service as any, 'getCartState').and.returnValue(state$);
+    jest.spyOn(siteContextParamsService, 'getValues').mockReturnValue(context$);
+    jest.spyOn(service as any, 'getCartState').mockReturnValue(state$);
 
     service.initSync();
     expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
-      jasmine.objectContaining({
+      expect.objectContaining({
         key: 'cart',
         context$,
         state$,

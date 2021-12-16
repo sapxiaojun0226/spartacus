@@ -3,7 +3,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Action, Store, StoreModule } from '@ngrx/store';
-import { cold, getTestScheduler, hot } from 'jasmine-marbles';
+import { cold, getTestScheduler, hot } from 'jest-marbles';
 import { NEVER, Observable, of, Subject, timer } from 'rxjs';
 import { delay, switchMap, take } from 'rxjs/operators';
 import { CxEvent } from '../../event/cx-event';
@@ -14,16 +14,15 @@ import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductLoadingService } from './product-loading.service';
-import createSpy = jasmine.createSpy;
 
 class MyEvent extends CxEvent {}
 
 class MockLoadingScopesService {
-  expand = createSpy('expand').and.callFake(
+  expand = jest.fn().mockImplementation(
     (_: string, scopes: string[]) => scopes
   );
-  getMaxAge = createSpy('getMaxAge').and.returnValue(0);
-  getReloadTriggers = createSpy('getReloadTriggers').and.returnValue([MyEvent]);
+  getMaxAge = jest.fn().mockReturnValue(0);
+  getReloadTriggers = jest.fn().mockReturnValue([MyEvent]);
 }
 
 class MockEventService implements Partial<EventService> {
@@ -78,7 +77,7 @@ describe('ProductLoadingService', () => {
 
   describe('get(productCode)', () => {
     it('should be able to get product by code', async () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      jest.spyOn(ngrxStore, 'select').mockImplementation(
         () => () => of(mockProduct)
       );
       const result: Product = await service.get(code, ['']).toPromise();
@@ -217,7 +216,7 @@ describe('ProductLoadingService', () => {
 
   describe('get(productCode)', () => {
     it('should be able to trigger the product load action for a product.', async () => {
-      spyOn(store, 'dispatch').and.stub();
+      jest.spyOn(store, 'dispatch').mockImplementation();
 
       await service
         .get('productCode', [''])
@@ -233,7 +232,7 @@ describe('ProductLoadingService', () => {
     });
 
     it('should not trigger multiple product load actions for multiple product subscription.', async () => {
-      spyOn(store, 'dispatch').and.stub();
+      jest.spyOn(store, 'dispatch').mockImplementation();
 
       service.get('productCode', ['']).pipe(take(1)).subscribe();
       await service

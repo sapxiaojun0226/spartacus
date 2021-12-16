@@ -9,7 +9,7 @@ import {
   NotificationType,
   ProductInterestSearchResult,
 } from '../../../model/product-interest.model';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
 import { UserInterestsAdapter } from '../../connectors/interests/user-interests.adapter';
 
@@ -49,7 +49,7 @@ describe('Product Interests Effect', () => {
         sorts: [],
         pagination: {},
       };
-      spyOn(userInterestConnector, 'getInterests').and.returnValue(
+      jest.spyOn(userInterestConnector, 'getInterests').mockReturnValue(
         of(interests)
       );
       const action = new UserActions.LoadProductInterests(loadParams);
@@ -62,7 +62,7 @@ describe('Product Interests Effect', () => {
       );
     });
     it('should be able to handle failures for load product interests', () => {
-      spyOn(userInterestConnector, 'getInterests').and.returnValue(
+      jest.spyOn(userInterestConnector, 'getInterests').mockReturnValue(
         throwError('Error')
       );
       const action = new UserActions.LoadProductInterests(loadParams);
@@ -99,7 +99,7 @@ describe('Product Interests Effect', () => {
 
     it('should be able to remove product interests', () => {
       const delRes = '200';
-      spyOn(userInterestConnector, 'removeInterest').and.returnValue(
+      jest.spyOn(userInterestConnector, 'removeInterest').mockReturnValue(
         of([delRes])
       );
       const action = new UserActions.RemoveProductInterest(delParams);
@@ -119,7 +119,7 @@ describe('Product Interests Effect', () => {
 
     it('should be able to remove single product interest', () => {
       const delRes = '200';
-      spyOn(userInterestConnector, 'removeInterest').and.returnValue(
+      jest.spyOn(userInterestConnector, 'removeInterest').mockReturnValue(
         of([delRes])
       );
       const removeAction = new UserActions.RemoveProductInterest(delParams1);
@@ -140,7 +140,7 @@ describe('Product Interests Effect', () => {
     });
 
     it('should be able to handle failures for remove product interest', () => {
-      spyOn(userInterestConnector, 'removeInterest').and.returnValue(
+      jest.spyOn(userInterestConnector, 'removeInterest').mockReturnValue(
         throwError('Error')
       );
       const action = new UserActions.RemoveProductInterest(delParams);

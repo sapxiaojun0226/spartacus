@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
@@ -44,7 +44,7 @@ describe('User Replenishment Orders effect', () => {
 
   describe('loadUserReplenishmentOrders$', () => {
     it('should load User Replenishment Orders', () => {
-      spyOn(replenishmentOrderConnector, 'loadHistory').and.returnValue(
+      jest.spyOn(replenishmentOrderConnector, 'loadHistory').mockReturnValue(
         of(mockUserReplenishmentOrders)
       );
       const action = new UserActions.LoadUserReplenishmentOrders({
@@ -65,7 +65,7 @@ describe('User Replenishment Orders effect', () => {
     });
 
     it('should handle failures for load user Replenishment Orders', () => {
-      spyOn(replenishmentOrderConnector, 'loadHistory').and.returnValue(
+      jest.spyOn(replenishmentOrderConnector, 'loadHistory').mockReturnValue(
         throwError('Error')
       );
 

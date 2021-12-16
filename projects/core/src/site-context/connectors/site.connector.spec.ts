@@ -3,7 +3,6 @@ import { CountryType } from '@spartacus/core';
 import { of } from 'rxjs';
 import { SiteAdapter } from './site.adapter';
 import { SiteConnector } from './site.connector';
-import createSpy = jasmine.createSpy;
 
 const mockLanguages = ['l', 'a', 'n', 'g'];
 const mockCurrencies = ['c', 'u', 'r', 'r'];
@@ -11,27 +10,27 @@ const mockBaseSite = { uid: 'test-uid' };
 const mockBaseSites = [{ uid: 'test-uid' }];
 
 class MockSiteAdapter implements SiteAdapter {
-  loadCurrencies = createSpy('SiteAdapter.loadCurrencies').and.callFake(() =>
+  loadCurrencies = jest.fn().mockImplementation(() =>
     of(mockCurrencies)
   );
 
-  loadLanguages = createSpy('SiteAdapter.loadLanguages').and.callFake(() =>
+  loadLanguages = jest.fn().mockImplementation(() =>
     of(mockLanguages)
   );
 
-  loadCountries = createSpy('SiteAdapter.loadCountries').and.returnValue(
+  loadCountries = jest.fn().mockReturnValue(
     of([])
   );
 
-  loadRegions = createSpy('SiteAdapter.loadRegions').and.callFake(
+  loadRegions = jest.fn().mockImplementation(
     (countryCode) => of(`loadRegions-${countryCode}`)
   );
 
-  loadBaseSite = createSpy('SiteAdapter.loadBaseSite').and.callFake(() =>
+  loadBaseSite = jest.fn().mockImplementation(() =>
     of(mockBaseSite)
   );
 
-  loadBaseSites = createSpy('SiteAdapter.loadBaseSites').and.callFake(() =>
+  loadBaseSites = jest.fn().mockImplementation(() =>
     of(mockBaseSites)
   );
 }

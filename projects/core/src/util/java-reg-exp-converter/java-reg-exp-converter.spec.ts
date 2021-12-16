@@ -51,12 +51,12 @@ describe(`JavaRegExpConverter`, () => {
     });
 
     it(`should return null for unsupported JS modifiers`, () => {
-      spyOn(console, 'warn');
+      jest.spyOn(console, 'warn').mockImplementation(() => {});
       test_toJsRegExp({ input: '(?iX)pattern', expected: null });
     });
 
     it(`should return null for unsupported JS regexp features`, () => {
-      spyOn(console, 'warn');
+      jest.spyOn(console, 'warn').mockImplementation(() => {});
       test_toJsRegExp({ input: 'x*+', expected: null });
     });
 

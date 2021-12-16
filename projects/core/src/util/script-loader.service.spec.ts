@@ -43,8 +43,8 @@ describe('ScriptLoader', () => {
   });
 
   it('should add script with params and load/error callbacks', () => {
-    spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    spyOn(jsDomElement, 'addEventListener').and.callThrough();
+    jest.spyOn(documentMock, 'createElement').mockReturnValue(jsDomElement);
+    jest.spyOn(jsDomElement, 'addEventListener');
     const params = { param1: 'value1', param2: 'value2' };
 
     scriptLoader.embedScript({
@@ -70,7 +70,7 @@ describe('ScriptLoader', () => {
   });
 
   it('should add script with attributes', () => {
-    spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
+    jest.spyOn(documentMock, 'createElement').mockReturnValue(jsDomElement);
 
     scriptLoader.embedScript({
       src: SCRIPT_LOAD_URL,
@@ -89,8 +89,8 @@ describe('ScriptLoader', () => {
   });
 
   it('should be able to add script in body element', () => {
-    spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    spyOn(documentMock.body, 'appendChild').and.callThrough();
+    jest.spyOn(documentMock, 'createElement').mockReturnValue(jsDomElement);
+    jest.spyOn(documentMock.body, 'appendChild');
 
     scriptLoader.embedScript({
       src: SCRIPT_LOAD_URL,
@@ -124,7 +124,7 @@ describe('with SSR', () => {
   });
 
   it('should skip during SSR if there is callback or errorCallback', () => {
-    spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
+    jest.spyOn(documentMock, 'createElement').mockReturnValue(jsDomElement);
 
     scriptLoader.embedScript({
       src: SCRIPT_LOAD_URL,
@@ -137,7 +137,7 @@ describe('with SSR', () => {
   });
 
   it('should add script during SSR', () => {
-    spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
+    jest.spyOn(documentMock, 'createElement').mockReturnValue(jsDomElement);
     scriptLoader.embedScript({
       src: SCRIPT_LOAD_URL,
       params: undefined,

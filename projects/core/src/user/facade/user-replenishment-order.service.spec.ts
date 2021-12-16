@@ -67,7 +67,7 @@ describe('UserReplenishmentOrderService', () => {
     userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should create', () => {
@@ -89,7 +89,7 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should NOT be able to load replenishment order details when user is anonymous', () => {
-      spyOn(userIdService, 'takeUserId').and.callFake(() => {
+      jest.spyOn(userIdService, 'takeUserId').mockImplementation(() => {
         return throwError('Error');
       });
 
@@ -190,7 +190,7 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should NOT be able to load replenishment order details when user is anonymous', () => {
-      spyOn(userIdService, 'takeUserId').and.callFake(() => {
+      jest.spyOn(userIdService, 'takeUserId').mockImplementation(() => {
         return throwError('Error');
       });
 

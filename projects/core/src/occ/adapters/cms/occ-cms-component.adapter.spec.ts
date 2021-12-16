@@ -72,8 +72,8 @@ describe('OccCmsComponentAdapter', () => {
     converter = TestBed.inject(ConverterService);
     endpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
+    jest.spyOn(converter, 'pipeable');
+    jest.spyOn(converter, 'pipeableMany');
   });
 
   afterEach(() => {
@@ -145,7 +145,7 @@ describe('OccCmsComponentAdapter', () => {
   });
 
   function spyOnEndpoint(requestUrl: string): jasmine.Spy {
-    return spyOn(endpointsService, 'buildUrl').and.returnValue(requestUrl);
+    return jest.spyOn(endpointsService, 'buildUrl').mockReturnValue(requestUrl);
   }
 
   function mockHttpRequest(

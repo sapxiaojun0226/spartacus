@@ -5,7 +5,6 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { LanguageService } from '../facade/language.service';
 import { LanguageInitializer } from './language-initializer';
 import { LanguageStatePersistenceService } from './language-state-persistence.service';
-import createSpy = jasmine.createSpy;
 
 const mockSiteContextConfig: SiteContextConfig = {
   context: {
@@ -17,13 +16,13 @@ class MockLanguageService implements Partial<LanguageService> {
   isInitialized() {
     return false;
   }
-  setActive = createSpy().and.stub();
+  setActive = jest.fn().mockImplementation();
 }
 
 class MockLanguageStatePersistenceService
   implements Partial<LanguageStatePersistenceService>
 {
-  initSync = createSpy().and.returnValue(of(EMPTY));
+  initSync = jest.fn().mockReturnValue(of(EMPTY));
 }
 
 class MockConfigInitializerService
@@ -66,7 +65,7 @@ describe('LanguageInitializer', () => {
 
   describe('initialize', () => {
     it('should call LanguageStatePersistenceService initSync()', () => {
-      spyOn<any>(initializer, 'setFallbackValue').and.returnValue(of(null));
+      jest.spyOn<any>(initializer, 'setFallbackValue').mockReturnValue(of(null));
       initializer.initialize();
       expect(languageStatePersistenceService.initSync).toHaveBeenCalled();
       expect(initializer['setFallbackValue']).toHaveBeenCalled();
@@ -78,7 +77,7 @@ describe('LanguageInitializer', () => {
     });
 
     it('should NOT set default from config is the language is initialized', () => {
-      spyOn(languageService, 'isInitialized').and.returnValue(true);
+      jest.spyOn(languageService, 'isInitialized').mockReturnValue(true);
       initializer.initialize();
       expect(languageService.setActive).not.toHaveBeenCalled();
     });

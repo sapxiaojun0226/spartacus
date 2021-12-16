@@ -33,9 +33,9 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     adapter = TestBed.inject(OccAnonymousConsentTemplatesAdapter);
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    jest.spyOn(converter, 'pipeable');
+    jest.spyOn(converter, 'pipeableMany');
+    jest.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

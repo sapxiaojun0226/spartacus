@@ -40,9 +40,9 @@ describe('OccUserConsentAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    jest.spyOn(converter, 'pipeableMany');
+    jest.spyOn(converter, 'pipeable');
+    jest.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {

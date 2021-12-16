@@ -68,7 +68,7 @@ describe('AnonymousConsentsService', () => {
     service = TestBed.inject(AnonymousConsentsService);
     store = TestBed.inject(Store);
     authService = TestBed.inject(AuthService);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should be created', () => {
@@ -85,7 +85,7 @@ describe('AnonymousConsentsService', () => {
   describe('getTemplates', () => {
     describe('when load parameter is false', () => {
       it('should just call getAnonymousConsentTemplatesValue selector', () => {
-        spyOn(service, 'loadTemplates').and.stub();
+        jest.spyOn(service, 'loadTemplates').mockImplementation();
         store.dispatch(
           new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
             mockConsentTemplates
@@ -103,22 +103,22 @@ describe('AnonymousConsentsService', () => {
     });
     describe('when load parameter is true', () => {
       it('should not attempt the load if already loading', () => {
-        spyOn(service, 'loadTemplates').and.stub();
-        spyOn(service, 'getLoadTemplatesLoading').and.returnValue(of(true));
+        jest.spyOn(service, 'loadTemplates').mockImplementation();
+        jest.spyOn(service, 'getLoadTemplatesLoading').mockReturnValue(of(true));
 
         service.getTemplates(true).subscribe().unsubscribe();
         expect(service.loadTemplates).not.toHaveBeenCalled();
       });
       it('should attempt the load if NOT already loading and templates are undefined', () => {
-        spyOn(service, 'loadTemplates').and.stub();
-        spyOn(service, 'getLoadTemplatesLoading').and.returnValue(of(false));
+        jest.spyOn(service, 'loadTemplates').mockImplementation();
+        jest.spyOn(service, 'getLoadTemplatesLoading').mockReturnValue(of(false));
 
         service.getTemplates(true).subscribe().unsubscribe();
         expect(service.loadTemplates).toHaveBeenCalled();
       });
       it('should NOT attempt the load if templates already exist', () => {
-        spyOn(service, 'loadTemplates').and.stub();
-        spyOn(service, 'getLoadTemplatesLoading').and.returnValue(of(false));
+        jest.spyOn(service, 'loadTemplates').mockImplementation();
+        jest.spyOn(service, 'getLoadTemplatesLoading').mockReturnValue(of(false));
         store.dispatch(
           new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
             mockConsentTemplates
@@ -217,8 +217,8 @@ describe('AnonymousConsentsService', () => {
   describe('getConsent', () => {
     describe('when the user is anonymous', () => {
       it('should call getAnonymousConsentByTemplateCode selector', () => {
-        spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-        spyOn(service, 'getTemplates').and.returnValue(
+        jest.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
+        jest.spyOn(service, 'getTemplates').mockReturnValue(
           of(mockConsentTemplates)
         );
         store.dispatch(
@@ -237,8 +237,8 @@ describe('AnonymousConsentsService', () => {
     });
     describe('when the user is NOT anonymous', () => {
       it('should not call getTemplates()', () => {
-        spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-        spyOn(service, 'getTemplates').and.stub();
+        jest.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+        jest.spyOn(service, 'getTemplates').mockImplementation();
 
         service.getConsent(mockTemplateId).subscribe().unsubscribe();
 
@@ -255,8 +255,8 @@ describe('AnonymousConsentsService', () => {
   });
 
   it('giveAllConsents should give anonymous consent for each consent template', () => {
-    spyOn(service, 'getTemplates').and.returnValue(of(mockConsentTemplates));
-    spyOn(service, 'giveConsent').and.stub();
+    jest.spyOn(service, 'getTemplates').mockReturnValue(of(mockConsentTemplates));
+    jest.spyOn(service, 'giveConsent').mockImplementation();
 
     service.giveAllConsents().subscribe().unsubscribe();
 
@@ -289,8 +289,8 @@ describe('AnonymousConsentsService', () => {
   });
 
   it('withdrawAllConsents should withdraw anonymous consent for each consent template', () => {
-    spyOn(service, 'getTemplates').and.returnValue(of(mockConsentTemplates));
-    spyOn(service, 'withdrawConsent').and.stub();
+    jest.spyOn(service, 'getTemplates').mockReturnValue(of(mockConsentTemplates));
+    jest.spyOn(service, 'withdrawConsent').mockImplementation();
 
     service.withdrawAllConsents().subscribe().unsubscribe();
 
@@ -317,8 +317,8 @@ describe('AnonymousConsentsService', () => {
 
   describe('isBannerVisible', () => {
     it('should return true if isBannerDismissed() returns false', () => {
-      spyOn(service, 'isBannerDismissed').and.returnValue(of(false));
-      spyOn(service, 'getTemplatesUpdated').and.returnValue(of(false));
+      jest.spyOn(service, 'isBannerDismissed').mockReturnValue(of(false));
+      jest.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(false));
 
       let result = false;
       service
@@ -331,8 +331,8 @@ describe('AnonymousConsentsService', () => {
       expect(result).toEqual(true);
     });
     it('should return true if getTemplatesUpdated() returns true', () => {
-      spyOn(service, 'isBannerDismissed').and.returnValue(of(true));
-      spyOn(service, 'getTemplatesUpdated').and.returnValue(of(true));
+      jest.spyOn(service, 'isBannerDismissed').mockReturnValue(of(true));
+      jest.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(true));
 
       let result = false;
       service
@@ -346,8 +346,8 @@ describe('AnonymousConsentsService', () => {
     });
 
     it('should return false if isBannerDismissed() returns true and getTemplatesUpdated() returns false', () => {
-      spyOn(service, 'isBannerDismissed').and.returnValue(of(true));
-      spyOn(service, 'getTemplatesUpdated').and.returnValue(of(false));
+      jest.spyOn(service, 'isBannerDismissed').mockReturnValue(of(true));
+      jest.spyOn(service, 'getTemplatesUpdated').mockReturnValue(of(false));
 
       let result = true;
       service
@@ -371,7 +371,7 @@ describe('AnonymousConsentsService', () => {
       );
     });
     it('should dispatch ToggleAnonymousConsentsBannerDissmissed action and call toggleTemplatesUpdated(false) when showing', () => {
-      spyOn(service, 'toggleTemplatesUpdated').and.stub();
+      jest.spyOn(service, 'toggleTemplatesUpdated').mockImplementation();
       service.toggleBannerDismissed(true);
       expect(store.dispatch).toHaveBeenCalledWith(
         new AnonymousConsentsActions.ToggleAnonymousConsentsBannerDissmissed(
@@ -399,7 +399,7 @@ describe('AnonymousConsentsService', () => {
 
   describe('getTemplatesUpdated', () => {
     it('should call getAnonymousConsentTemplatesUpdate selector and getTemplates(true)', () => {
-      spyOn(service, 'getTemplates').and.returnValue(of([]));
+      jest.spyOn(service, 'getTemplates').mockReturnValue(of([]));
       store.dispatch(
         new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
           false

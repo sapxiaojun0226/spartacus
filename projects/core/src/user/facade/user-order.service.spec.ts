@@ -54,7 +54,7 @@ describe('UserOrderService', () => {
     routingService = TestBed.inject(RoutingService);
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should UserOrderService is injected', inject(
@@ -147,7 +147,7 @@ describe('UserOrderService', () => {
   });
 
   it('should be able to load order list data when replenishment order code is defined', () => {
-    spyOn(routingService, 'getRouterState').and.returnValue(
+    jest.spyOn(routingService, 'getRouterState').mockReturnValue(
       of({
         state: {
           params: {
@@ -171,7 +171,7 @@ describe('UserOrderService', () => {
   });
 
   it('should NOT load order list data when user is anonymous', () => {
-    spyOn(userIdService, 'takeUserId').and.callFake(() => {
+    jest.spyOn(userIdService, 'takeUserId').mockImplementation(() => {
       return throwError('Error');
     });
 

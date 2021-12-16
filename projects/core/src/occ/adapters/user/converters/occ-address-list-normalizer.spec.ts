@@ -7,10 +7,9 @@ import {
 } from '@spartacus/core';
 import { OccAddressListNormalizer } from './occ-address-list-normalizer';
 
-import createSpy = jasmine.createSpy;
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+  buildUrl = jest.fn().mockImplementation(
     // eslint-disable-next-line no-shadow
     (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url)
   );

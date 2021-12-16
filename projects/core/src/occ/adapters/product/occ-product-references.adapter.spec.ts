@@ -8,7 +8,6 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductReferencesAdapter } from './occ-product-references.adapter';
-import createSpy = jasmine.createSpy;
 
 const productCode = 'productCode';
 const product = {
@@ -26,14 +25,14 @@ const productReferences: Occ.ProductReferenceList = {
 const endpoint = '/productReferences';
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.returnValue(
+  buildUrl = jest.fn().mockReturnValue(
     endpoint
   );
 }
 
 class MockConvertService {
-  convert = createSpy().and.callFake((x) => x);
-  pipeable = createSpy().and.returnValue((x) => x);
+  convert = jest.fn().mockImplementation((x) => x);
+  pipeable = jest.fn().mockReturnValue((x) => x);
 }
 
 describe('OccProductReferencesAdapter', () => {

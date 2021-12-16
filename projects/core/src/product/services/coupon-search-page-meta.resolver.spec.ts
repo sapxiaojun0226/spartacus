@@ -34,13 +34,15 @@ const mockProductPage: Page = {
 describe('CouponSearchPageResolver', () => {
   let service: CouponSearchPageResolver;
   let route: ActivatedRoute;
-  const authService = jasmine.createSpyObj('AuthService', ['isUserLoggedIn']);
-  const semanticPathService = jasmine.createSpyObj('SemanticPathService', [
-    'transform',
-  ]);
+  const authService = {
+    'isUserLoggedIn': jest.fn()
+  };
+  const semanticPathService = {
+    'transform': jest.fn()
+  };
 
   class MockActivatedRoute {
-    getSnapshot = jasmine.createSpy('getSnapshot');
+    getSnapshot = jest.fn();
     // we need to spyOnProperty...
     get snapshot() {
       return this.getSnapshot();
@@ -80,7 +82,7 @@ describe('CouponSearchPageResolver', () => {
   describe('scoring', () => {
     describe('with coupon', () => {
       beforeEach(() => {
-        spyOnProperty(route, 'snapshot').and.returnValue({
+        jest.spyOn(route, 'snapshot', 'get').mockReturnValue({
           queryParams: {
             couponcode: 'a',
           } as Params,
@@ -101,7 +103,7 @@ describe('CouponSearchPageResolver', () => {
 
     describe('without coupon', () => {
       beforeEach(() => {
-        spyOnProperty(route, 'snapshot').and.returnValue({});
+        jest.spyOn(route, 'snapshot', 'get').mockReturnValue({});
       });
 
       it('should score 1 for search page without couponcode', () => {
@@ -120,7 +122,7 @@ describe('CouponSearchPageResolver', () => {
 
   describe('resolve metadata', () => {
     beforeEach(() => {
-      spyOnProperty(route, 'snapshot').and.returnValue({
+      jest.spyOn(route, 'snapshot', 'get').mockReturnValue({
         queryParams: {
           couponcode: 'coupon1',
         } as Params,
@@ -139,7 +141,7 @@ describe('CouponSearchPageResolver', () => {
     });
 
     it('should resolve 1 breadcrumbs for anonymous search', () => {
-      authService.isUserLoggedIn.and.returnValue(of(false));
+      authService.isUserLoggedIn.mockReturnValue(of(false));
 
       let result: BreadcrumbMeta[];
       service
@@ -152,7 +154,7 @@ describe('CouponSearchPageResolver', () => {
     });
 
     it('should resolve 2 breadcrumbs for known user search', () => {
-      authService.isUserLoggedIn.and.returnValue(of(true));
+      authService.isUserLoggedIn.mockReturnValue(of(true));
 
       let result: BreadcrumbMeta[];
       service

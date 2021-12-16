@@ -6,9 +6,7 @@ describe('ProductEventModule', () => {
   let productEventBuilderFactory;
 
   beforeEach(() => {
-    productEventBuilderFactory = jasmine.createSpy(
-      'productEventBuilderFactory'
-    );
+    productEventBuilderFactory = jest.fn();
     TestBed.configureTestingModule({
       providers: [
         {

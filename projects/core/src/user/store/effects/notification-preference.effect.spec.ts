@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { UserNotificationPreferenceConnector } from '../../connectors/notification-preference/user-notification-preference.connector';
 import { UserNotificationPreferenceAdapter } from '../../connectors/notification-preference/user-notification-preference.adapter';
@@ -44,7 +44,7 @@ describe('Notification Preference Effect', () => {
 
   describe('LoadNotificationPreference$', () => {
     it('should return LoadNotificationPreferencesSuccess action', () => {
-      spyOn(userNotificationPreferenceConnector, 'loadAll').and.returnValue(
+      jest.spyOn(userNotificationPreferenceConnector, 'loadAll').mockReturnValue(
         of(mockNotificationPreference)
       );
 
@@ -62,7 +62,7 @@ describe('Notification Preference Effect', () => {
     });
 
     it('should return LoadNotificationPreferencesFail action', () => {
-      spyOn(userNotificationPreferenceConnector, 'loadAll').and.returnValue(
+      jest.spyOn(userNotificationPreferenceConnector, 'loadAll').mockReturnValue(
         throwError(error)
       );
 
@@ -82,7 +82,7 @@ describe('Notification Preference Effect', () => {
 
   describe('updateNotificationPreferences$', () => {
     it('should return NotificationPreferencesSuccess action', () => {
-      spyOn(userNotificationPreferenceConnector, 'update').and.returnValue(
+      jest.spyOn(userNotificationPreferenceConnector, 'update').mockReturnValue(
         of(mockNotificationPreference)
       );
 
@@ -103,7 +103,7 @@ describe('Notification Preference Effect', () => {
     });
 
     it('should return NotificationPreferencesFail action', () => {
-      spyOn(userNotificationPreferenceConnector, 'update').and.returnValue(
+      jest.spyOn(userNotificationPreferenceConnector, 'update').mockReturnValue(
         throwError(error)
       );
 

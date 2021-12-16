@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import {
   ReturnRequest,
@@ -59,7 +59,7 @@ describe('Order Return Request effect', () => {
 
   describe('createReturnRequest$', () => {
     it('should create order return request', () => {
-      spyOn(orderConnector, 'return').and.returnValue(of(mockReturnRequest));
+      jest.spyOn(orderConnector, 'return').mockReturnValue(of(mockReturnRequest));
       const action = new UserActions.CreateOrderReturnRequest({
         userId: 'userId',
         returnRequestInput,
@@ -78,7 +78,7 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for create order return request', () => {
-      spyOn(orderConnector, 'return').and.returnValue(throwError('Error'));
+      jest.spyOn(orderConnector, 'return').mockReturnValue(throwError('Error'));
 
       const action = new UserActions.CreateOrderReturnRequest({
         userId: 'userId',
@@ -100,7 +100,7 @@ describe('Order Return Request effect', () => {
 
   describe('loadReturnRequestList$', () => {
     it('should load return request list', () => {
-      spyOn(orderConnector, 'getReturnRequestList').and.returnValue(
+      jest.spyOn(orderConnector, 'getReturnRequestList').mockReturnValue(
         of(mockReturnRequestList)
       );
       const action = new UserActions.LoadOrderReturnRequestList({
@@ -121,7 +121,7 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for load return request list', () => {
-      spyOn(orderConnector, 'getReturnRequestList').and.returnValue(
+      jest.spyOn(orderConnector, 'getReturnRequestList').mockReturnValue(
         throwError('Error')
       );
       const action = new UserActions.LoadOrderReturnRequestList({
@@ -144,7 +144,7 @@ describe('Order Return Request effect', () => {
 
   describe('loadReturnRequest$', () => {
     it('should load an order return request', () => {
-      spyOn(orderConnector, 'getReturnRequestDetail').and.returnValue(
+      jest.spyOn(orderConnector, 'getReturnRequestDetail').mockReturnValue(
         of(mockReturnRequest)
       );
       const action = new UserActions.LoadOrderReturnRequest({
@@ -165,7 +165,7 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for load an order return request', () => {
-      spyOn(orderConnector, 'getReturnRequestDetail').and.returnValue(
+      jest.spyOn(orderConnector, 'getReturnRequestDetail').mockReturnValue(
         throwError('Error')
       );
 
@@ -187,7 +187,7 @@ describe('Order Return Request effect', () => {
 
   describe('cancelReturnRequest$', () => {
     it('should cancel return request', () => {
-      spyOn(orderConnector, 'cancelReturnRequest').and.returnValue(of({}));
+      jest.spyOn(orderConnector, 'cancelReturnRequest').mockReturnValue(of({}));
 
       const action = new UserActions.CancelOrderReturnRequest(
         mockCancelReturnRequest
@@ -204,7 +204,7 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for cancel return request', () => {
-      spyOn(orderConnector, 'cancelReturnRequest').and.returnValue(
+      jest.spyOn(orderConnector, 'cancelReturnRequest').mockReturnValue(
         throwError('Error')
       );
 

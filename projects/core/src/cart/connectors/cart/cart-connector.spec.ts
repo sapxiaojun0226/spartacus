@@ -2,16 +2,15 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CartAdapter } from './cart.adapter';
 import { CartConnector } from './cart.connector';
-import createSpy = jasmine.createSpy;
 
 class MockCartAdapter implements CartAdapter {
-  create = createSpy().and.callFake((id) => of('create' + id));
-  load = createSpy().and.callFake((user, cart) => of('load' + user + cart));
-  loadAll = createSpy().and.callFake((user) => of('loadAll' + user));
-  addEmail = createSpy().and.callFake((userId, cartId, email) =>
+  create = jest.fn().mockImplementation((id) => of('create' + id));
+  load = jest.fn().mockImplementation((user, cart) => of('load' + user + cart));
+  loadAll = jest.fn().mockImplementation((user) => of('loadAll' + user));
+  addEmail = jest.fn().mockImplementation((userId, cartId, email) =>
     of('addEmail' + userId + cartId + email)
   );
-  delete = createSpy().and.callFake((userId: string, cartId: string) =>
+  delete = jest.fn().mockImplementation((userId: string, cartId: string) =>
     of('delete' + userId + cartId)
   );
 }

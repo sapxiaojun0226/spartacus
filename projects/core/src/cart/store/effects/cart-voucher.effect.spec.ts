@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { OccConfig } from '../../../occ/index';
@@ -9,7 +9,6 @@ import { CartVoucherAdapter } from '../../connectors';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
 import { CartActions } from '../actions/index';
 import * as fromEffects from './cart-voucher.effect';
-import createSpy = jasmine.createSpy;
 import { HttpErrorResponse } from '@angular/common/http';
 import { normalizeHttpError } from '@spartacus/core';
 
@@ -23,7 +22,7 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 class MockGlobalMessageService {
-  add = createSpy();
+  add = jest.fn();
 }
 
 describe('Cart Voucher effect', () => {
@@ -50,8 +49,8 @@ describe('Cart Voucher effect', () => {
     voucherEffects = TestBed.inject(fromEffects.CartVoucherEffects);
     cartVoucherConnector = TestBed.inject(CartVoucherConnector);
 
-    spyOn(cartVoucherConnector, 'add').and.returnValue(of({}));
-    spyOn(cartVoucherConnector, 'remove').and.returnValue(of({}));
+    jest.spyOn(cartVoucherConnector, 'add').mockReturnValue(of({}));
+    jest.spyOn(cartVoucherConnector, 'remove').mockReturnValue(of({}));
   });
 
   describe('addCartVoucher$', () => {
@@ -80,7 +79,7 @@ describe('Cart Voucher effect', () => {
 
     it('should fail', () => {
       const error = new HttpErrorResponse({ error: 'error' });
-      cartVoucherConnector.add = createSpy().and.returnValue(throwError(error));
+      cartVoucherConnector.add = jest.fn().mockReturnValue(throwError(error));
       const action = new CartActions.CartAddVoucher({
         userId,
         cartId,

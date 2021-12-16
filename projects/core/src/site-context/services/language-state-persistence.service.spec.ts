@@ -5,7 +5,6 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { LanguageService } from '../facade/language.service';
 import { LANGUAGE_CONTEXT_ID } from '../providers';
 import { LanguageStatePersistenceService } from './language-state-persistence.service';
-import createSpy = jasmine.createSpy;
 
 class MockLanguageService implements Partial<LanguageService> {
   getActive() {
@@ -14,7 +13,7 @@ class MockLanguageService implements Partial<LanguageService> {
   isInitialized() {
     return false;
   }
-  setActive = createSpy('setActive');
+  setActive = jest.fn();
 }
 
 const mockLanguages = ['ja', 'de'];
@@ -54,13 +53,13 @@ describe('LanguageStatePersistenceService', () => {
   describe('initSync', () => {
     it('should call StatePersistenceService with the correct attributes', () => {
       const state$ = of('en');
-      spyOn(languageService, 'getActive').and.returnValue(state$);
-      spyOn(persistenceService, 'syncWithStorage');
+      jest.spyOn(languageService, 'getActive').mockReturnValue(state$);
+      jest.spyOn(persistenceService, 'syncWithStorage').mockImplementation(() => {});
 
       service.initSync();
 
       expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
-        jasmine.objectContaining({
+        expect.objectContaining({
           key: LANGUAGE_CONTEXT_ID,
           state$,
         })
@@ -71,20 +70,20 @@ describe('LanguageStatePersistenceService', () => {
 
   describe('onRead', () => {
     it('should NOT set active if no value is provided', () => {
-      spyOn(languageService, 'isInitialized').and.returnValue(false);
+      jest.spyOn(languageService, 'isInitialized').mockReturnValue(false);
       service['onRead']('');
 
       expect(languageService.setActive).not.toHaveBeenCalled();
     });
     it('should NOT set active if the language is initialized', () => {
-      spyOn(languageService, 'isInitialized').and.returnValue(true);
+      jest.spyOn(languageService, 'isInitialized').mockReturnValue(true);
 
       service['onRead']('ja');
 
       expect(languageService.setActive).not.toHaveBeenCalled();
     });
     it('should set active value if the currency is NOT initialized and a value is provided', () => {
-      spyOn(languageService, 'isInitialized').and.returnValue(false);
+      jest.spyOn(languageService, 'isInitialized').mockReturnValue(false);
       const language = 'ja';
 
       service['onRead'](language);

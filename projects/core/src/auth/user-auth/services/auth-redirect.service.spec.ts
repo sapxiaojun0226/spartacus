@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgModule, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Navigation, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,8 +8,8 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 import { AuthRedirectService } from './auth-redirect.service';
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = jasmine.createSpy('go');
-  goByUrl = jasmine.createSpy('goByUrl');
+  go = jest.fn();
+  goByUrl = jest.fn();
 }
 
 class MockAuthFlowRoutesService implements Partial<AuthFlowRoutesService> {
@@ -20,6 +20,11 @@ class MockAuthFlowRoutesService implements Partial<AuthFlowRoutesService> {
 
 @Component({ selector: 'cx-test-component', template: 'test' })
 export class TestComponent {}
+
+@NgModule({
+  declarations: [TestComponent],
+})
+class TestModule {}
 
 describe('AuthRedirectService', () => {
   let service: AuthRedirectService;
@@ -40,6 +45,7 @@ describe('AuthRedirectService', () => {
         { provide: AuthFlowRoutesService, useClass: MockAuthFlowRoutesService },
       ],
       imports: [
+        TestModule,
         RouterTestingModule.withRoutes([
           { path: 'login', component: TestComponent },
 
@@ -55,8 +61,8 @@ describe('AuthRedirectService', () => {
     zone = TestBed.inject(NgZone);
 
     authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
-    spyOn(authRedirectStorageService, 'setRedirectUrl').and.callThrough();
-    spyOn(authRedirectStorageService, 'getRedirectUrl').and.callThrough();
+    jest.spyOn(authRedirectStorageService, 'setRedirectUrl');
+    jest.spyOn(authRedirectStorageService, 'getRedirectUrl');
   });
 
   describe('redirect', () => {
@@ -108,7 +114,7 @@ describe('AuthRedirectService', () => {
 
   describe('saveCurrentNavigationUrl', () => {
     it('should save the url of the current navigation', () => {
-      spyOn(router, 'getCurrentNavigation').and.returnValue(<Navigation>{
+      jest.spyOn(router, 'getCurrentNavigation').mockReturnValue(<Navigation>{
         finalUrl: router.parseUrl('/anticipated/url'),
       });
       service.saveCurrentNavigationUrl();
@@ -118,7 +124,7 @@ describe('AuthRedirectService', () => {
     });
 
     it('should NOT save the url of the current navigation if it is a part of the auth flow', () => {
-      spyOn(router, 'getCurrentNavigation').and.returnValue(<Navigation>{
+      jest.spyOn(router, 'getCurrentNavigation').mockReturnValue(<Navigation>{
         initialUrl: router.parseUrl('/login'),
         finalUrl: router.parseUrl('/login'),
       });
@@ -127,13 +133,13 @@ describe('AuthRedirectService', () => {
     });
 
     it('should NOT save the url when there is no pending navigation', () => {
-      spyOn(router, 'getCurrentNavigation').and.returnValue(null);
+      jest.spyOn(router, 'getCurrentNavigation').mockReturnValue(null);
       service.saveCurrentNavigationUrl();
       expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalled();
     });
 
     it('should NOT save the url when finalUrl was not yet determined for the current navigation (before RouteRecognized event happened)', () => {
-      spyOn(router, 'getCurrentNavigation').and.returnValue(<Navigation>{
+      jest.spyOn(router, 'getCurrentNavigation').mockReturnValue(<Navigation>{
         initialUrl: router.parseUrl('/login'),
         finalUrl: undefined,
       });
@@ -158,7 +164,7 @@ describe('AuthRedirectService', () => {
   // deprecated method:
   describe('reportAuthGuard', () => {
     it('should call saveCurrentNavigationUrl()', () => {
-      spyOn(service, 'saveCurrentNavigationUrl');
+      jest.spyOn(service, 'saveCurrentNavigationUrl').mockImplementation(() => {});
       service.reportAuthGuard();
       expect(service.saveCurrentNavigationUrl).toHaveBeenCalled();
     });

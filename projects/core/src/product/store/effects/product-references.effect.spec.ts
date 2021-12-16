@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import { ProductReference } from '../../../model/product.model';
 import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
@@ -10,7 +10,6 @@ import { OccConfig } from '../../../occ/config/occ-config';
 import { ProductReferencesConnector } from '../../connectors/references/product-references.connector';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-references.effect';
-import createSpy = jasmine.createSpy;
 
 const productCode = 'productCode';
 const product = {
@@ -33,7 +32,7 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 class MockProductReferencesConnector {
-  get = createSpy('getList').and.returnValue(of(list));
+  get = jest.fn().mockReturnValue(of(list));
 }
 
 describe('Product references effect', () => {

@@ -117,7 +117,7 @@ describe('SearchPageMetaResolver', () => {
   });
 
   it('should resolve robots from the BasePageMetaResolver', async () => {
-    spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
+    jest.spyOn(basePageMetaResolver, 'resolveRobots').mockReturnValue(
       of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX])
     );
     let result: PageRobotsMeta[] | undefined;
@@ -130,7 +130,7 @@ describe('SearchPageMetaResolver', () => {
   });
 
   it('should resolve canonical url from the BasePageMetaResolver.resolveCanonicalUrl()', async () => {
-    spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.callThrough();
+    jest.spyOn(basePageMetaResolver, 'resolveCanonicalUrl');
     resolver.resolveCanonicalUrl().subscribe().unsubscribe();
     expect(basePageMetaResolver.resolveCanonicalUrl).toHaveBeenCalled();
   });

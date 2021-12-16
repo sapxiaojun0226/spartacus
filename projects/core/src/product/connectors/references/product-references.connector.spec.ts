@@ -2,10 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ProductReferencesAdapter } from './product-references.adapter';
 import { ProductReferencesConnector } from './product-references.connector';
-import createSpy = jasmine.createSpy;
 
 class MockProductReferencesAdapter implements ProductReferencesAdapter {
-  load = createSpy('ProductReferencesAdapter.load').and.callFake((code) =>
+  load = jest.fn().mockImplementation((code) =>
     of('product' + code)
   );
 }

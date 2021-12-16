@@ -2,13 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ProductReviewsAdapter } from './product-reviews.adapter';
 import { ProductReviewsConnector } from './product-reviews.connector';
-import createSpy = jasmine.createSpy;
 
 class MockProductReviewsAdapter implements ProductReviewsAdapter {
-  load = createSpy('ProductReviewsAdapter.loadList').and.callFake((code) =>
+  load = jest.fn().mockImplementation((code) =>
     of('product' + code)
   );
-  post = createSpy('ProductReviewsAdapter.post').and.returnValue(of(''));
+  post = jest.fn().mockReturnValue(of(''));
 }
 
 describe('ProductReviewsConnector', () => {

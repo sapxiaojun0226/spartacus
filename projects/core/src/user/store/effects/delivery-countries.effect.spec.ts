@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import { Country, CountryType } from '../../../model/address.model';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
@@ -36,7 +36,7 @@ describe('Delivery Countries effect', () => {
     effect = TestBed.inject(DeliveryCountriesEffects);
     service = TestBed.inject(SiteConnector);
 
-    spyOn(service, 'getCountries').and.returnValue(of(mockCountries));
+    jest.spyOn(service, 'getCountries').mockReturnValue(of(mockCountries));
   });
 
   describe('loadDeliveryCountries$', () => {

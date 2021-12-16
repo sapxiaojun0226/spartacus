@@ -6,9 +6,7 @@ import { ProtectedRoutesGuard } from './protected-routes.guard';
 import { ProtectedRoutesService } from './protected-routes.service';
 
 class MockAuthGuard {
-  canActivate = jasmine
-    .createSpy('AuthGuard.canActivate')
-    .and.returnValue(of('authGuard-result'));
+  canActivate = jest.fn(() => of('authGuard-result'));
 }
 
 class MockProtectedRoutesService {
@@ -41,7 +39,7 @@ describe('ProtectedRoutesGuard', () => {
   describe('canActivate', () => {
     describe('when anticipated url is NOT protected', () => {
       beforeEach(() => {
-        spyOn(service, 'isUrlProtected').and.returnValue(false);
+        jest.spyOn(service, 'isUrlProtected').mockReturnValue(false);
       });
 
       it('should emit true', () => {
@@ -55,7 +53,7 @@ describe('ProtectedRoutesGuard', () => {
 
     describe('when anticipated url is protected', () => {
       beforeEach(() => {
-        spyOn(service, 'isUrlProtected').and.returnValue(true);
+        jest.spyOn(service, 'isUrlProtected').mockReturnValue(true);
       });
 
       it('should emit result of AuthGuard.canActivate', () => {

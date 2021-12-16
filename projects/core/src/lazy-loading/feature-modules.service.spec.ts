@@ -65,25 +65,25 @@ describe('FeatureModulesService', () => {
 
   describe('isConfigured', () => {
     it('should return true for configured features', () => {
-      expect(service.isConfigured('feature1')).toBeTrue();
-      expect(service.isConfigured('feature2')).toBeTrue();
+      expect(service.isConfigured('feature1')).toBeTruthy();
+      expect(service.isConfigured('feature2')).toBeTruthy();
     });
 
     it('should return false for not configured features', () => {
-      expect(service.isConfigured('feature3')).toBeFalse();
-      expect(service.isConfigured('feature-unknown')).toBeFalse();
+      expect(service.isConfigured('feature3')).toBeFalsy();
+      expect(service.isConfigured('feature-unknown')).toBeFalsy();
     });
 
     it('should return true for configured feature alias', () => {
-      expect(service.isConfigured('feature5')).toBeTrue();
+      expect(service.isConfigured('feature5')).toBeTruthy();
     });
 
     it('should return false for not configured feature alias', () => {
-      expect(service.isConfigured('feature6')).toBeFalse();
+      expect(service.isConfigured('feature6')).toBeFalsy();
     });
 
     it('should return true for configured feature not direct alias', () => {
-      expect(service.isConfigured('feature7')).toBeTrue();
+      expect(service.isConfigured('feature7')).toBeTruthy();
     });
   });
 

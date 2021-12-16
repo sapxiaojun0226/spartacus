@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import { UserIdService } from '../../../auth/user-auth/facade/user-id.service';
 import * as fromReducers from '../../../cart/store/reducers/index';
@@ -14,7 +14,6 @@ import { CartActions } from '../actions';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
 import * as fromEffects from './wish-list.effect';
 import { WishListEffects } from './wish-list.effect';
-import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
 const cartName = 'name';
@@ -51,19 +50,19 @@ const saveCartResult: SaveCartResult = {
 };
 
 class MockCartConnector {
-  create = createSpy().and.returnValue(of(testCart));
-  load = createSpy().and.returnValue(of(wishList));
+  create = jest.fn().mockReturnValue(of(testCart));
+  load = jest.fn().mockReturnValue(of(wishList));
   loadAll(): Observable<Cart[]> {
     return of();
   }
 }
 
 class MockSaveCartConnector {
-  saveCart = createSpy().and.returnValue(of(saveCartResult));
+  saveCart = jest.fn().mockReturnValue(of(saveCartResult));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  getUserId = createSpy().and.returnValue(of(userId));
+  getUserId = jest.fn().mockReturnValue(of(userId));
 }
 
 describe('Wish List Effect', () => {
@@ -94,7 +93,7 @@ describe('Wish List Effect', () => {
     cartConnector = TestBed.inject(CartConnector);
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
   });
 
   describe('createWishList$', () => {
@@ -125,7 +124,7 @@ describe('Wish List Effect', () => {
         tempCartId: getWishlistName(customerId),
       };
 
-      spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart]));
+      jest.spyOn(cartConnector, 'loadAll').mockReturnValue(of([testCart]));
 
       const action = new CartActions.LoadWishList(payload);
 
@@ -146,7 +145,7 @@ describe('Wish List Effect', () => {
         tempCartId: getWishlistName(customerId),
       };
 
-      spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart, wishList]));
+      jest.spyOn(cartConnector, 'loadAll').mockReturnValue(of([testCart, wishList]));
 
       const action = new CartActions.LoadWishList(payload);
 

@@ -2,13 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ProductAdapter } from './product.adapter';
 import { ProductConnector } from './product.connector';
-import createSpy = jasmine.createSpy;
 
 class MockProductAdapter implements ProductAdapter {
-  load = createSpy('ProductAdapter.load').and.callFake((code) =>
+  load = jest.fn().mockImplementation((code) =>
     of('product' + code)
   );
-  loadMany = createSpy('ProductAdapter.loadMany').and.callFake(
+  loadMany = jest.fn().mockImplementation(
     (products) => products
   );
 }

@@ -10,7 +10,6 @@ import {
 } from '../store/global-message-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { GlobalMessageService } from './global-message.service';
-import createSpy = jasmine.createSpy;
 
 const mockMessages = {
   [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
@@ -18,7 +17,7 @@ const mockMessages = {
 };
 
 describe('GlobalMessageService', () => {
-  const mockSelect = createSpy('select').and.returnValue(() =>
+  const mockSelect = jest.fn().mockReturnValue(() =>
     of(mockMessages)
   );
 
@@ -38,8 +37,8 @@ describe('GlobalMessageService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+    jest.spyOn(store, 'dispatch');
+    jest.spyOn(ngrxStore, 'select').mockReturnValue(mockSelect);
     service = TestBed.inject(GlobalMessageService);
   });
 

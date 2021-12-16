@@ -201,14 +201,14 @@ describe('UrlMatcherService', () => {
 
   describe('getFromGlob', () => {
     it('should call GlobService.getValidator', () => {
-      spyOn(globService, 'getValidator');
+      jest.spyOn(globService, 'getValidator').mockImplementation(() => {});
       service.getFromGlob(['/test/pattern']);
       expect(globService.getValidator).toHaveBeenCalledWith(['/test/pattern']);
     });
 
     it('should call glob matcher with full path prepended with slash', () => {
-      const mockGlobValidator = jasmine.createSpy().and.returnValue(true);
-      spyOn(globService, 'getValidator').and.returnValue(mockGlobValidator);
+      const mockGlobValidator = jest.fn(() => true);
+      jest.spyOn(globService, 'getValidator').mockReturnValue(mockGlobValidator);
 
       const urlMatcher = service.getFromGlob([]);
       const testSegments = [
@@ -220,7 +220,7 @@ describe('UrlMatcherService', () => {
     });
 
     it('should match given glob-like patterns', () => {
-      spyOn(globService, 'getValidator').and.returnValue(() => true);
+      jest.spyOn(globService, 'getValidator').mockReturnValue(() => true);
       const matcher = service.getFromGlob([]);
       const testSegments = [
         { path: 'test' },
@@ -233,7 +233,7 @@ describe('UrlMatcherService', () => {
     });
 
     it('should not match given glob-like patterns', () => {
-      spyOn(globService, 'getValidator').and.returnValue(() => false);
+      jest.spyOn(globService, 'getValidator').mockReturnValue(() => false);
       const matcher = service.getFromGlob([]);
       expect(matcher([], null, null)).toEqual(null);
     });

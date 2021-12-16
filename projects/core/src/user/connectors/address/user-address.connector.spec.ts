@@ -3,7 +3,6 @@ import { of } from 'rxjs';
 import { Address } from '../../../model/address.model';
 import { UserAddressAdapter } from './user-address.adapter';
 import { UserAddressConnector } from './user-address.connector';
-import createSpy = jasmine.createSpy;
 
 const mockAddress: Address = {
   email: 'mockEmail',
@@ -11,11 +10,11 @@ const mockAddress: Address = {
 };
 
 class MockAddressUserAdapter implements UserAddressAdapter {
-  add = createSpy('add').and.returnValue(of({}));
-  delete = createSpy('delete').and.returnValue(of({}));
-  loadAll = createSpy('loadAll').and.callFake((userId) => of(`load-${userId}`));
-  update = createSpy('update').and.returnValue(of({}));
-  verify = createSpy('verify').and.callFake((userId) => of(`verify-${userId}`));
+  add = jest.fn().mockReturnValue(of({}));
+  delete = jest.fn().mockReturnValue(of({}));
+  loadAll = jest.fn().mockImplementation((userId) => of(`load-${userId}`));
+  update = jest.fn().mockReturnValue(of({}));
+  verify = jest.fn().mockImplementation((userId) => of(`verify-${userId}`));
 }
 
 describe('UserAddressConnector', () => {

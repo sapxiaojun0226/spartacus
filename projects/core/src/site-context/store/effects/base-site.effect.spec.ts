@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfigModule } from '../../../config/config.module';
 import { BaseSite } from '../../../model/misc.model';
@@ -32,8 +32,8 @@ describe('BaseSite Effects', () => {
     connector = TestBed.inject(SiteConnector);
     effects = TestBed.inject(fromEffects.BaseSiteEffects);
 
-    spyOn(connector, 'getBaseSite').and.returnValue(of(baseSite));
-    spyOn(connector, 'getBaseSites').and.returnValue(of([baseSite]));
+    jest.spyOn(connector, 'getBaseSite').mockReturnValue(of(baseSite));
+    jest.spyOn(connector, 'getBaseSites').mockReturnValue(of([baseSite]));
   });
 
   describe('loadBaseSite$', () => {

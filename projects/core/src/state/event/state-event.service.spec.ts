@@ -27,9 +27,7 @@ describe('StateEventService', () => {
         {
           provide: EventService,
           useValue: {
-            register: jasmine
-              .createSpy('register')
-              .and.returnValue(mockTearDown),
+            register: jest.fn(() => mockTearDown),
           },
         },
       ],
@@ -60,7 +58,7 @@ describe('StateEventService', () => {
         ]);
         expect(eventService.register).toHaveBeenCalledWith(
           TestEvent,
-          jasmine.any(Object)
+          expect.any(Object)
         );
       });
 
@@ -85,7 +83,7 @@ describe('StateEventService', () => {
         ]);
         expect(eventService.register).toHaveBeenCalledWith(
           TestEvent,
-          jasmine.any(Object)
+          expect.any(Object)
         );
       });
 
@@ -109,7 +107,7 @@ describe('StateEventService', () => {
         ]);
         expect(eventService.register).toHaveBeenCalledWith(
           TestEvent,
-          jasmine.any(Object)
+          expect.any(Object)
         );
       });
     });

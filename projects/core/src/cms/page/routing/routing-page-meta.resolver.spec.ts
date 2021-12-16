@@ -81,8 +81,8 @@ describe('RoutingPageMetaResolver', () => {
         .pipe(take(1))
         .toPromise();
       expect(result).toEqual([
-        jasmine.objectContaining({ route: { url: [{ path: 'parent' }] } }),
-        jasmine.objectContaining({ route: { url: [{ path: 'child' }] } }),
+        expect.objectContaining({ route: { url: [{ path: 'parent' }] } }),
+        expect.objectContaining({ route: { url: [{ path: 'child' }] } }),
       ]);
     });
 
@@ -98,9 +98,9 @@ describe('RoutingPageMetaResolver', () => {
         .pipe(take(1))
         .toPromise();
       expect(result).toEqual([
-        jasmine.objectContaining({ url: '/grandparent' }),
-        jasmine.objectContaining({ url: '/grandparent/test/parent' }),
-        jasmine.objectContaining({ url: '/grandparent/test/parent/child' }),
+        expect.objectContaining({ url: '/grandparent' }),
+        expect.objectContaining({ url: '/grandparent/test/parent' }),
+        expect.objectContaining({ url: '/grandparent/test/parent/child' }),
       ]);
     });
 
@@ -130,9 +130,9 @@ describe('RoutingPageMetaResolver', () => {
         .toPromise();
 
       expect(result).toEqual([
-        jasmine.objectContaining({ resolver: resolverInstanceA }),
-        jasmine.objectContaining({ resolver: resolverInstanceB }),
-        jasmine.objectContaining({ resolver: resolverInstanceC }),
+        expect.objectContaining({ resolver: resolverInstanceA }),
+        expect.objectContaining({ resolver: resolverInstanceB }),
+        expect.objectContaining({ resolver: resolverInstanceC }),
       ]);
     });
 
@@ -160,9 +160,9 @@ describe('RoutingPageMetaResolver', () => {
         .toPromise();
 
       expect(result).toEqual([
-        jasmine.objectContaining({ resolver: resolverInstanceA }),
-        jasmine.objectContaining({ resolver: resolverInstanceA }),
-        jasmine.objectContaining({ resolver: resolverInstanceC }),
+        expect.objectContaining({ resolver: resolverInstanceA }),
+        expect.objectContaining({ resolver: resolverInstanceA }),
+        expect.objectContaining({ resolver: resolverInstanceC }),
       ]);
     });
 
@@ -186,9 +186,9 @@ describe('RoutingPageMetaResolver', () => {
         .toPromise();
 
       expect(result).toEqual([
-        jasmine.objectContaining({ resolver: defaultResolverInstance }),
-        jasmine.objectContaining({ resolver: defaultResolverInstance }),
-        jasmine.objectContaining({ resolver: resolverInstanceC }),
+        expect.objectContaining({ resolver: defaultResolverInstance }),
+        expect.objectContaining({ resolver: defaultResolverInstance }),
+        expect.objectContaining({ resolver: resolverInstanceC }),
       ]);
     });
   });
@@ -198,7 +198,7 @@ describe('RoutingPageMetaResolver', () => {
 
     beforeEach(() => {
       defaultResolver = TestBed.inject(DefaultRoutePageMetaResolver);
-      spyOn(defaultResolver, 'resolveBreadcrumbs').and.callFake(
+      jest.spyOn(defaultResolver, 'resolveBreadcrumbs').mockImplementation(
         ({ url, pageMetaConfig }) =>
           pageMetaConfig?.breadcrumb
             ? of([{ link: url, label: pageMetaConfig?.breadcrumb as string }])

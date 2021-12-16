@@ -57,7 +57,7 @@ describe('SearchboxService', () => {
   };
 
   beforeEach(() => {
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+    jest.spyOn(NgrxStore, 'select').mockImplementation(mockSelect);
 
     TestBed.configureTestingModule({
       imports: [
@@ -79,8 +79,8 @@ describe('SearchboxService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(SearchboxService);
 
-    spyOn(service, 'search').and.callThrough();
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(service, 'search');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should ProductSearchService is injected', inject(

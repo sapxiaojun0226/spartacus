@@ -49,8 +49,8 @@ describe('StatePersistenceService', () => {
 
     service = TestBed.inject(StatePersistenceService);
 
-    spyOn(sessionStorageMock, 'setItem').and.stub();
-    spyOn(localStorageMock, 'setItem').and.stub();
+    jest.spyOn(sessionStorageMock, 'setItem').mockImplementation();
+    jest.spyOn(localStorageMock, 'setItem').mockImplementation();
   });
 
   it('should inject service', () => {
@@ -123,7 +123,7 @@ describe('StatePersistenceService', () => {
     });
 
     it('should restore state on context not provided', () => {
-      spyOn(localStorageMock, 'getItem').and.returnValue('5');
+      jest.spyOn(localStorageMock, 'getItem').mockReturnValue('5');
 
       const state = new Subject<number>();
       let stateFromStorage;
@@ -139,7 +139,7 @@ describe('StatePersistenceService', () => {
     });
 
     it('should restore state on provided context emission', () => {
-      spyOn(localStorageMock, 'getItem').and.returnValue('5');
+      jest.spyOn(localStorageMock, 'getItem').mockReturnValue('5');
 
       const state = new Subject<number>();
       const context = new Subject<string>();
@@ -169,7 +169,7 @@ describe('StatePersistenceService', () => {
 
   describe('readStateFromStorage', () => {
     it('should read state from localStorage', () => {
-      spyOn(localStorageMock, 'getItem').and.returnValue('5');
+      jest.spyOn(localStorageMock, 'getItem').mockReturnValue('5');
 
       const stateFromStorage = service.readStateFromStorage({
         key: 'test',
