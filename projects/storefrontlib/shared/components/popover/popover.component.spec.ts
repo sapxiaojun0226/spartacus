@@ -62,7 +62,7 @@ describe('PopoverComponent', () => {
   });
 
   it('should render `content` property', () => {
-    expect(fixture.debugElement.nativeNode.innerText).toContain(
+    expect(fixture.debugElement.nativeNode.textContent).toContain(
       mockPopoverProperties.content
     );
   });

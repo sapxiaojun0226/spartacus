@@ -4,10 +4,10 @@ import { LazyComponentHandler } from './lazy-component.handler';
 import { Priority } from '@spartacus/core';
 import { DefaultComponentHandler } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 class MockDefaultComponentHandler {
-  launcher = createSpy().and.returnValue(of({}));
+  launcher = createSpy().mockReturnValue(of({}));
 }
 
 describe('LazyComponentHandler', () => {

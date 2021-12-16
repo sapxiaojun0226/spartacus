@@ -38,7 +38,7 @@ class MockDeferLoaderService {
  * Returns the innerText of the fixture
  */
 function getContent(fixture: ComponentFixture<any>): string {
-  return fixture.debugElement.nativeElement.innerText;
+  return fixture.debugElement.nativeElement.textContent;
 }
 
 /**

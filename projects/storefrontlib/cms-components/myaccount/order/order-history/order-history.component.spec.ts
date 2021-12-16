@@ -168,7 +168,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should redirect when clicking on order id', () => {
-    spyOn(routingService, 'go').and.stub();
+    jest.spyOn(routingService, 'go').mockImplementation();
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
@@ -183,7 +183,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(userService, 'loadOrderList').and.stub();
+    jest.spyOn(userService, 'loadOrderList').mockImplementation();
 
     component.changeSortCode('byOrderNumber');
 
@@ -196,7 +196,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly page', () => {
-    spyOn(userService, 'loadOrderList').and.stub();
+    jest.spyOn(userService, 'loadOrderList').mockImplementation();
 
     component.sortType = 'byDate';
     component.pageChange(1);
@@ -227,7 +227,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should clear order history data when component destroy', () => {
-    spyOn(userService, 'clearOrderList').and.stub();
+    jest.spyOn(userService, 'clearOrderList').mockImplementation();
 
     component.ngOnDestroy();
     expect(userService.clearOrderList).toHaveBeenCalledWith();

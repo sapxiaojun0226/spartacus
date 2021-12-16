@@ -4,7 +4,7 @@ import { CmsRoute, PageType } from '@spartacus/core';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
 import { CmsRoutesImplService } from './cms-routes-impl.service';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 describe('CmsRoutesImplService', () => {
   let service: CmsRoutesImplService;
@@ -104,7 +104,7 @@ describe('CmsRoutesImplService', () => {
     });
 
     it('should include configured `data` property for cms driven route', () => {
-      spyOn(cmsMappingService, 'getChildRoutes').and.returnValue({
+      jest.spyOn(cmsMappingService, 'getChildRoutes').mockReturnValue({
         parent: { data: { test: 'test data' } },
         children: [{ path: 'sub-route' }],
       });
@@ -169,7 +169,7 @@ describe('CmsRoutesImplService', () => {
     });
 
     it('should return true for content pages without cms driven route', () => {
-      spyOn(cmsMappingService, 'getChildRoutes').and.returnValue({});
+      jest.spyOn(cmsMappingService, 'getChildRoutes').mockReturnValue({});
 
       expect(
         service.handleCmsRoutesInGuard(

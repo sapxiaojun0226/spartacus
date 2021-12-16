@@ -7,6 +7,7 @@ import { FileUploadComponent } from './file-upload.component';
 
 @Component({
   selector: 'cx-form-errors',
+  template: '',
 })
 class MockFormErrorComponent {
   @Input() control: FormControl;
@@ -54,7 +55,7 @@ describe('FileUploadComponent', () => {
 
   describe('change file', () => {
     it('should emit event', () => {
-      spyOn(component.update, 'emit');
+      jest.spyOn(component.update, 'emit').mockImplementation(() => {});
       inputEl.triggerEventHandler('change', mockEvent);
       expect(component.update.emit).toHaveBeenCalledWith([
         mockFile,

@@ -53,8 +53,8 @@ describe('PersistFocusDirective', () => {
       component = fixture.componentInstance;
       service = TestBed.inject(PersistFocusService);
 
-      spyOn(service, 'get').and.callThrough();
-      spyOn(service, 'set').and.callThrough();
+      jest.spyOn(service, 'get');
+      jest.spyOn(service, 'set');
     })
   );
 
@@ -98,7 +98,7 @@ describe('PersistFocusDirective', () => {
       const el: HTMLElement = fixture.debugElement.query(
         By.css('#d')
       ).nativeElement;
-      spyOn(el, 'focus');
+      jest.spyOn(el, 'focus').mockImplementation(() => {});
       fixture.detectChanges();
 
       expect(el.focus).toHaveBeenCalled();

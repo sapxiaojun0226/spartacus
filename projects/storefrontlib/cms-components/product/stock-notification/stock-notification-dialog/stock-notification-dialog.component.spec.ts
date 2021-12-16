@@ -18,12 +18,12 @@ describe('StockNotificationDialogComponent', () => {
   let fixture: ComponentFixture<StockNotificationDialogComponent>;
   let el: DebugElement;
 
-  const modalService = jasmine.createSpyObj('ModalService', [
-    'dismissActiveModal',
-  ]);
-  const interestsService = jasmine.createSpyObj('interestsService', [
-    'resetAddInterestState',
-  ]);
+  const modalService = {
+    dismissActiveModal: jest.fn(),
+  };
+  const interestsService = {
+    resetAddInterestState: jest.fn(),
+  };
 
   const preferences: NotificationPreference[] = [
     {
@@ -54,8 +54,8 @@ describe('StockNotificationDialogComponent', () => {
 
     component.subscribeSuccess$ = of(true);
     component.enabledPrefs = preferences;
-    modalService.dismissActiveModal.and.stub();
-    interestsService.resetAddInterestState.and.stub();
+    modalService.dismissActiveModal.mockImplementation();
+    interestsService.resetAddInterestState.mockImplementation();
   });
 
   it('should create', () => {

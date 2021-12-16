@@ -8,7 +8,7 @@ import {
 import { of } from 'rxjs';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationService } from './navigation.service';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const navigationEntryItems: any = {
   MainLink001_AbstractCMSComponent: {
@@ -161,7 +161,7 @@ describe('NavigationComponentService', () => {
   beforeEach(() => {
     mockCmsService = {
       loadNavigationItems: createSpy(),
-      getNavigationEntryItems: createSpy().and.returnValue(of(undefined)),
+      getNavigationEntryItems: createSpy().mockReturnValue(of(undefined)),
     };
     TestBed.configureTestingModule({
       providers: [
@@ -179,7 +179,7 @@ describe('NavigationComponentService', () => {
   });
 
   it('should get main link for root entry based on CMS data', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(
+    mockCmsService.getNavigationEntryItems.mockReturnValue(
       of(navigationEntryItems)
     );
 
@@ -192,7 +192,7 @@ describe('NavigationComponentService', () => {
   });
 
   it('should not get a URL when no link is provided in the CMS data', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(
+    mockCmsService.getNavigationEntryItems.mockReturnValue(
       of(navigationEntryItems)
     );
 
@@ -205,7 +205,7 @@ describe('NavigationComponentService', () => {
   });
 
   it('should get a link to a category when categoryCode is provided', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(
+    mockCmsService.getNavigationEntryItems.mockReturnValue(
       of(navigationEntryItems)
     );
 
@@ -218,7 +218,7 @@ describe('NavigationComponentService', () => {
   });
 
   it('should get a link to a content page when contentPageLabelOrId is provided', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(
+    mockCmsService.getNavigationEntryItems.mockReturnValue(
       of(navigationEntryItems)
     );
 
@@ -231,7 +231,7 @@ describe('NavigationComponentService', () => {
   });
 
   it('should get a link to a product when productCode is provided', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(
+    mockCmsService.getNavigationEntryItems.mockReturnValue(
       of(navigationEntryItems)
     );
 
@@ -248,7 +248,7 @@ describe('NavigationComponentService', () => {
   });
 
   it('should get navigation node based on CMS data', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(
+    mockCmsService.getNavigationEntryItems.mockReturnValue(
       of(navigationEntryItems)
     );
 
@@ -263,7 +263,7 @@ describe('NavigationComponentService', () => {
   });
 
   it('should load the missing navigation nodes for the latest CMS data', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(
+    mockCmsService.getNavigationEntryItems.mockReturnValue(
       of(navigationEntryItems)
     );
 
@@ -287,7 +287,7 @@ describe('NavigationComponentService', () => {
   });
 
   it('should create a virtual navigation root', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(
+    mockCmsService.getNavigationEntryItems.mockReturnValue(
       of(navigationEntryItems)
     );
 
@@ -303,7 +303,7 @@ describe('NavigationComponentService', () => {
 
   describe('populate nodes', () => {
     it('should populate node with title', () => {
-      mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+      mockCmsService.getNavigationEntryItems.mockReturnValue(of({}));
 
       let result: NavigationNode;
       navigationService
@@ -321,7 +321,7 @@ describe('NavigationComponentService', () => {
     });
 
     it('should not populate empty node', () => {
-      mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+      mockCmsService.getNavigationEntryItems.mockReturnValue(of({}));
 
       let result: NavigationNode;
       navigationService
@@ -338,7 +338,7 @@ describe('NavigationComponentService', () => {
     });
 
     it('should populate node with entry linkName', () => {
-      mockCmsService.getNavigationEntryItems.and.returnValue(
+      mockCmsService.getNavigationEntryItems.mockReturnValue(
         of({
           Id_Super: {
             linkName: 'entry linkName',
@@ -371,7 +371,7 @@ describe('NavigationComponentService', () => {
     });
 
     it('should not populate empty child nodes', () => {
-      mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+      mockCmsService.getNavigationEntryItems.mockReturnValue(of({}));
 
       let result: NavigationNode;
       navigationService
@@ -396,7 +396,7 @@ describe('NavigationComponentService', () => {
     describe('styling', () => {
       describe('root navigation', () => {
         it('should populate style class', () => {
-          mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+          mockCmsService.getNavigationEntryItems.mockReturnValue(of({}));
 
           let result: NavigationNode;
           navigationService
@@ -414,7 +414,7 @@ describe('NavigationComponentService', () => {
         });
 
         it('should not populate style class', () => {
-          mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+          mockCmsService.getNavigationEntryItems.mockReturnValue(of({}));
 
           let result: NavigationNode;
           navigationService
@@ -431,7 +431,7 @@ describe('NavigationComponentService', () => {
         });
 
         it('should populate style attributes', () => {
-          mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+          mockCmsService.getNavigationEntryItems.mockReturnValue(of({}));
 
           let result: NavigationNode;
           navigationService
@@ -449,7 +449,7 @@ describe('NavigationComponentService', () => {
         });
 
         it('should populate style attributes', () => {
-          mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+          mockCmsService.getNavigationEntryItems.mockReturnValue(of({}));
 
           let result: NavigationNode;
           navigationService
@@ -481,7 +481,7 @@ describe('NavigationComponentService', () => {
         };
 
         it('should populate style class', () => {
-          mockCmsService.getNavigationEntryItems.and.returnValue(
+          mockCmsService.getNavigationEntryItems.mockReturnValue(
             of({
               Id_Super: {
                 styleClasses: 'first second',
@@ -498,7 +498,7 @@ describe('NavigationComponentService', () => {
         });
 
         it('should not populate style class', () => {
-          mockCmsService.getNavigationEntryItems.and.returnValue(
+          mockCmsService.getNavigationEntryItems.mockReturnValue(
             of({
               Id_Super: {},
             } as NodeItem)
@@ -512,7 +512,7 @@ describe('NavigationComponentService', () => {
         });
 
         it('should populate style attributes', () => {
-          mockCmsService.getNavigationEntryItems.and.returnValue(
+          mockCmsService.getNavigationEntryItems.mockReturnValue(
             of({
               Id_Super: {
                 styleAttributes: 'color: red;',
@@ -529,7 +529,7 @@ describe('NavigationComponentService', () => {
         });
 
         it('should not populate style attributes', () => {
-          mockCmsService.getNavigationEntryItems.and.returnValue(
+          mockCmsService.getNavigationEntryItems.mockReturnValue(
             of({
               Id_Super: {},
             } as NodeItem)
@@ -560,7 +560,7 @@ describe('NavigationComponentService', () => {
       };
 
       it('should populate _blank target', () => {
-        mockCmsService.getNavigationEntryItems.and.returnValue(
+        mockCmsService.getNavigationEntryItems.mockReturnValue(
           of({
             Id_Super: {
               linkName: 'entry linkName',
@@ -579,7 +579,7 @@ describe('NavigationComponentService', () => {
       });
 
       it('should populate _blank target for "true" value', () => {
-        mockCmsService.getNavigationEntryItems.and.returnValue(
+        mockCmsService.getNavigationEntryItems.mockReturnValue(
           of({
             Id_Super: {
               linkName: 'entry linkName',
@@ -598,7 +598,7 @@ describe('NavigationComponentService', () => {
       });
 
       it('should not populate _blank target', () => {
-        mockCmsService.getNavigationEntryItems.and.returnValue(
+        mockCmsService.getNavigationEntryItems.mockReturnValue(
           of({
             Id_Super: {
               linkName: 'entry linkName',
@@ -617,7 +617,7 @@ describe('NavigationComponentService', () => {
       });
 
       it('should not populate _blank target for "false" target', () => {
-        mockCmsService.getNavigationEntryItems.and.returnValue(
+        mockCmsService.getNavigationEntryItems.mockReturnValue(
           of({
             Id_Super: {
               linkName: 'entry linkName',
@@ -636,7 +636,7 @@ describe('NavigationComponentService', () => {
       });
 
       it('should not populate target if there is no URL', () => {
-        mockCmsService.getNavigationEntryItems.and.returnValue(
+        mockCmsService.getNavigationEntryItems.mockReturnValue(
           of({
             Id_Super: {
               linkName: 'entry linkName',

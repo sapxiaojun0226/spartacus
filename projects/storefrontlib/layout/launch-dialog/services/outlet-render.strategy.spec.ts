@@ -76,11 +76,11 @@ describe('OutletRenderStrategy', () => {
     outletService = TestBed.inject(OutletService);
     outletRendererService = TestBed.inject(OutletRendererService);
 
-    spyOn(outletService, 'add');
-    spyOn(outletRendererService, 'render');
-    spyOn(outletRendererService, 'getOutletRef').and.returnValue(
-      of(new MockOutletDirective() as any)
-    );
+    jest.spyOn(outletService, 'add').mockImplementation(() => {});
+    jest.spyOn(outletRendererService, 'render').mockImplementation(() => {});
+    jest
+      .spyOn(outletRendererService, 'getOutletRef')
+      .mockReturnValue(of(new MockOutletDirective() as any));
   });
 
   it('should be created', () => {
@@ -90,7 +90,7 @@ describe('OutletRenderStrategy', () => {
   describe('render', () => {
     describe('should render', () => {
       beforeAll(() => {
-        spyOn<any>(service, 'shouldRender').and.returnValue(true);
+        jest.spyOn<any>(service, 'shouldRender').mockReturnValue(true);
       });
 
       it('should add template to outlet', () => {
@@ -129,7 +129,7 @@ describe('OutletRenderStrategy', () => {
     });
     describe('should not render', () => {
       beforeAll(() => {
-        spyOn<any>(service, 'shouldRender').and.returnValue(false);
+        jest.spyOn<any>(service, 'shouldRender').mockReturnValue(false);
       });
 
       it('should not render', () => {

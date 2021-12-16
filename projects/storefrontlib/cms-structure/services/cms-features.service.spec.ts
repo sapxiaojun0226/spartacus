@@ -89,7 +89,7 @@ describe('CmsFeaturesService', () => {
     });
 
     it('should call FeatureModulesService.resolveFeature', (done) => {
-      spyOn(featureModules, 'resolveFeature').and.callThrough();
+      jest.spyOn(featureModules, 'resolveFeature');
       service.getCmsMapping('component1').subscribe(() => {
         expect(featureModules.resolveFeature).toHaveBeenCalledWith('feature1');
         done();

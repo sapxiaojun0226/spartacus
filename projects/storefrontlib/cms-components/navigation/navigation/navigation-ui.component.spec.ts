@@ -205,7 +205,7 @@ describe('Navigation UI Component', () => {
 
       const nav: ElementRef = element.query(By.css('nav > span'));
       const el: HTMLElement = nav.nativeElement;
-      expect(el.innerText).toEqual('Root 1');
+      expect(el.textContent).toEqual('Root 1');
     });
 
     it('should render link for nav nodes with a URL', () => {
@@ -253,13 +253,13 @@ describe('Navigation UI Component', () => {
 
     it('should reinitialize menu, when menu is expanded', () => {
       navigationComponent['resetMenuOnClose'] = true;
-      spyOn(navigationComponent, 'reinitalizeMenu').and.stub();
+      jest.spyOn(navigationComponent, 'reinitalizeMenu').mockImplementation();
       fixture.detectChanges();
       expect(navigationComponent.reinitalizeMenu).toHaveBeenCalled();
     });
 
     it('should NOT reinitialize menu, when menu is expanded if config is false', () => {
-      spyOn(navigationComponent, 'reinitalizeMenu').and.stub();
+      jest.spyOn(navigationComponent, 'reinitalizeMenu').mockImplementation();
       fixture.detectChanges();
       expect(navigationComponent.reinitalizeMenu).not.toHaveBeenCalled();
     });

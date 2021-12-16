@@ -169,7 +169,7 @@ describe('ProductReferencesComponent', () => {
   });
 
   it('should get productCode', () => {
-    spyOn(productReferenceService, 'cleanReferences').and.stub();
+    jest.spyOn(productReferenceService, 'cleanReferences').mockImplementation();
 
     let result: string;
     component['productCode$']
@@ -181,8 +181,8 @@ describe('ProductReferencesComponent', () => {
   });
 
   it('should have 2 items', () => {
-    spyOn(productReferenceService, 'loadProductReferences').and.callThrough();
-    spyOn(productReferenceService, 'getProductReferences').and.callThrough();
+    jest.spyOn(productReferenceService, 'loadProductReferences');
+    jest.spyOn(productReferenceService, 'getProductReferences');
 
     let items: Observable<Product>[];
     component.items$.subscribe((i) => (items = i)).unsubscribe();
@@ -215,12 +215,12 @@ describe('ProductReferencesComponent', () => {
     const productNameElement = fixture.debugElement.query(
       By.css('a:first-child h4')
     ).nativeElement;
-    expect(productNameElement.innerText).toEqual('product reference 1');
+    expect(productNameElement.textContent).toEqual('product reference 1');
 
     const priceElement = fixture.debugElement.query(
       By.css('a:last-child .price')
     ).nativeElement;
-    expect(priceElement.innerText).toEqual('$200.00');
+    expect(priceElement.textContent).toEqual('$200.00');
 
     const productImage = fixture.debugElement.query(
       By.css('a:first-child cx-media')

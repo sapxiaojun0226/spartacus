@@ -143,7 +143,7 @@ describe('ProductReviewsComponent in product', () => {
       mockProduct.averageRating = undefined;
       fixture = TestBed.createComponent(ProductReviewsComponent);
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      expect(fixture.debugElement.nativeElement.textContent).toContain(
         'productDetails.noReviews'
       );
     });

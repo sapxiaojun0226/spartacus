@@ -66,7 +66,7 @@ describe('FocusDirective', () => {
     const el: HTMLElement = fixture.debugElement.query(
       By.css('#a')
     ).nativeElement;
-    spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(el);
+    jest.spyOn(keyboardFocusService, 'findFirstFocusable').mockReturnValue(el);
     fixture.detectChanges();
 
     expect(document.activeElement.id).toEqual('a');
@@ -77,10 +77,9 @@ describe('FocusDirective', () => {
       By.css('#a')
     ).nativeElement;
 
-    let spiedFirstFocusable = spyOn(
-      keyboardFocusService,
-      'findFirstFocusable'
-    ).and.returnValue(el);
+    let spiedFirstFocusable = jest
+      .spyOn(keyboardFocusService, 'findFirstFocusable')
+      .mockReturnValue(el);
 
     component.modelA = '1';
     fixture.detectChanges();
@@ -93,7 +92,10 @@ describe('FocusDirective', () => {
     // to trigger ngAfterViewInit hook manually
     fixture.detectChanges();
 
-    let spiedFirstFocusable = spyOn(keyboardFocusService, 'findFirstFocusable');
+    let spiedFirstFocusable = jest.spyOn(
+      keyboardFocusService,
+      'findFirstFocusable'
+    );
 
     component.modelB = '1';
     fixture.detectChanges();

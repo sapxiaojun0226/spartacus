@@ -112,10 +112,10 @@ describe('LaunchDialogService', () => {
     routingRenderStrategy = TestBed.inject(MockRoutingRenderStrategy);
     inlineRenderStrategy = TestBed.inject(MockInlineRenderStrategy);
 
-    spyOn(routingRenderStrategy, 'render');
-    spyOn(routingRenderStrategy, 'remove');
-    spyOn(inlineRenderStrategy, 'render');
-    spyOn(inlineRenderStrategy, 'remove');
+    jest.spyOn(routingRenderStrategy, 'render').mockImplementation(() => {});
+    jest.spyOn(routingRenderStrategy, 'remove').mockImplementation(() => {});
+    jest.spyOn(inlineRenderStrategy, 'render').mockImplementation(() => {});
+    jest.spyOn(inlineRenderStrategy, 'remove').mockImplementation(() => {});
   });
 
   it('should be created', () => {
@@ -176,7 +176,7 @@ describe('LaunchDialogService', () => {
 
   describe('openDialog', () => {
     beforeEach(() => {
-      spyOn(service, 'launch').and.returnValue(of(componentRef));
+      jest.spyOn(service, 'launch').mockReturnValue(of(componentRef));
     });
 
     it('should call LaunchDialogService launch', () => {
@@ -197,8 +197,8 @@ describe('LaunchDialogService', () => {
     });
 
     it('should call LaunchDialogService clear on close and destroy', () => {
-      spyOn(service, 'clear');
-      spyOn(componentRef, 'destroy');
+      jest.spyOn(service, 'clear').mockImplementation(() => {});
+      jest.spyOn(componentRef, 'destroy').mockImplementation(() => {});
       service['_dialogClose'].next('close');
 
       const openDialog = service.openDialog(
@@ -218,7 +218,7 @@ describe('LaunchDialogService', () => {
 
   describe('openDialogAndSubscribe', () => {
     it('should call "openDialog" method', () => {
-      spyOn(service, 'openDialog');
+      jest.spyOn(service, 'openDialog').mockImplementation(() => {});
 
       service.openDialogAndSubscribe(
         'TEST_DIALOG' as LAUNCH_CALLER,

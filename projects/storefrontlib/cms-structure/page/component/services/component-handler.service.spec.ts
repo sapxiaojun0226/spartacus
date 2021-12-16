@@ -4,11 +4,11 @@ import { CmsComponentMapping } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ComponentHandler } from '../handlers/component-handler';
 import { ComponentHandlerService } from './component-handler.service';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 @Injectable()
 class TestHandler implements ComponentHandler {
-  launcher = createSpy('launcher').and.returnValue(of());
+  launcher = createSpy('launcher').mockReturnValue(of());
 
   hasMatch(componentMapping: CmsComponentMapping): boolean {
     return componentMapping.component === 'test';
@@ -54,7 +54,7 @@ describe('ComponentHandlerService', () => {
     });
 
     it('should return undefined if not matched', () => {
-      spyOn(console, 'warn').and.stub();
+      jest.spyOn(console, 'warn').mockImplementation();
       const launcher = service.getLauncher(
         { component: 'unknown' },
         undefined,

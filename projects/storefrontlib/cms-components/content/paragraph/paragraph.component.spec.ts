@@ -71,7 +71,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
     const unsafeData = Object.assign({}, componentData);
     unsafeData.content = `<img src="" onerror='alert(1)'>`;
     data$.next(unsafeData);
-    spyOn(console, 'warn').and.stub(); // Prevent warning to be showed by Angular when sanitizing
+    jest.spyOn(console, 'warn').mockImplementation(); // Prevent warning to be showed by Angular when sanitizing
     fixture.detectChanges();
     expect(el.query(By.css('p')).nativeElement.innerHTML).toEqual(
       `<img src="">`

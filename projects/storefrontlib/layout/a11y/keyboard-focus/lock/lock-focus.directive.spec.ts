@@ -100,9 +100,9 @@ describe('LockFocusDirective', () => {
     const children = fixture.debugElement.queryAll(
       By.css('#a1,#a2,#b1,#b2,#b3,#d1,#d2')
     );
-    spyOn(service, 'findFocusable').and.returnValue(
-      children.map((c) => c.nativeElement)
-    );
+    jest
+      .spyOn(service, 'findFocusable')
+      .mockReturnValue(children.map((c) => c.nativeElement));
   });
 
   const event = {
@@ -140,8 +140,8 @@ describe('LockFocusDirective', () => {
 
   describe('configuration', () => {
     beforeEach(() => {
-      spyOn(event, 'stopPropagation');
-      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
+      jest.spyOn(event, 'stopPropagation').mockImplementation(() => {});
+      jest.spyOn(service, 'hasFocusableChildren').mockReturnValue(false);
       fixture.detectChanges();
     });
 
@@ -196,7 +196,7 @@ describe('LockFocusDirective', () => {
     });
 
     it('should not lock if child has persisted ...', () => {
-      spyOn(service, 'hasPersistedFocus').and.returnValue(true);
+      jest.spyOn(service, 'hasPersistedFocus').mockReturnValue(true);
 
       const host = fixture.debugElement.query(By.css('#d'));
       const d1 = fixture.debugElement.query(By.css('#d1')).nativeElement;
@@ -214,7 +214,7 @@ describe('LockFocusDirective', () => {
 
   describe('unlock group', () => {
     beforeEach(() => {
-      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
+      jest.spyOn(service, 'hasFocusableChildren').mockReturnValue(false);
       fixture.detectChanges();
     });
 
@@ -261,7 +261,7 @@ describe('LockFocusDirective', () => {
 
   describe('persist group on focusable children', () => {
     it('should persist group on focusable children', () => {
-      spyOn(service, 'getPersistenceGroup').and.returnValue('g1');
+      jest.spyOn(service, 'getPersistenceGroup').mockReturnValue('g1');
       const b1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const b2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
       const b3 = fixture.debugElement.query(By.css('#b3')).nativeElement;
@@ -272,7 +272,7 @@ describe('LockFocusDirective', () => {
     });
 
     it('should not persist group on non-focusable children', () => {
-      spyOn(service, 'getPersistenceGroup').and.returnValue('g1');
+      jest.spyOn(service, 'getPersistenceGroup').mockReturnValue('g1');
       const b4 = fixture.debugElement.query(By.css('#b4')).nativeElement;
       const b5 = fixture.debugElement.query(By.css('#b5')).nativeElement;
       fixture.detectChanges();
@@ -284,7 +284,7 @@ describe('LockFocusDirective', () => {
   describe('select host element on escape', () => {
     it('should focus on escape by default', () => {
       const host = fixture.debugElement.query(By.css('#a'));
-      spyOn(service, 'handleEscape');
+      jest.spyOn(service, 'handleEscape').mockImplementation(() => {});
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.handleEscape).toHaveBeenCalledTimes(1);
@@ -292,7 +292,7 @@ describe('LockFocusDirective', () => {
 
     it('should focus on escape if lock=true', () => {
       const host = fixture.debugElement.query(By.css('#b'));
-      spyOn(service, 'handleEscape');
+      jest.spyOn(service, 'handleEscape').mockImplementation(() => {});
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.handleEscape).toHaveBeenCalledTimes(1);
@@ -300,7 +300,7 @@ describe('LockFocusDirective', () => {
 
     it('should not focus on escape if lock=false', () => {
       const host = fixture.debugElement.query(By.css('#c'));
-      spyOn(service, 'handleEscape').and.callThrough();
+      jest.spyOn(service, 'handleEscape');
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.handleEscape).not.toHaveBeenCalled();
@@ -308,7 +308,7 @@ describe('LockFocusDirective', () => {
 
     it('should focus on escape if configured to false', () => {
       const host = fixture.debugElement.query(By.css('#d'));
-      spyOn(service, 'handleEscape').and.callThrough();
+      jest.spyOn(service, 'handleEscape');
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.handleEscape).not.toHaveBeenCalled();
@@ -316,7 +316,7 @@ describe('LockFocusDirective', () => {
 
     it('should clear persistence focus on escape', () => {
       const host = fixture.debugElement.query(By.css('#d'));
-      spyOn(service, 'clear').and.callThrough();
+      jest.spyOn(service, 'clear');
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.clear).toHaveBeenCalled();
@@ -324,7 +324,7 @@ describe('LockFocusDirective', () => {
 
     it('should not clear persistence focus if lock=false', () => {
       const host = fixture.debugElement.query(By.css('#c'));
-      spyOn(service, 'clear').and.callThrough();
+      jest.spyOn(service, 'clear');
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.clear).not.toHaveBeenCalled();
@@ -333,7 +333,7 @@ describe('LockFocusDirective', () => {
 
   describe('use autofocus', () => {
     beforeEach(() => {
-      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
+      jest.spyOn(service, 'hasFocusableChildren').mockReturnValue(false);
       fixture.detectChanges();
     });
 
@@ -342,9 +342,9 @@ describe('LockFocusDirective', () => {
       const f1 = fixture.debugElement.query(By.css('#a1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#a2')).nativeElement;
 
-      spyOn(service, 'findFirstFocusable').and.returnValue(f1);
-      spyOn(f1, 'focus').and.callThrough();
-      spyOn(f2, 'focus').and.callThrough();
+      jest.spyOn(service, 'findFirstFocusable').mockReturnValue(f1);
+      jest.spyOn(f1, 'focus');
+      jest.spyOn(f2, 'focus');
 
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
@@ -360,9 +360,9 @@ describe('LockFocusDirective', () => {
       const f1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
 
-      spyOn(service, 'findFirstFocusable').and.returnValue(f1);
-      spyOn(f1, 'focus').and.callThrough();
-      spyOn(f2, 'focus').and.callThrough();
+      jest.spyOn(service, 'findFirstFocusable').mockReturnValue(f1);
+      jest.spyOn(f1, 'focus');
+      jest.spyOn(f2, 'focus');
 
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
@@ -378,9 +378,9 @@ describe('LockFocusDirective', () => {
       const f1 = fixture.debugElement.query(By.css('#c1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#c2')).nativeElement;
 
-      spyOn(service, 'findFirstFocusable').and.returnValue(f1);
-      spyOn(f1, 'focus').and.callThrough();
-      spyOn(f2, 'focus').and.callThrough();
+      jest.spyOn(service, 'findFirstFocusable').mockReturnValue(f1);
+      jest.spyOn(f1, 'focus');
+      jest.spyOn(f2, 'focus');
 
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
@@ -394,9 +394,9 @@ describe('LockFocusDirective', () => {
       const f1 = fixture.debugElement.query(By.css('#d1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#d2')).nativeElement;
 
-      spyOn(service, 'findFirstFocusable').and.returnValue(f1);
-      spyOn(f1, 'focus').and.callThrough();
-      spyOn(f2, 'focus').and.callThrough();
+      jest.spyOn(service, 'findFirstFocusable').mockReturnValue(f1);
+      jest.spyOn(f1, 'focus');
+      jest.spyOn(f2, 'focus');
 
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
@@ -407,7 +407,7 @@ describe('LockFocusDirective', () => {
 
     it('should find focusable with configured autofocus selector', fakeAsync(() => {
       const host = fixture.debugElement.query(By.css('#e'));
-      spyOn(service, 'findFirstFocusable');
+      jest.spyOn(service, 'findFirstFocusable').mockImplementation(() => {});
 
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);

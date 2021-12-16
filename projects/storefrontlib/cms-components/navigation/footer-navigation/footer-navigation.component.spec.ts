@@ -13,7 +13,7 @@ import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { NavigationService } from '../navigation/navigation.service';
 import { FooterNavigationComponent } from './footer-navigation.component';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -66,7 +66,7 @@ describe('FooterNavigationComponent', () => {
   };
 
   const mockNavigationService = {
-    getNavigationNode: createSpy().and.returnValue(of(null)),
+    getNavigationNode: createSpy().mockReturnValue(of(null)),
   };
 
   beforeEach(

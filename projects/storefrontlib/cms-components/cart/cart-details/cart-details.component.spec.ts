@@ -116,8 +116,8 @@ describe('CartDetailsComponent', () => {
         ],
       }).compileComponents();
 
-      mockSelectiveCartService.isEnabled.and.returnValue(true);
-      mockSelectiveCartService.isStable.and.returnValue(of(true));
+      mockSelectiveCartService.isEnabled.mockReturnValue(true);
+      mockSelectiveCartService.isStable.mockReturnValue(() => of(true));
     })
   );
 
@@ -138,11 +138,10 @@ describe('CartDetailsComponent', () => {
         code: 'PR0000',
       },
     };
-    mockAuthService.isUserLoggedIn.and.returnValue(of(true));
-    mockSelectiveCartService.addEntry.and.callThrough();
-    spyOn(activeCartService, 'removeEntry').and.callThrough();
-    spyOn(activeCartService, 'getEntries').and.callThrough();
-    spyOn(activeCartService, 'isStable').and.returnValue(of(true));
+    mockAuthService.isUserLoggedIn.mockReturnValue(() => of(true));
+    jest.spyOn(activeCartService, 'removeEntry');
+    jest.spyOn(activeCartService, 'getEntries');
+    jest.spyOn(activeCartService, 'isStable').mockReturnValue(of(true));
     fixture.detectChanges();
     component.saveForLater(mockItem);
     expect(activeCartService.removeEntry).toHaveBeenCalledWith(mockItem);
@@ -181,7 +180,7 @@ describe('CartDetailsComponent', () => {
   it('should display cart text with cart number', () => {
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.cx-total'));
-    const cartName = el.nativeElement.innerText;
+    const cartName = el.nativeElement.textContent;
     expect(cartName).toEqual('cartDetails.cartName code:123');
   });
 });

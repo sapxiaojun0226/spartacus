@@ -9,7 +9,7 @@ import {
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderCancellationService } from './order-cancellation.service';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const mockOrder: Order = {
   code: '123',

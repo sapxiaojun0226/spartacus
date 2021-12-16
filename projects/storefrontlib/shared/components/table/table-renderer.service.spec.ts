@@ -5,7 +5,7 @@ import { TableHeader, TableService } from '.';
 import { TableConfig } from './config/table.config';
 import { TableRendererService } from './table-renderer.service';
 import { TableOptions, TableStructure } from './table.model';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 class MockOutletService {
   add = createSpy('add');

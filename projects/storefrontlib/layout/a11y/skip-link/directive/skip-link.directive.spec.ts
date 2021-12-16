@@ -40,7 +40,7 @@ describe('SkipLinkDirective', () => {
   });
 
   it('should add skip links on component creation', () => {
-    const spy = spyOn(service, 'add');
+    const spy = jest.spyOn(service, 'add');
     const nodes = fixture.debugElement.nativeElement.childNodes;
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(2);
@@ -49,7 +49,7 @@ describe('SkipLinkDirective', () => {
   });
 
   it('should remove skip links on component destruction', () => {
-    const spy = spyOn(service, 'remove');
+    const spy = jest.spyOn(service, 'remove');
     fixture.detectChanges();
     fixture.destroy();
     expect(spy).toHaveBeenCalledTimes(2);

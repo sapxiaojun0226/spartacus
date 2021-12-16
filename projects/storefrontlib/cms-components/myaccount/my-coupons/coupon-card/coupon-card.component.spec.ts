@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 import { CouponCardComponent } from './coupon-card.component';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -52,11 +52,9 @@ class MyCouponsComponent {
     map(([subscribing, unsubscribing]) => subscribing || unsubscribing)
   );
 
-  notificationChange = jasmine
-    .createSpy()
-    .and.callFake(({ couponId, notification }) => {
-      this.eventObj = { couponId, notification };
-    });
+  notificationChange = jest.fn(({ couponId, notification }) => {
+    this.eventObj = { couponId, notification };
+  });
 }
 
 class MockModalService {
@@ -68,10 +66,9 @@ describe('CouponCardComponent', () => {
   let fixture: ComponentFixture<MyCouponsComponent>;
   let el: DebugElement;
   let modalService: ModalService;
-  const couponComponentService = jasmine.createSpyObj(
-    'MyCouponsComponentService',
-    ['launchSearchPage']
-  );
+  const couponComponentService = {
+    launchSearchPage: jest.fn(),
+  };
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({

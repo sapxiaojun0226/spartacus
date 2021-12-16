@@ -131,7 +131,7 @@ describe('WishListItemComponent', () => {
   });
 
   it('should call remove', () => {
-    spyOn(component, 'removeEntry');
+    jest.spyOn(component, 'removeEntry').mockImplementation(() => {});
     el.query(By.css('.cx-return-button button')).nativeElement.click();
     expect(component.removeEntry).toHaveBeenCalledWith(mockCartEntry);
   });
@@ -159,7 +159,7 @@ describe('WishListItemComponent', () => {
     it('should display variants', () => {
       el.queryAll(By.css('.cx-property')).forEach((element, index) => {
         expect(
-          element.query(By.css('.cx-label')).nativeElement.innerText
+          element.query(By.css('.cx-label')).nativeElement.textContent
         ).toEqual(
           `${mockCartEntry.product.baseOptions[0].selected.variantOptionQualifiers[index].name}: ${mockCartEntry.product.baseOptions[0].selected.variantOptionQualifiers[index].value}`
         );

@@ -18,7 +18,7 @@ import { MockFeatureLevelDirective } from '../../../../../shared/test/mock-featu
 import { ViewModes } from '../../product-view/product-view.component';
 import { ProductListComponentService } from '../product-list-component.service';
 import { ProductScrollComponent } from './product-scroll.component';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [
@@ -211,10 +211,10 @@ describe('ProductScrollComponent', () => {
 
       expect(component.model.products.length).toEqual(totalLength);
       expect(component.model.products).toContain(
-        jasmine.objectContaining(mockModel1.products[0])
+        expect.objectContaining(mockModel1.products[0])
       );
       expect(component.model.products).toContain(
-        jasmine.objectContaining(mockModel1Page2.products[0])
+        expect.objectContaining(mockModel1Page2.products[0])
       );
     });
 

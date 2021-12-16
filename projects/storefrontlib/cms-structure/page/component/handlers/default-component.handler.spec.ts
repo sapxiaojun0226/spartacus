@@ -60,7 +60,7 @@ describe('DefaultComponentHandler', () => {
       .pipe(take(1))
       .subscribe(({ elementRef, componentRef }) => {
         expect(componentRef.componentType).toBe(TestComponent);
-        expect(elementRef.nativeElement.innerText).toBe('testComponent');
+        expect(elementRef.nativeElement.textContent).toBe('testComponent');
         done();
       });
   });

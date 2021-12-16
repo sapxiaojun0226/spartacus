@@ -90,7 +90,7 @@ describe('StarRatingComponent in product', () => {
     });
 
     it('should emit change event', () => {
-      spyOn(component.change, 'emit');
+      jest.spyOn(component.change, 'emit').mockImplementation(() => {});
       component.saveRate(3);
       expect(component.change.emit).toHaveBeenCalledWith(3);
     });
@@ -134,7 +134,7 @@ describe('StarRatingComponent in product', () => {
     });
 
     it('should reset rate on mouseout', () => {
-      spyOn(component, 'reset').and.callThrough();
+      jest.spyOn(component, 'reset');
       fixture.detectChanges();
       fixture.debugElement.triggerEventHandler('mouseout', event);
       expect(component.reset).toHaveBeenCalled();

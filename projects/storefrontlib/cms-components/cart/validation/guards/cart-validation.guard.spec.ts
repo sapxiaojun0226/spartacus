@@ -14,7 +14,7 @@ import {
 import { CartValidationGuard } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import { CartValidationStateService } from '../cart-validation-state.service';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const cartModificationSubject = new BehaviorSubject<CartModificationList>({
   cartModifications: [],
@@ -53,11 +53,11 @@ class MockSemanticPathService implements Partial<SemanticPathService> {
   }
 }
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy().and.stub();
+  add = createSpy().mockImplementation();
 }
 class MockActiveCartService implements Partial<ActiveCartService> {
   getActiveCartId = () => of(mockCartId);
-  reloadActiveCart = createSpy().and.stub();
+  reloadActiveCart = createSpy().mockImplementation();
   getEntries = () => mockEntriesSubject.asObservable();
 }
 class MockCartValidationStateService

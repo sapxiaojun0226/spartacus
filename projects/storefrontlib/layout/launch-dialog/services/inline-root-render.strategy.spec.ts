@@ -77,8 +77,10 @@ describe('InlineRootRenderStrategy', () => {
 
   describe('render', () => {
     it('should create component in ApplicationRef', () => {
-      spyOn(appRef, 'attachView');
-      spyOn(fixture.componentRef.location.nativeElement, 'appendChild');
+      jest.spyOn(appRef, 'attachView').mockImplementation(() => {});
+      jest
+        .spyOn(fixture.componentRef.location.nativeElement, 'appendChild')
+        .mockImplementation(() => {});
       const config = mockLaunchConfig?.launch?.[
         'TEST_INLINE_ROOT'
       ] as LaunchInlineRootDialog;

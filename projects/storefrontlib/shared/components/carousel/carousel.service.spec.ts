@@ -20,7 +20,7 @@ describe('Carousel Service', () => {
   });
 
   it('should return 4 items per slide', (done) => {
-    spyOnProperty(element, 'clientWidth').and.returnValue(1000);
+    jest.spyOn(element, 'clientWidth', 'get').mockReturnValue(1000);
 
     service.getItemsPerSlide(element, '250px').subscribe((value) => {
       expect(value).toEqual(4);
@@ -29,7 +29,7 @@ describe('Carousel Service', () => {
   });
 
   it('should return 2 items per slide', (done) => {
-    spyOnProperty(element, 'clientWidth').and.returnValue(500);
+    jest.spyOn(element, 'clientWidth', 'get').mockReturnValue(500);
 
     service.getItemsPerSlide(element, '250px').subscribe((value) => {
       expect(value).toEqual(2);
@@ -38,7 +38,7 @@ describe('Carousel Service', () => {
   });
 
   it('should round down the items per slide', (done) => {
-    spyOnProperty(element, 'clientWidth').and.returnValue(999);
+    jest.spyOn(element, 'clientWidth', 'get').mockReturnValue(999);
 
     service.getItemsPerSlide(element, '250px').subscribe((value) => {
       expect(value).toEqual(3);
@@ -47,7 +47,7 @@ describe('Carousel Service', () => {
   });
 
   it('should return 1 item per slide in case of 100%', (done) => {
-    spyOnProperty(element, 'clientWidth').and.returnValue(1000);
+    jest.spyOn(element, 'clientWidth', 'get').mockReturnValue(1000);
 
     service.getItemsPerSlide(element, '100%').subscribe((value) => {
       expect(value).toEqual(1);

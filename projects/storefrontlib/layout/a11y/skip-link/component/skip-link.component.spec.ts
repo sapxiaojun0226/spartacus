@@ -38,6 +38,7 @@ class MockSkipLinkService {
   getSkipLinks = () => {
     return new BehaviorSubject(mockSkipLinks);
   };
+  scrollToTarget() {}
 }
 
 describe('SkipLinkComponent', () => {
@@ -83,7 +84,7 @@ describe('SkipLinkComponent', () => {
   });
 
   it('should call `scrollToTarget` on each button click', () => {
-    const spyComponent = spyOn(skipLinkComponent, 'scrollToTarget');
+    const spyComponent = jest.spyOn(skipLinkComponent, 'scrollToTarget');
     const element = fixture.debugElement.nativeElement;
     const buttons = element.querySelectorAll('button');
 

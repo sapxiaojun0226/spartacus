@@ -1,4 +1,9 @@
-import { Component, ComponentFactoryResolver, Inject } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  Inject,
+  NgModule,
+} from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { getLastValueSync } from '@spartacus/core';
@@ -263,14 +268,14 @@ describe('OutletDirective', () => {
     );
 
     it('should use instant loading', () => {
-      spyOn(deferLoaderService, 'load').and.callThrough();
+      jest.spyOn(deferLoaderService, 'load');
       const fixture = TestBed.createComponent(MockInstantOutletComponent);
       fixture.detectChanges();
       expect(deferLoaderService.load).not.toHaveBeenCalled();
     });
 
     it('should use defer loading', () => {
-      spyOn(deferLoaderService, 'load').and.callThrough();
+      jest.spyOn(deferLoaderService, 'load');
       const fixture = TestBed.createComponent(MockDeferredOutletComponent);
       fixture.detectChanges();
       expect(deferLoaderService.load).toHaveBeenCalled();
@@ -309,7 +314,7 @@ describe('OutletDirective', () => {
     );
 
     function getContent(fixture: ComponentFixture<any>): string {
-      return fixture.debugElement.nativeElement.innerText;
+      return fixture.debugElement.nativeElement.textContent;
     }
 
     it('should render template for new outlet name', () => {
@@ -352,12 +357,17 @@ describe('OutletDirective', () => {
       constructor(public outlet: OutletContextData) {}
     }
 
+    @NgModule({
+      entryComponents: [MockOutletComponent],
+    })
+    class MockComponentsModule {}
+
     beforeEach(
       waitForAsync(() => {
         mockContextSubject$ = new BehaviorSubject('fakeContext');
 
         TestBed.configureTestingModule({
-          imports: [],
+          imports: [MockComponentsModule],
           declarations: [
             MockTemplateComponent,
             MockOutletComponent,

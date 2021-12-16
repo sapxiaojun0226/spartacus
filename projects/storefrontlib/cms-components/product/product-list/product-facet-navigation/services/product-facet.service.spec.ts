@@ -65,9 +65,9 @@ describe('ProductFacetService', () => {
 
       beforeEach(() => {
         routingService = TestBed.inject(RoutingService);
-        spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockCategoryPage as any)
-        );
+        jest
+          .spyOn(routingService, 'getRouterState')
+          .mockReturnValue(of(mockCategoryPage as any));
         (productListComponentService.model$ as any) = of(mockCategoryResult);
         service = TestBed.inject(ProductFacetService);
       });
@@ -122,9 +122,9 @@ describe('ProductFacetService', () => {
 
       beforeEach(() => {
         routingService = TestBed.inject(RoutingService);
-        spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockBrandPage as any)
-        );
+        jest
+          .spyOn(routingService, 'getRouterState')
+          .mockReturnValue(of(mockBrandPage as any));
         (productListComponentService.model$ as any) = of(mockBrandResult);
         service = TestBed.inject(ProductFacetService);
       });
@@ -164,9 +164,9 @@ describe('ProductFacetService', () => {
 
       beforeEach(() => {
         routingService = TestBed.inject(RoutingService);
-        spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockSearchPage as any)
-        );
+        jest
+          .spyOn(routingService, 'getRouterState')
+          .mockReturnValue(of(mockSearchPage as any));
         (productListComponentService.model$ as any) = of(mockSearchResult);
         service = TestBed.inject(ProductFacetService);
       });
@@ -200,9 +200,9 @@ describe('ProductFacetService', () => {
 
       beforeEach(() => {
         routingService = TestBed.inject(RoutingService);
-        spyOn(routingService, 'getRouterState').and.returnValue(
-          of(mockAnyPage as RouterState)
-        );
+        jest
+          .spyOn(routingService, 'getRouterState')
+          .mockReturnValue(of(mockAnyPage as RouterState));
 
         (productListComponentService.model$ as any) = of(mockResults);
         service = TestBed.inject(ProductFacetService);

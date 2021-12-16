@@ -23,7 +23,7 @@ import {
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
 import { ProductScrollComponent } from './product-scroll/product-scroll.component';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 @Component({
   selector: 'cx-star-rating',

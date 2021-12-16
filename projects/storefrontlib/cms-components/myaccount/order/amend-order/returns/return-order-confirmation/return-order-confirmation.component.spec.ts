@@ -6,7 +6,7 @@ import { I18nTestingModule, Order, OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 @Component({
   template: '',

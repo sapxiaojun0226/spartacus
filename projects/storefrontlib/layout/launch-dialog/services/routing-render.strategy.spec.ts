@@ -39,7 +39,7 @@ describe('RoutingRenderStrategy', () => {
     service = TestBed.inject(RoutingRenderStrategy);
     routingService = TestBed.inject(RoutingService);
 
-    spyOn(routingService, 'go');
+    jest.spyOn(routingService, 'go').mockImplementation(() => {});
   });
 
   it('should be created', () => {

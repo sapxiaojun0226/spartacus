@@ -184,16 +184,18 @@ describe('MyInterestsComponent', () => {
   let fixture: ComponentFixture<MyInterestsComponent>;
   let el: DebugElement;
 
-  const productInterestService = jasmine.createSpyObj('UserInterestsService', [
-    'loadProductInterests',
-    'getAndLoadProductInterests',
-    'getProdutInterestsLoading',
-    'getRemoveProdutInterestLoading',
-    'removeProdutInterest',
-    'clearProductInterests',
-    'resetRemoveInterestState',
-  ]);
-  const productService = jasmine.createSpyObj('ProductService', ['get']);
+  const productInterestService = {
+    loadProductInterests: jest.fn(),
+    getAndLoadProductInterests: jest.fn(),
+    getProdutInterestsLoading: jest.fn(),
+    getRemoveProdutInterestLoading: jest.fn(),
+    removeProdutInterest: jest.fn(),
+    clearProductInterests: jest.fn(),
+    resetRemoveInterestState: jest.fn(),
+  };
+  const productService = {
+    get: jest.fn(),
+  };
 
   beforeEach(
     waitForAsync(() => {
@@ -222,17 +224,17 @@ describe('MyInterestsComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    productInterestService.getAndLoadProductInterests.and.returnValue(
+    productInterestService.getAndLoadProductInterests.mockReturnValue(
       of(emptyInterests)
     );
-    productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
-    productInterestService.getRemoveProdutInterestLoading.and.returnValue(
+    productInterestService.getProdutInterestsLoading.mockReturnValue(of(false));
+    productInterestService.getRemoveProdutInterestLoading.mockReturnValue(
       of(false)
     );
-    productInterestService.loadProductInterests.and.stub();
-    productInterestService.removeProdutInterest.and.stub();
-    productInterestService.clearProductInterests.and.stub();
-    productInterestService.resetRemoveInterestState.and.stub();
+    productInterestService.loadProductInterests.mockImplementation();
+    productInterestService.removeProdutInterest.mockImplementation();
+    productInterestService.clearProductInterests.mockImplementation();
+    productInterestService.resetRemoveInterestState.mockImplementation();
   });
 
   it('should create', () => {
@@ -241,7 +243,7 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should show loading spinner when data is loading', () => {
-    productInterestService.getProdutInterestsLoading.and.returnValue(of(true));
+    productInterestService.getProdutInterestsLoading.mockReturnValue(of(true));
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
@@ -252,12 +254,12 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should show interests list', () => {
-    productInterestService.getAndLoadProductInterests.and.returnValue(
+    productInterestService.getAndLoadProductInterests.mockReturnValue(
       of(mockedInterests)
     );
-    productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
-    productService.get.withArgs('553638', 'details').and.returnValue(p553638$);
-    productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
+    productService.get.withArgs('553637', 'details').mockReturnValue(p553637$);
+    productService.get.withArgs('553638', 'details').mockReturnValue(p553638$);
+    productInterestService.getProdutInterestsLoading.mockReturnValue(of(false));
     fixture.detectChanges();
 
     expect(el.queryAll(By.css('.cx-product-interests-title')).length).toEqual(
@@ -317,12 +319,12 @@ describe('MyInterestsComponent', () => {
   });
 
   it('should be able to remove an interest item', () => {
-    productInterestService.getAndLoadProductInterests.and.returnValue(
+    productInterestService.getAndLoadProductInterests.mockReturnValue(
       of(mockedInterests)
     );
-    productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
-    productService.get.withArgs('553638', 'details').and.returnValue(p553638$);
-    productInterestService.getRemoveProdutInterestLoading.and.returnValue(
+    productService.get.withArgs('553637', 'details').mockReturnValue(p553637$);
+    productService.get.withArgs('553638', 'details').mockReturnValue(p553638$);
+    productInterestService.getRemoveProdutInterestLoading.mockReturnValue(
       cold('-a|', { a: true })
     );
     fixture.detectChanges();

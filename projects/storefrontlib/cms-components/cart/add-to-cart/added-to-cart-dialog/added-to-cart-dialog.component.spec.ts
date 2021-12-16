@@ -159,8 +159,8 @@ describe('AddedToCartDialogComponent', () => {
     activeCartService = TestBed.inject(ActiveCartService);
     mockModalService = TestBed.inject(ModalService);
 
-    spyOn(activeCartService, 'updateEntry').and.callThrough();
-    spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
+    jest.spyOn(activeCartService, 'updateEntry');
+    jest.spyOn(mockModalService, 'dismissActiveModal');
     component.loaded$ = of(true);
   });
 
@@ -226,7 +226,9 @@ describe('AddedToCartDialogComponent', () => {
     component.entry$ = of(mockOrderEntry[0]);
     component.loaded$ = of(true);
     component.numberOfEntriesBeforeAdd = 1;
-    spyOn(activeCartService, 'getEntries').and.returnValue(of(mockOrderEntry));
+    jest
+      .spyOn(activeCartService, 'getEntries')
+      .mockReturnValue(of(mockOrderEntry));
     component.ngOnInit();
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
@@ -239,7 +241,9 @@ describe('AddedToCartDialogComponent', () => {
     component.entry$ = of(mockOrderEntry[0]);
     component.loaded$ = of(true);
     component.numberOfEntriesBeforeAdd = 2;
-    spyOn(activeCartService, 'getEntries').and.returnValue(of(mockOrderEntry));
+    jest
+      .spyOn(activeCartService, 'getEntries')
+      .mockReturnValue(of(mockOrderEntry));
     component.ngOnInit();
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;

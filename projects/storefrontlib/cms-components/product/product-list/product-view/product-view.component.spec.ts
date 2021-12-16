@@ -38,7 +38,7 @@ describe('ProductViewComponent in product-list', () => {
   });
 
   it('should emit grid (default) sort event', () => {
-    spyOn(component.modeChange, 'emit');
+    jest.spyOn(component.modeChange, 'emit').mockImplementation(() => {});
     component.changeMode();
     expect(component.modeChange.emit).toHaveBeenCalledWith('grid');
     expect(component.modeChange.emit).toHaveBeenCalledWith(ViewModes.Grid);
@@ -46,7 +46,7 @@ describe('ProductViewComponent in product-list', () => {
 
   it('should emit list sort event', () => {
     component.mode = ViewModes.Grid;
-    spyOn(component.modeChange, 'emit');
+    jest.spyOn(component.modeChange, 'emit').mockImplementation(() => {});
     component.changeMode();
     expect(component.modeChange.emit).toHaveBeenCalledWith(ViewModes.List);
   });

@@ -121,7 +121,7 @@ describe('PopoverDirective', () => {
 
     const template = getPopoverComponent().query(By.css('h1'));
     expect(template).toBeTruthy();
-    expect(template.nativeElement.innerText).toContain('Test');
+    expect(template.nativeElement.textContent).toContain('Test');
   });
 
   it('should append popover before closing `body` tag', () => {
@@ -132,7 +132,7 @@ describe('PopoverDirective', () => {
   });
 
   it('should call passed method on popover `open` event', () => {
-    const spy = spyOn(component, 'open');
+    const spy = jest.spyOn(component, 'open');
     fixture.detectChanges();
 
     getPopoverOpener().nativeElement.click();
@@ -143,7 +143,7 @@ describe('PopoverDirective', () => {
     fixture.detectChanges();
 
     getPopoverOpener().nativeElement.click();
-    const spy = spyOn(component, 'close');
+    const spy = jest.spyOn(component, 'close');
     fixture.detectChanges();
 
     getPopoverOpener().nativeElement.click();

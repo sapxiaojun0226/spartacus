@@ -50,7 +50,7 @@ describe('OnNavigateFocusService', () => {
   describe('initializeWithConfig()', () => {
     it('should call setResetFocusOnNavigate() when config has flag set', () => {
       service = TestBed.inject(OnNavigateFocusService);
-      const spy = spyOn(service, 'setResetFocusOnNavigate');
+      const spy = jest.spyOn(service, 'setResetFocusOnNavigate');
       expect(spy).not.toHaveBeenCalled();
       service.initializeWithConfig();
       expect(spy).toHaveBeenCalled();
@@ -67,7 +67,7 @@ describe('OnNavigateFocusService', () => {
       });
       service = TestBed.inject(OnNavigateFocusService);
 
-      const spy = spyOn(service, 'setResetFocusOnNavigate');
+      const spy = jest.spyOn(service, 'setResetFocusOnNavigate');
       expect(spy).not.toHaveBeenCalled();
       service.initializeWithConfig();
       expect(spy).not.toHaveBeenCalled();
@@ -75,7 +75,7 @@ describe('OnNavigateFocusService', () => {
 
     it('should call setResetViewOnNavigate() when config has flag set', () => {
       service = TestBed.inject(OnNavigateFocusService);
-      const spy = spyOn(service, 'setResetViewOnNavigate');
+      const spy = jest.spyOn(service, 'setResetViewOnNavigate');
       expect(spy).not.toHaveBeenCalled();
       service.initializeWithConfig();
       expect(spy).toHaveBeenCalled();
@@ -92,7 +92,7 @@ describe('OnNavigateFocusService', () => {
       });
       service = TestBed.inject(OnNavigateFocusService);
 
-      const spy = spyOn(service, 'setResetViewOnNavigate');
+      const spy = jest.spyOn(service, 'setResetViewOnNavigate');
       expect(spy).not.toHaveBeenCalled();
       service.initializeWithConfig();
       expect(spy).not.toHaveBeenCalled();
@@ -109,7 +109,7 @@ describe('OnNavigateFocusService', () => {
       zone = TestBed.inject(NgZone);
 
       element = document.body;
-      spyEl = spyOn(element, 'focus');
+      spyEl = jest.spyOn(element, 'focus');
     });
 
     it('should focus cx-storefront element on navigation', async () => {
@@ -153,7 +153,7 @@ describe('OnNavigateFocusService', () => {
       zone = TestBed.inject(NgZone);
 
       element = document.body;
-      spyEl = spyOn(element, 'scrollIntoView');
+      spyEl = jest.spyOn(element, 'scrollIntoView');
     });
 
     it('should scrollIntoView cx-storefront element on navigation', async () => {

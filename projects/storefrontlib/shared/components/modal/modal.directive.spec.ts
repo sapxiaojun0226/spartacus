@@ -60,13 +60,14 @@ describe('ModalDirective', () => {
         TestButtonComponent,
         TestLinkComponent,
         TestButtonLinkComponent,
+        RouteComponent,
       ],
       providers: [
         {
           provide: NgbActiveModal,
           useValue: {
-            dismiss: jasmine.createSpy('dismiss'),
-            close: jasmine.createSpy('close'),
+            dismiss: jest.fn(),
+            close: jest.fn(),
           } as NgbActiveModal,
         },
       ],
@@ -120,7 +121,7 @@ describe('ModalDirective', () => {
       fixture.detectChanges();
       getTestElement().triggerEventHandler('click', {});
       expect(activeModal.dismiss).toHaveBeenCalledWith(
-        jasmine.stringMatching(/\/test\/url/)
+        expect.stringMatching(/\/test\/url/)
       );
     });
   });
@@ -135,7 +136,7 @@ describe('ModalDirective', () => {
       fixture.detectChanges();
       getTestElement().triggerEventHandler('click', {});
       expect(activeModal.close).toHaveBeenCalledWith(
-        jasmine.stringMatching(/\/test\/url/)
+        expect.stringMatching(/\/test\/url/)
       );
     });
   });

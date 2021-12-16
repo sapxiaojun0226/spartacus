@@ -28,9 +28,9 @@ class MockCxIconComponent {
 describe('CouponDialogComponent', () => {
   let component: CouponDialogComponent;
   let fixture: ComponentFixture<CouponDialogComponent>;
-  const modalService = jasmine.createSpyObj('ModalService', [
-    'dismissActiveModal',
-  ]);
+  const modalService = {
+    dismissActiveModal: jest.fn(),
+  };
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -44,7 +44,7 @@ describe('CouponDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CouponDialogComponent);
     component = fixture.componentInstance;
-    modalService.dismissActiveModal.and.stub();
+    modalService.dismissActiveModal.mockImplementation();
     component.coupon = mockCoupon;
   });
 

@@ -24,10 +24,12 @@ describe('TrackingEventsComponent', () => {
   let component: TrackingEventsComponent;
   let fixture: ComponentFixture<TrackingEventsComponent>;
   let el: DebugElement;
-  const userOrderService = jasmine.createSpyObj('UserOrderService', [
-    'clearConsignmentTracking',
-  ]);
-  const ngbActiveModal = jasmine.createSpyObj('NgbActiveModal', ['dismiss']);
+  const userOrderService = {
+    clearConsignmentTracking: jest.fn(),
+  };
+  const ngbActiveModal = {
+    dismiss: jest.fn(),
+  };
 
   beforeEach(
     waitForAsync(() => {
@@ -47,8 +49,8 @@ describe('TrackingEventsComponent', () => {
     el = fixture.debugElement;
     component = fixture.componentInstance;
     component.shipDate = shipDate;
-    userOrderService.clearConsignmentTracking.and.stub();
-    ngbActiveModal.dismiss.and.stub();
+    userOrderService.clearConsignmentTracking.mockImplementation();
+    ngbActiveModal.dismiss.mockImplementation();
   });
 
   it('should create', () => {

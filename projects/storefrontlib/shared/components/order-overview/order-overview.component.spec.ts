@@ -146,11 +146,11 @@ describe('OrderOverviewComponent', () => {
   describe('when replenishment order code is defined', () => {
     beforeEach(() => {
       component.order = mockReplenishmentOrder;
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      jest.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getReplenishmentCodeCardContent(orderCode: string)', () => {
-      spyOn(component, 'getReplenishmentCodeCardContent').and.callThrough();
+      jest.spyOn(component, 'getReplenishmentCodeCardContent');
 
       component
         .getReplenishmentCodeCardContent(
@@ -171,7 +171,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getReplenishmentActiveCardContent(active: boolean)', () => {
-      spyOn(component, 'getReplenishmentActiveCardContent').and.callThrough();
+      jest.spyOn(component, 'getReplenishmentActiveCardContent');
 
       component
         .getReplenishmentActiveCardContent(mockReplenishmentOrder.active)
@@ -188,7 +188,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getReplenishmentStartOnCardContent(isoDate: string)', () => {
-      spyOn(component, 'getReplenishmentStartOnCardContent').and.callThrough();
+      jest.spyOn(component, 'getReplenishmentStartOnCardContent');
 
       const date = mockReplenishmentOrder.firstDate;
 
@@ -207,10 +207,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getReplenishmentFrequencyCardContent(frequency: string)', () => {
-      spyOn(
-        component,
-        'getReplenishmentFrequencyCardContent'
-      ).and.callThrough();
+      jest.spyOn(component, 'getReplenishmentFrequencyCardContent');
 
       component
         .getReplenishmentFrequencyCardContent(
@@ -231,7 +228,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getReplenishmentNextDateCardContent(isoDate: string)', () => {
-      spyOn(component, 'getReplenishmentNextDateCardContent').and.callThrough();
+      jest.spyOn(component, 'getReplenishmentNextDateCardContent');
 
       const date = mockReplenishmentOrder.trigger.activationTime;
 
@@ -253,11 +250,11 @@ describe('OrderOverviewComponent', () => {
   describe('when replenishment is NOT defined', () => {
     beforeEach(() => {
       component.order = mockOrder;
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      jest.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getOrderCodeCardContent(orderCode: string)', () => {
-      spyOn(component, 'getOrderCodeCardContent').and.callThrough();
+      jest.spyOn(component, 'getOrderCodeCardContent');
 
       component
         .getOrderCodeCardContent(mockOrder.code)
@@ -274,7 +271,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getOrderCurrentDateCardContent(isoDate: string)', () => {
-      spyOn(component, 'getOrderCurrentDateCardContent').and.callThrough();
+      jest.spyOn(component, 'getOrderCurrentDateCardContent');
 
       const date = mockOrder.created.toDateString();
 
@@ -291,7 +288,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getOrderStatusCardContent(status: string)', () => {
-      spyOn(component, 'getOrderStatusCardContent').and.callThrough();
+      jest.spyOn(component, 'getOrderStatusCardContent');
 
       component
         .getOrderStatusCardContent(mockOrder.statusDisplay)
@@ -311,11 +308,11 @@ describe('OrderOverviewComponent', () => {
   describe('when purchase order number is defined', () => {
     beforeEach(() => {
       component.order = mockOrder;
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      jest.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getPurchaseOrderNumber(poNumber: string)', () => {
-      spyOn(component, 'getPurchaseOrderNumber').and.callThrough();
+      jest.spyOn(component, 'getPurchaseOrderNumber');
 
       component
         .getPurchaseOrderNumber(mockOrder.purchaseOrderNumber)
@@ -332,7 +329,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getMethodOfPaymentCardContent(hasPaymentInfo: PaymentDetails)', () => {
-      spyOn(component, 'getMethodOfPaymentCardContent').and.callThrough();
+      jest.spyOn(component, 'getMethodOfPaymentCardContent');
 
       component
         .getMethodOfPaymentCardContent(mockOrder.paymentInfo)
@@ -349,7 +346,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getCostCenterCardContent(costCenter: CostCenter)', () => {
-      spyOn(component, 'getCostCenterCardContent').and.callThrough();
+      jest.spyOn(component, 'getCostCenterCardContent');
 
       component
         .getCostCenterCardContent(mockOrder.costCenter)
@@ -370,11 +367,11 @@ describe('OrderOverviewComponent', () => {
   describe('when paymentInfo is defined', () => {
     beforeEach(() => {
       component.order = mockOrder;
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      jest.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getPaymentInfoCardContent(payment: PaymentDetails)', () => {
-      spyOn(component, 'getPaymentInfoCardContent').and.callThrough();
+      jest.spyOn(component, 'getPaymentInfoCardContent');
 
       component
         .getPaymentInfoCardContent(mockOrder.paymentInfo)
@@ -394,7 +391,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getBillingAddressCardContent(billingAddress: Address)', () => {
-      spyOn(component, 'getBillingAddressCardContent').and.callThrough();
+      jest.spyOn(component, 'getBillingAddressCardContent');
 
       const billingAddress = mockOrder.paymentInfo.billingAddress;
 
@@ -422,11 +419,11 @@ describe('OrderOverviewComponent', () => {
   describe('common column in all types of order', () => {
     beforeEach(() => {
       component.order = mockOrder;
-      spyOn(translationService, 'translate').and.returnValue(of('test'));
+      jest.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     });
 
     it('should call getAddressCardContent(deliveryAddress: Address)', () => {
-      spyOn(component, 'getAddressCardContent').and.callThrough();
+      jest.spyOn(component, 'getAddressCardContent');
 
       const deliveryAddress = mockOrder.deliveryAddress;
 
@@ -451,7 +448,7 @@ describe('OrderOverviewComponent', () => {
     });
 
     it('should call getDeliveryModeCardContent(deliveryMode: DeliveryMode)', () => {
-      spyOn(component, 'getDeliveryModeCardContent').and.callThrough();
+      jest.spyOn(component, 'getDeliveryModeCardContent');
 
       component
         .getDeliveryModeCardContent(mockOrder.deliveryMode)

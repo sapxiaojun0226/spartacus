@@ -147,14 +147,14 @@ describe('PageLayoutService', () => {
 
   describe('Page template 1', () => {
     beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(page_1));
+      jest.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(page_1));
     });
 
     describe('mobile (xs)', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.xs)
-        );
+        jest
+          .spyOn(breakpointService, 'breakpoint$', 'get')
+          .mockReturnValue(of(BREAKPOINT.xs));
       });
 
       it('should render default slots', () => {
@@ -177,7 +177,7 @@ describe('PageLayoutService', () => {
 
       it('should use Page Layout Handlers', () => {
         const pageLayoutHandler = TestBed.inject(PAGE_LAYOUT_HANDLER)[0];
-        spyOn(pageLayoutHandler, 'handle').and.callThrough();
+        jest.spyOn(pageLayoutHandler, 'handle');
         pageLayoutService.getSlots('footer').subscribe();
         expect(pageLayoutHandler.handle).toHaveBeenCalled();
       });
@@ -185,9 +185,9 @@ describe('PageLayoutService', () => {
 
     describe('tablet (md)', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.md)
-        );
+        jest
+          .spyOn(breakpointService, 'breakpoint$', 'get')
+          .mockReturnValue(of(BREAKPOINT.md));
       });
 
       it('should render specific slots', () => {
@@ -212,9 +212,9 @@ describe('PageLayoutService', () => {
 
     describe('desktop (lg)', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.lg)
-        );
+        jest
+          .spyOn(breakpointService, 'breakpoint$', 'get')
+          .mockReturnValue(of(BREAKPOINT.lg));
       });
 
       it('should also render specific slots', () => {
@@ -240,14 +240,14 @@ describe('PageLayoutService', () => {
 
   describe('Page template 2', () => {
     beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(page_2));
+      jest.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(page_2));
     });
 
     describe('mobile (xs)', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.xs)
-        );
+        jest
+          .spyOn(breakpointService, 'breakpoint$', 'get')
+          .mockReturnValue(of(BREAKPOINT.xs));
       });
       it('should render global footer slots', () => {
         let results;
@@ -261,9 +261,9 @@ describe('PageLayoutService', () => {
 
     describe('mobile (md)', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.md)
-        );
+        jest
+          .spyOn(breakpointService, 'breakpoint$', 'get')
+          .mockReturnValue(of(BREAKPOINT.md));
       });
 
       it('should render global footer slots', () => {
@@ -278,9 +278,9 @@ describe('PageLayoutService', () => {
 
     describe('desktop (lg)', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.lg)
-        );
+        jest
+          .spyOn(breakpointService, 'breakpoint$', 'get')
+          .mockReturnValue(of(BREAKPOINT.lg));
       });
       it('should render specific footer slots', () => {
         let results;
@@ -295,10 +295,10 @@ describe('PageLayoutService', () => {
 
   describe('Page template 3', () => {
     beforeEach(() => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(page_3));
-      spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-        of(BREAKPOINT.lg)
-      );
+      jest.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(page_3));
+      jest
+        .spyOn(breakpointService, 'breakpoint$', 'get')
+        .mockReturnValue(of(BREAKPOINT.lg));
     });
 
     it('should render only slots presents both in page data and layout configuration', () => {
@@ -315,9 +315,9 @@ describe('PageLayoutService', () => {
     describe('single page fold for all breakpoints', () => {
       Object.keys(BREAKPOINT).forEach((breakpoint) => {
         it('should return page-fold for large ' + breakpoint, () => {
-          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-            of(breakpoint)
-          );
+          jest
+            .spyOn(breakpointService, 'breakpoint$', 'get')
+            .mockReturnValue(of(breakpoint));
           let results;
           pageLayoutService
             .getPageFoldSlot('template_with_global_page_fold')
@@ -331,9 +331,9 @@ describe('PageLayoutService', () => {
     describe('specific page-fold for 2 breakpoints', () => {
       const pageTemplate = 'template_with_2_specific_page_folds';
       it('should return extra small page slot for XS', () => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.xs)
-        );
+        jest
+          .spyOn(breakpointService, 'breakpoint$', 'get')
+          .mockReturnValue(of(BREAKPOINT.xs));
         let results;
         pageLayoutService
           .getPageFoldSlot(pageTemplate)
@@ -342,9 +342,9 @@ describe('PageLayoutService', () => {
         expect(results).toEqual('slot-xs');
       });
       it('should also return extra small page slot for SM', () => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.sm)
-        );
+        jest
+          .spyOn(breakpointService, 'breakpoint$', 'get')
+          .mockReturnValue(of(BREAKPOINT.sm));
         let results;
         pageLayoutService
           .getPageFoldSlot(pageTemplate)
@@ -353,9 +353,9 @@ describe('PageLayoutService', () => {
         expect(results).toEqual('slot-xs');
       });
       it('should return medium page slot for MD', () => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.md)
-        );
+        jest
+          .spyOn(breakpointService, 'breakpoint$', 'get')
+          .mockReturnValue(of(BREAKPOINT.md));
         let results;
         pageLayoutService
           .getPageFoldSlot(pageTemplate)
@@ -364,9 +364,9 @@ describe('PageLayoutService', () => {
         expect(results).toEqual('slot-md');
       });
       it('should also return medium page slot for LG', () => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.lg)
-        );
+        jest
+          .spyOn(breakpointService, 'breakpoint$', 'get')
+          .mockReturnValue(of(BREAKPOINT.lg));
         let results;
         pageLayoutService
           .getPageFoldSlot(pageTemplate)
@@ -375,9 +375,9 @@ describe('PageLayoutService', () => {
         expect(results).toEqual('slot-md');
       });
       it('should also return medium page slot for XL', () => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.xl)
-        );
+        jest
+          .spyOn(breakpointService, 'breakpoint$', 'get')
+          .mockReturnValue(of(BREAKPOINT.xl));
         let results;
         pageLayoutService
           .getPageFoldSlot(pageTemplate)
@@ -389,9 +389,9 @@ describe('PageLayoutService', () => {
 
     describe('any breakpoint', () => {
       beforeEach(() => {
-        spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-          of(BREAKPOINT.md)
-        );
+        jest
+          .spyOn(breakpointService, 'breakpoint$', 'get')
+          .mockReturnValue(of(BREAKPOINT.md));
       });
       it('should not return page slot when page slot is not defined', () => {
         let results;
@@ -439,9 +439,9 @@ describe('PageLayoutService', () => {
 
   describe('no page layout confguration', () => {
     it('should not return page slot when there is no layout configuration', () => {
-      spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
-        of(BREAKPOINT.md)
-      );
+      jest
+        .spyOn(breakpointService, 'breakpoint$', 'get')
+        .mockReturnValue(of(BREAKPOINT.md));
       let results;
       pageLayoutService
         .getPageFoldSlot('template')

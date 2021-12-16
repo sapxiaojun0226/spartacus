@@ -44,21 +44,21 @@ describe('ComponentDataProvider', () => {
   });
 
   it('should load data from cms service', () => {
-    spyOn(cmsService, 'getComponentData');
+    jest.spyOn(cmsService, 'getComponentData').mockImplementation(() => {});
     service.get('123').subscribe().unsubscribe();
     expect(cmsService.getComponentData).toHaveBeenCalledWith('123');
   });
 
   it('should not load data from cms service if uid is not probvided', () => {
-    spyOn(cmsService, 'getComponentData');
+    jest.spyOn(cmsService, 'getComponentData').mockImplementation(() => {});
     service.get('', 'BannerComponent').subscribe().unsubscribe();
     expect(cmsService.getComponentData).not.toHaveBeenCalled();
   });
 
   it('should return component data', () => {
-    spyOn(cmsService, 'getComponentData').and.returnValue(
-      of({ foo: 'bar' } as any)
-    );
+    jest
+      .spyOn(cmsService, 'getComponentData')
+      .mockReturnValue(of({ foo: 'bar' } as any));
     let result;
     service
       .get('123')
@@ -68,7 +68,9 @@ describe('ComponentDataProvider', () => {
   });
 
   it('should load static data for component type', () => {
-    spyOn(cmsComponentsService, 'getStaticData');
+    jest
+      .spyOn(cmsComponentsService, 'getStaticData')
+      .mockImplementation(() => {});
     service.get('123', 'BannerComponent').subscribe().unsubscribe();
     expect(cmsComponentsService.getStaticData).toHaveBeenCalledWith(
       'BannerComponent'
@@ -76,7 +78,9 @@ describe('ComponentDataProvider', () => {
   });
 
   it('should load static data for component type when uid is not provided', () => {
-    spyOn(cmsComponentsService, 'getStaticData');
+    jest
+      .spyOn(cmsComponentsService, 'getStaticData')
+      .mockImplementation(() => {});
     service.get('', 'BannerComponent').subscribe().unsubscribe();
     expect(cmsComponentsService.getStaticData).toHaveBeenCalledWith(
       'BannerComponent'
@@ -84,13 +88,15 @@ describe('ComponentDataProvider', () => {
   });
 
   it('should not load static data when type is not provided', () => {
-    spyOn(cmsComponentsService, 'getStaticData');
+    jest
+      .spyOn(cmsComponentsService, 'getStaticData')
+      .mockImplementation(() => {});
     service.get('123').subscribe().unsubscribe();
     expect(cmsComponentsService.getStaticData).not.toHaveBeenCalled();
   });
 
   it('should return static data', () => {
-    spyOn(cmsComponentsService, 'getStaticData').and.returnValue({
+    jest.spyOn(cmsComponentsService, 'getStaticData').mockReturnValue({
       foo: 'bar',
     } as any);
     let result;
@@ -102,7 +108,9 @@ describe('ComponentDataProvider', () => {
   });
 
   it('should complete the stream if uid and static data is not provided', () => {
-    spyOn(cmsComponentsService, 'getStaticData').and.returnValue(undefined);
+    jest
+      .spyOn(cmsComponentsService, 'getStaticData')
+      .mockReturnValue(undefined);
     let result;
     let complete = false;
     service
@@ -118,12 +126,12 @@ describe('ComponentDataProvider', () => {
   });
 
   it('should merge static and component data', () => {
-    spyOn(cmsComponentsService, 'getStaticData').and.returnValue({
+    jest.spyOn(cmsComponentsService, 'getStaticData').mockReturnValue({
       foo: 'bar',
     } as any);
-    spyOn(cmsService, 'getComponentData').and.returnValue(
-      of({ bar: 'foo' } as any)
-    );
+    jest
+      .spyOn(cmsService, 'getComponentData')
+      .mockReturnValue(of({ bar: 'foo' } as any));
     let result;
     service
       .get('123', 'BannerComponent')
@@ -134,10 +142,10 @@ describe('ComponentDataProvider', () => {
   });
 
   it('should override static data with component data', () => {
-    spyOn(cmsService, 'getComponentData').and.returnValue(
-      of({ foo: 'not-bar' } as any)
-    );
-    spyOn(cmsComponentsService, 'getStaticData').and.returnValue({
+    jest
+      .spyOn(cmsService, 'getComponentData')
+      .mockReturnValue(of({ foo: 'not-bar' } as any));
+    jest.spyOn(cmsComponentsService, 'getStaticData').mockReturnValue({
       foo: 'bar',
     } as any);
     let result;
@@ -150,10 +158,10 @@ describe('ComponentDataProvider', () => {
 
   it('should start with static data', () => {
     const data$: BehaviorSubject<CmsComponent> = new BehaviorSubject(null);
-    spyOn(cmsService, 'getComponentData').and.returnValues(
-      data$.asObservable()
-    );
-    spyOn(cmsComponentsService, 'getStaticData').and.returnValue({
+    jest
+      .spyOn(cmsService, 'getComponentData')
+      .and.returnValues(data$.asObservable());
+    jest.spyOn(cmsComponentsService, 'getStaticData').mockReturnValue({
       foo: 'bar',
     } as any);
     let result;

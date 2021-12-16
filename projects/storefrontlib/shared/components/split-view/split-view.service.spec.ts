@@ -242,7 +242,7 @@ describe('SplitViewService', () => {
 
   describe('toggle()', () => {
     it('should add view during toggling if it was not added before', () => {
-      spyOn(service, 'add');
+      jest.spyOn(service, 'add').mockImplementation(() => {});
       service.toggle(2);
       expect(service.add).toHaveBeenCalledWith(2, { hidden: false });
     });

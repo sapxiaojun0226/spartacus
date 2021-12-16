@@ -27,7 +27,6 @@ import {
   ComponentDestroyEvent,
   ComponentEvent,
   ComponentHandler,
-  PageComponentModule,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../model/cms-component-data';
@@ -115,7 +114,7 @@ describe('ComponentWrapperDirective', () => {
 
   beforeEach(() => {
     testBedConfig = {
-      imports: [PageComponentModule.forRoot(), TestModule],
+      imports: [TestModule],
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         Renderer2,
@@ -207,7 +206,7 @@ describe('ComponentWrapperDirective', () => {
 
       describe('events', () => {
         it('should dispatch ComponentCreateEvent on creation', () => {
-          spyOn(eventService, 'dispatch').and.callThrough();
+          jest.spyOn(eventService, 'dispatch');
           fixture.detectChanges();
 
           const el = fixture.debugElement;
@@ -224,7 +223,7 @@ describe('ComponentWrapperDirective', () => {
         });
 
         it('should dispatch ComponentDestroyEvent on creation', () => {
-          spyOn(eventService, 'dispatch').and.callThrough();
+          jest.spyOn(eventService, 'dispatch');
           fixture.detectChanges();
           fixture.destroy();
           expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -238,10 +237,7 @@ describe('ComponentWrapperDirective', () => {
       });
 
       it('should add SmartEdit contract if app launch in SmartEdit', () => {
-        spyOn(
-          dynamicAttributeService,
-          'addAttributesToComponent'
-        ).and.callThrough();
+        jest.spyOn(dynamicAttributeService, 'addAttributesToComponent');
 
         fixture.detectChanges();
         const el = fixture.debugElement;
@@ -283,7 +279,7 @@ describe('ComponentWrapperDirective', () => {
       });
 
       it('should emit component ref', () => {
-        spyOn(component, 'testComponentRef').and.callThrough();
+        jest.spyOn(component, 'testComponentRef');
 
         fixture.detectChanges();
 

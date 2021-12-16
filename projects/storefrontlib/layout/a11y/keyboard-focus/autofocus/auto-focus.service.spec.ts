@@ -86,13 +86,13 @@ describe('AutoFocusService', () => {
     it('should find first focusable element from utility', () => {
       const host = fixture.debugElement.query(By.css('#d')).nativeElement;
       const el = fixture.debugElement.query(By.css('#d1')).nativeElement;
-      spyOn(focusUtility, 'findFirstFocusable').and.returnValue(el);
+      jest.spyOn(focusUtility, 'findFirstFocusable').mockReturnValue(el);
       expect(service.findFirstFocusable(host, { autofocus: true })).toEqual(el);
     });
 
     it('should retun host element if no focusable childs are available', () => {
       const host = fixture.debugElement.query(By.css('#e')).nativeElement;
-      spyOn(focusUtility, 'findFirstFocusable').and.returnValue(null);
+      jest.spyOn(focusUtility, 'findFirstFocusable').mockReturnValue(null);
       expect(service.findFirstFocusable(host, { autofocus: true })).toEqual(
         host
       );

@@ -108,7 +108,7 @@ describe('MiniCartComponent', () => {
 
     it('should show 0 items when cart is not loaded', () => {
       const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
-        .nativeElement.innerText;
+        .nativeElement.textContent;
       expect(cartItemsNumber).toEqual('miniCart.count count:0');
     });
 
@@ -116,7 +116,7 @@ describe('MiniCartComponent', () => {
       activeCart.next(testCart);
       fixture.detectChanges();
       const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
-        .nativeElement.innerText;
+        .nativeElement.textContent;
       expect(cartItemsNumber).toEqual('miniCart.count count:1');
     });
   });

@@ -6,7 +6,7 @@ import {
 } from '@spartacus/core';
 import { PWAModuleConfig } from '../pwa.module-config';
 import { AddToHomeScreenService } from './add-to-home-screen.service';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 class MockGlobalMessageService {
   add = createSpy();
@@ -46,7 +46,7 @@ describe('AddToHomeScreenService', () => {
   ));
 
   it('should enableAddToHomeScreen after beforeinstallprompt is fired', () => {
-    spyOn(addToHomeService, 'enableAddToHomeScreen').and.stub();
+    jest.spyOn(addToHomeService, 'enableAddToHomeScreen').mockImplementation();
 
     const event = new Event('beforeinstallprompt');
     winRef.nativeWindow.dispatchEvent(event);
@@ -54,7 +54,7 @@ describe('AddToHomeScreenService', () => {
   });
 
   it('should disableAddToHomeScreen after appinstalled is fired', () => {
-    spyOn(addToHomeService, 'disableAddToHomeScreen').and.stub();
+    jest.spyOn(addToHomeService, 'disableAddToHomeScreen').mockImplementation();
 
     const event = new Event('appinstalled');
     winRef.nativeWindow.dispatchEvent(event);

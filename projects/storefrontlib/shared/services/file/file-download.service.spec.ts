@@ -20,11 +20,11 @@ describe('FileDownloadService', () => {
   it('should download the file', () => {
     const link = document.createElement('a');
 
-    spyOn(document, 'createElement').and.returnValue(link);
-    spyOn(link, 'setAttribute').and.callThrough();
-    spyOn(document.body, 'appendChild').and.callThrough();
-    spyOn(link, 'click').and.callThrough();
-    spyOn(document.body, 'removeChild').and.callThrough();
+    jest.spyOn(document, 'createElement').mockReturnValue(link);
+    jest.spyOn(link, 'setAttribute');
+    jest.spyOn(document.body, 'appendChild');
+    jest.spyOn(link, 'click');
+    jest.spyOn(document.body, 'removeChild');
 
     service.download(fakeUrl, fileName);
 

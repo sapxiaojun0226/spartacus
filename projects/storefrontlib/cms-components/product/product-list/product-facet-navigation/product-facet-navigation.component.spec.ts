@@ -90,7 +90,7 @@ describe('ProductFacetNavigationComponent', () => {
     );
 
     it('should invoke launch when trigger button is clicked', () => {
-      spyOn(component, 'launch');
+      jest.spyOn(component, 'launch').mockImplementation(() => {});
       fixture.detectChanges();
       const button: HTMLElement = element.query(By.css('button')).nativeElement;
       button.click();
@@ -117,7 +117,7 @@ describe('ProductFacetNavigationComponent', () => {
     it(
       'should invoke close when closeList is emitted',
       waitForAsync(async () => {
-        spyOn(component, 'close');
+        jest.spyOn(component, 'close').mockImplementation(() => {});
         fixture.detectChanges();
         const button: HTMLElement = element.query(
           By.css('button')

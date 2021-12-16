@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { TranslationChunkService, TranslationService } from '@spartacus/core';
 import { CmsI18nService } from './cms-i18n.service';
 import { CmsComponentsService } from './cms-components.service';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 describe('CmsI18nService', () => {
   let service: CmsI18nService;
@@ -15,7 +15,7 @@ describe('CmsI18nService', () => {
     loadChunks: createSpy('loadChunks'),
   };
   const mockTranslationChunk = {
-    getChunkNameForKey: createSpy('getChunkNameForKey').and.callFake(
+    getChunkNameForKey: createSpy('getChunkNameForKey').mockImplementation(
       (key) => `chunkFor-${key}`
     ),
   };

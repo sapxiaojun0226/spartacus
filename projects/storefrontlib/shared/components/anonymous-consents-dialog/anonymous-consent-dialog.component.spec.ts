@@ -125,8 +125,8 @@ describe('AnonymousConsentsDialogComponent', () => {
 
   describe('ngOnInit', () => {
     it('should set templates$ and consents$', () => {
-      spyOn(anonymousConsentsService, 'getTemplates').and.stub();
-      spyOn(anonymousConsentsService, 'getConsents').and.stub();
+      jest.spyOn(anonymousConsentsService, 'getTemplates').mockImplementation();
+      jest.spyOn(anonymousConsentsService, 'getConsents').mockImplementation();
 
       component.ngOnInit();
       expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();
@@ -136,7 +136,9 @@ describe('AnonymousConsentsDialogComponent', () => {
 
   describe('close', () => {
     it('should call modalService.closeActiveModal', () => {
-      spyOn(launchDialogService, 'closeDialog');
+      jest
+        .spyOn(launchDialogService, 'closeDialog')
+        .mockImplementation(() => {});
 
       component.close('xxx');
 
@@ -160,18 +162,19 @@ describe('AnonymousConsentsDialogComponent', () => {
         anonymousConsentsConfig.anonymousConsents.requiredConsents = [
           mockTemplates[0].id,
         ];
-        spyOn(component, 'close').and.stub();
-        spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValues(
-          true,
-          true
-        );
-        spyOn(anonymousConsentsService, 'withdrawConsent').and.stub();
-        spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
-          of(mockTemplates)
-        );
-        spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
-          of(mockConsent)
-        );
+        jest.spyOn(component, 'close').mockImplementation();
+        jest
+          .spyOn(anonymousConsentsService, 'isConsentGiven')
+          .and.returnValues(true, true);
+        jest
+          .spyOn(anonymousConsentsService, 'withdrawConsent')
+          .mockImplementation();
+        jest
+          .spyOn(anonymousConsentsService, 'getTemplates')
+          .mockReturnValue(of(mockTemplates));
+        jest
+          .spyOn(anonymousConsentsService, 'getConsents')
+          .mockReturnValue(of(mockConsent));
 
         component.ngOnInit();
         component.rejectAll();
@@ -184,18 +187,19 @@ describe('AnonymousConsentsDialogComponent', () => {
     });
     describe('when no required consent is present', () => {
       it('should call withdrawAllConsents and close the modal dialog', () => {
-        spyOn(component, 'close').and.stub();
-        spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValues(
-          true,
-          true
-        );
-        spyOn(anonymousConsentsService, 'withdrawConsent').and.stub();
-        spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
-          of(mockTemplates)
-        );
-        spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
-          of(mockConsent)
-        );
+        jest.spyOn(component, 'close').mockImplementation();
+        jest
+          .spyOn(anonymousConsentsService, 'isConsentGiven')
+          .and.returnValues(true, true);
+        jest
+          .spyOn(anonymousConsentsService, 'withdrawConsent')
+          .mockImplementation();
+        jest
+          .spyOn(anonymousConsentsService, 'getTemplates')
+          .mockReturnValue(of(mockTemplates));
+        jest
+          .spyOn(anonymousConsentsService, 'getConsents')
+          .mockReturnValue(of(mockConsent));
 
         component.ngOnInit();
         component.rejectAll();
@@ -224,18 +228,19 @@ describe('AnonymousConsentsDialogComponent', () => {
         anonymousConsentsConfig.anonymousConsents.requiredConsents = [
           mockTemplates[0].id,
         ];
-        spyOn(component, 'close').and.stub();
-        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
-          true,
-          true
-        );
-        spyOn(anonymousConsentsService, 'giveConsent').and.stub();
-        spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
-          of(mockTemplates)
-        );
-        spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
-          of(mockConsents)
-        );
+        jest.spyOn(component, 'close').mockImplementation();
+        jest
+          .spyOn(anonymousConsentsService, 'isConsentWithdrawn')
+          .and.returnValues(true, true);
+        jest
+          .spyOn(anonymousConsentsService, 'giveConsent')
+          .mockImplementation();
+        jest
+          .spyOn(anonymousConsentsService, 'getTemplates')
+          .mockReturnValue(of(mockTemplates));
+        jest
+          .spyOn(anonymousConsentsService, 'getConsents')
+          .mockReturnValue(of(mockConsents));
 
         component.ngOnInit();
         component.allowAll();
@@ -246,18 +251,19 @@ describe('AnonymousConsentsDialogComponent', () => {
     });
     describe('when no required consent is present', () => {
       it('should call giveConsent for each consent and close the modal dialog', () => {
-        spyOn(component, 'close').and.stub();
-        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
-          true,
-          true
-        );
-        spyOn(anonymousConsentsService, 'giveConsent').and.stub();
-        spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
-          of(mockTemplates)
-        );
-        spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
-          of(mockConsents)
-        );
+        jest.spyOn(component, 'close').mockImplementation();
+        jest
+          .spyOn(anonymousConsentsService, 'isConsentWithdrawn')
+          .and.returnValues(true, true);
+        jest
+          .spyOn(anonymousConsentsService, 'giveConsent')
+          .mockImplementation();
+        jest
+          .spyOn(anonymousConsentsService, 'getTemplates')
+          .mockReturnValue(of(mockTemplates));
+        jest
+          .spyOn(anonymousConsentsService, 'getConsents')
+          .mockReturnValue(of(mockConsents));
 
         component.ngOnInit();
         component.allowAll();
@@ -281,18 +287,19 @@ describe('AnonymousConsentsDialogComponent', () => {
           },
         ];
 
-        spyOn(component, 'close').and.stub();
-        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
-          true,
-          true
-        );
-        spyOn(anonymousConsentsService, 'giveConsent').and.stub();
-        spyOn(anonymousConsentsService, 'getTemplates').and.returnValue(
-          of(mockTemplates)
-        );
-        spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
-          of(nullStateMockConsents)
-        );
+        jest.spyOn(component, 'close').mockImplementation();
+        jest
+          .spyOn(anonymousConsentsService, 'isConsentWithdrawn')
+          .and.returnValues(true, true);
+        jest
+          .spyOn(anonymousConsentsService, 'giveConsent')
+          .mockImplementation();
+        jest
+          .spyOn(anonymousConsentsService, 'getTemplates')
+          .mockReturnValue(of(mockTemplates));
+        jest
+          .spyOn(anonymousConsentsService, 'getConsents')
+          .mockReturnValue(of(nullStateMockConsents));
 
         component.ngOnInit();
         component.allowAll();
@@ -328,7 +335,9 @@ describe('AnonymousConsentsDialogComponent', () => {
   describe('onConsentChange', () => {
     describe('when the consent was given', () => {
       it('should call giveConsent', () => {
-        spyOn(anonymousConsentsService, 'giveConsent').and.stub();
+        jest
+          .spyOn(anonymousConsentsService, 'giveConsent')
+          .mockImplementation();
         component.onConsentChange({ given: true, template: mockTemplates[0] });
         expect(anonymousConsentsService.giveConsent).toHaveBeenCalledWith(
           mockTemplates[0].id
@@ -337,7 +346,9 @@ describe('AnonymousConsentsDialogComponent', () => {
     });
     describe('when the consent was withdrawn', () => {
       it('should call withdrawConsent', () => {
-        spyOn(anonymousConsentsService, 'withdrawConsent').and.stub();
+        jest
+          .spyOn(anonymousConsentsService, 'withdrawConsent')
+          .mockImplementation();
         component.onConsentChange({ given: false, template: mockTemplates[0] });
         expect(anonymousConsentsService.withdrawConsent).toHaveBeenCalledWith(
           mockTemplates[0].id
@@ -365,7 +376,9 @@ describe('AnonymousConsentsDialogComponent', () => {
 
   describe('ngOnDestroy', () => {
     it('should call unsubscribe', () => {
-      spyOn<any>(component['subscriptions'], 'unsubscribe').and.stub();
+      jest
+        .spyOn<any>(component['subscriptions'], 'unsubscribe')
+        .mockImplementation();
       component.ngOnDestroy();
       expect(component['subscriptions'].unsubscribe).toHaveBeenCalled();
     });

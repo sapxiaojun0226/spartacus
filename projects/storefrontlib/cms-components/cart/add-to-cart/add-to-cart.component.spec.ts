@@ -148,7 +148,7 @@ describe('AddToCartComponent', () => {
       inventoryDisplay: false,
     });
 
-    spyOn(modalInstance, 'open').and.callThrough();
+    jest.spyOn(modalInstance, 'open');
     fixture.detectChanges();
   });
 
@@ -165,9 +165,9 @@ describe('AddToCartComponent', () => {
     });
 
     it('should load entry by product code from currentProductService', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockProduct));
       addToCartComponent.ngOnInit();
       expect(addToCartComponent.productCode).toEqual(mockProduct.code);
       expect(addToCartComponent.maxQuantity).toEqual(
@@ -177,7 +177,7 @@ describe('AddToCartComponent', () => {
     });
 
     it('should not have stock based on current product', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      jest.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of({
           stock: { stockLevelStatus: 'outOfStock' },
         })
@@ -198,9 +198,9 @@ describe('AddToCartComponent', () => {
       const currentProduct = new BehaviorSubject<Product>(mockProduct);
 
       //Product 1
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        currentProduct
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(currentProduct);
       addToCartComponent.ngOnInit();
       expect(addToCartComponent.productCode).toEqual(mockProduct.code);
       addToCartComponent.quantity = 5;
@@ -213,9 +213,9 @@ describe('AddToCartComponent', () => {
     });
 
     it('should disable input when the product has no stock', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockNoStockProduct)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockNoStockProduct));
       addToCartComponent.ngOnInit();
       expect(addToCartComponent.productCode).toEqual(mockProduct.code);
       expect(addToCartComponent.maxQuantity).toBe(undefined);
@@ -226,9 +226,9 @@ describe('AddToCartComponent', () => {
   it('should call addToCart()', () => {
     addToCartComponent.productCode = productCode;
     addToCartComponent.ngOnInit();
-    spyOn(service, 'addEntry').and.callThrough();
-    spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
-    spyOn(service, 'isStable').and.returnValue(of(true));
+    jest.spyOn(service, 'addEntry');
+    jest.spyOn(service, 'getEntries').mockReturnValue(of([mockCartEntry]));
+    jest.spyOn(service, 'isStable').mockReturnValue(of(true));
     addToCartComponent.quantity = 1;
 
     addToCartComponent.addToCart();
@@ -257,9 +257,9 @@ describe('AddToCartComponent', () => {
 
     it('should show the addToCart button for currentProduct', () => {
       addToCartComponent.productCode = null;
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockProduct));
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
       expect(el.query(By.css('button')).nativeElement).toBeDefined();
@@ -267,9 +267,9 @@ describe('AddToCartComponent', () => {
 
     it('should hide the addToCart button for currentProduct', () => {
       addToCartComponent.productCode = null;
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockNoStockProduct)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockNoStockProduct));
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
       expect(el.query(By.css('button'))).toBeNull();
@@ -285,9 +285,9 @@ describe('AddToCartComponent', () => {
 
   describe('Inventory Display test', () => {
     it('should display inventory quantity when enabled', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockProduct));
 
       config$.next({
         inventoryDisplay: true,
@@ -296,28 +296,28 @@ describe('AddToCartComponent', () => {
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
-      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
-        mockProduct.stock?.stockLevel + ' addToCart.inStock'
-      );
+      expect(
+        el.query(By.css('.info')).nativeElement.textContent.trim()
+      ).toEqual(mockProduct.stock?.stockLevel + ' addToCart.inStock');
     });
 
     it('should NOT display inventory when disabled', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockProduct));
 
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
-      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
-        'addToCart.inStock'
-      );
+      expect(
+        el.query(By.css('.info')).nativeElement.textContent.trim()
+      ).toEqual('addToCart.inStock');
     });
 
     it('should display out of stock inventory when enabled and out of stock', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockNoStockProduct)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockNoStockProduct));
 
       config$.next({
         inventoryDisplay: true,
@@ -326,28 +326,28 @@ describe('AddToCartComponent', () => {
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
-      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
-        'addToCart.outOfStock'
-      );
+      expect(
+        el.query(By.css('.info')).nativeElement.textContent.trim()
+      ).toEqual('addToCart.outOfStock');
     });
 
     it('should display out of stock when inventory display disabled', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockNoStockProduct)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockNoStockProduct));
 
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
-      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
-        'addToCart.outOfStock'
-      );
+      expect(
+        el.query(By.css('.info')).nativeElement.textContent.trim()
+      ).toEqual('addToCart.outOfStock');
     });
 
     it('should display `In Stock` when product forced in stock status and inventory display enabled', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct2)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockProduct2));
 
       config$.next({
         inventoryDisplay: true,
@@ -356,15 +356,15 @@ describe('AddToCartComponent', () => {
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
-      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
-        'addToCart.inStock'
-      );
+      expect(
+        el.query(By.css('.info')).nativeElement.textContent.trim()
+      ).toEqual('addToCart.inStock');
     });
 
     it('should display `+` when product stock level threshold applied when inventory display enabled', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct3)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockProduct3));
 
       config$.next({
         inventoryDisplay: true,
@@ -373,15 +373,15 @@ describe('AddToCartComponent', () => {
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
 
-      expect(el.query(By.css('.info')).nativeElement.innerText.trim()).toEqual(
-        mockProduct3.stock?.stockLevel + '+ addToCart.inStock'
-      );
+      expect(
+        el.query(By.css('.info')).nativeElement.textContent.trim()
+      ).toEqual(mockProduct3.stock?.stockLevel + '+ addToCart.inStock');
     });
 
     it('should return max quantity as string in getInventory()', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockProduct));
 
       config$.next({
         inventoryDisplay: true,
@@ -395,9 +395,9 @@ describe('AddToCartComponent', () => {
     });
 
     it('should return empty string in getInventory() when out of stock', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockNoStockProduct)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockNoStockProduct));
 
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
@@ -407,9 +407,9 @@ describe('AddToCartComponent', () => {
     });
 
     it('should return empty string in getInventory() when force InStock', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct2)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockProduct2));
 
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
@@ -419,9 +419,9 @@ describe('AddToCartComponent', () => {
     });
 
     it('should return threshold value with + in getInventory()', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct3)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockProduct3));
 
       config$.next({
         inventoryDisplay: true,

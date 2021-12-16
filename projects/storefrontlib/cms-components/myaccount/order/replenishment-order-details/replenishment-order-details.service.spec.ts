@@ -91,18 +91,11 @@ describe('ReplenishmentOrderDetailsService', () => {
       UserReplenishmentOrderService
     );
 
-    spyOn(
-      userReplenishmentOrderService,
-      'loadReplenishmentOrderDetails'
-    ).and.callThrough();
-    spyOn(
-      userReplenishmentOrderService,
-      'clearReplenishmentOrderDetails'
-    ).and.callThrough();
-    spyOn(
-      userReplenishmentOrderService,
-      'getReplenishmentOrderDetails'
-    ).and.returnValue(of(mockReplenishmentOrder));
+    jest.spyOn(userReplenishmentOrderService, 'loadReplenishmentOrderDetails');
+    jest.spyOn(userReplenishmentOrderService, 'clearReplenishmentOrderDetails');
+    jest
+      .spyOn(userReplenishmentOrderService, 'getReplenishmentOrderDetails')
+      .mockReturnValue(of(mockReplenishmentOrder));
   });
 
   it('should be created', () => {

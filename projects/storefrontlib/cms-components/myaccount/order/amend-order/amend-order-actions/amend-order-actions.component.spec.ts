@@ -22,7 +22,7 @@ class MockRoutingConfigService {
 }
 
 class MockRoutingService {
-  go = jasmine.createSpy('go');
+  go = jest.fn();
 }
 
 describe('AmendOrderActionsComponent', () => {

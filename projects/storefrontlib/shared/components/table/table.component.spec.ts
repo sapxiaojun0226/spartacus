@@ -6,7 +6,7 @@ import { OutletModule } from 'projects/storefrontlib/cms-structure';
 import { TableRendererService } from './table-renderer.service';
 import { TableComponent } from './table.component';
 import { Table, TableLayout } from './table.model';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const headers: string[] = ['key1', 'key2', 'key3'];
 
@@ -79,7 +79,7 @@ describe('TableComponent', () => {
   });
 
   it('should add the table type to __cx-table-type attribute in devMode', () => {
-    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
+    jest.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(() => true);
 
     tableComponent.structure = mockDataset.structure;
     fixture.detectChanges();
@@ -90,7 +90,7 @@ describe('TableComponent', () => {
   });
 
   it('should not add the table type to __cx-table-type attribute in production mode', () => {
-    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
+    jest.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(() => false);
     tableComponent.structure = mockDataset.structure;
     fixture.detectChanges();
     const attr = (
@@ -235,13 +235,13 @@ describe('TableComponent', () => {
       });
 
       it('should send out an event for the selected item', () => {
-        spyOn(tableComponent.launch, 'emit');
+        jest.spyOn(tableComponent.launch, 'emit').mockImplementation(() => {});
         tableComponent.launchItem({ foo: 'bar' });
         expect(tableComponent.launch.emit).toHaveBeenCalledWith({ foo: 'bar' });
       });
 
       it('should launch on TR click', () => {
-        spyOn(tableComponent.launch, 'emit');
+        jest.spyOn(tableComponent.launch, 'emit').mockImplementation(() => {});
         const rows = fixture.debugElement.queryAll(By.css('table > tr'));
         (rows[0].nativeElement as HTMLElement).click();
         expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[0]);
@@ -297,7 +297,7 @@ describe('TableComponent', () => {
       });
 
       it('should launch on tbody click', () => {
-        spyOn(tableComponent.launch, 'emit');
+        jest.spyOn(tableComponent.launch, 'emit').mockImplementation(() => {});
         const rows = fixture.debugElement.queryAll(By.css('table > tbody'));
         (rows[0].nativeElement as HTMLElement).click();
         expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[0]);

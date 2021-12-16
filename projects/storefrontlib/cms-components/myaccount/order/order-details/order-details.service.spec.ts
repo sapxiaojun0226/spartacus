@@ -115,10 +115,10 @@ describe('OrderDetailsService', () => {
       userService = TestBed.inject(UserOrderService);
       routingService = TestBed.inject(RoutingService);
 
-      spyOn(routingService, 'getRouterState');
-      spyOn(userService, 'loadOrderDetails');
-      spyOn(userService, 'clearOrderDetails');
-      spyOn(userService, 'getOrderDetails').and.returnValue(of(mockOrder));
+      jest.spyOn(routingService, 'getRouterState').mockImplementation(() => {});
+      jest.spyOn(userService, 'loadOrderDetails').mockImplementation(() => {});
+      jest.spyOn(userService, 'clearOrderDetails').mockImplementation(() => {});
+      jest.spyOn(userService, 'getOrderDetails').mockReturnValue(of(mockOrder));
     });
 
     it('should be created', () => {
@@ -195,9 +195,9 @@ describe('OrderDetailsService', () => {
       transitionalService = TestBed.inject(
         OrderDetailsServiceTransitionalToken
       );
-      spyOn(transitionalService, 'getOrderDetails').and.returnValue(
-        of(mockOrder)
-      );
+      jest
+        .spyOn(transitionalService, 'getOrderDetails')
+        .mockReturnValue(of(mockOrder));
     });
 
     it('should load order details with transitional service', (done) => {

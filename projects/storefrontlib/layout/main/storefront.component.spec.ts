@@ -61,6 +61,13 @@ class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
 }
 
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config;
+}
+
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
@@ -81,6 +88,7 @@ describe('StorefrontComponent', () => {
           MockFeatureDirective,
           MockSchemaComponent,
           MockOutletDirective,
+          MockFocusDirective,
         ],
         providers: [
           {
@@ -108,7 +116,7 @@ describe('StorefrontComponent', () => {
   });
 
   it('should contain start-navigating class', () => {
-    spyOn(routingService, 'isNavigating').and.returnValue(of(true));
+    jest.spyOn(routingService, 'isNavigating').mockReturnValue(of(true));
     fixture.detectChanges();
     expect(
       el.nativeElement.classList.contains('start-navigating')
@@ -116,14 +124,14 @@ describe('StorefrontComponent', () => {
   });
 
   it('should contain stop-navigating class', () => {
-    spyOn(routingService, 'isNavigating').and.returnValue(of(false));
+    jest.spyOn(routingService, 'isNavigating').mockReturnValue(of(false));
     fixture.detectChanges();
     expect(el.nativeElement.classList.contains('stop-navigating')).toBeTruthy();
     expect(el.nativeElement.classList.contains('start-navigating')).toBeFalsy();
   });
 
   it('should collapse menu when header is expanded', () => {
-    spyOn(component, 'collapseMenu').and.callThrough();
+    jest.spyOn(component, 'collapseMenu');
 
     const mockTarget = {};
     mockTarget['className'] = 'is-expanded';
@@ -138,7 +146,7 @@ describe('StorefrontComponent', () => {
   });
 
   it('should NOT collapse menu when header is NOT expanded', () => {
-    spyOn(component, 'collapseMenu').and.callThrough();
+    jest.spyOn(component, 'collapseMenu');
 
     const mockTarget = {};
     mockTarget['nodeName'] = 'DIV';

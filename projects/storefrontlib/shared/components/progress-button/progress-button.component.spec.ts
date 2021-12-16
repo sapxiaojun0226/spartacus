@@ -62,7 +62,7 @@ describe('ProgressButtonComponent', () => {
   });
 
   it('should trigger clickEvent on button click', () => {
-    spyOn(component.clikEvent, 'emit').and.callThrough();
+    jest.spyOn(component.clikEvent, 'emit');
 
     const button = el.query(By.css('.btn-primary')).nativeElement;
     button.click();
@@ -95,7 +95,7 @@ describe('ProgressButtonComponent', () => {
 
   describe('should not trigger clickEvent on button click when ', () => {
     beforeEach(() => {
-      spyOn(component.clikEvent, 'emit').and.callThrough();
+      jest.spyOn(component.clikEvent, 'emit');
     });
 
     it('button is disabled', () => {

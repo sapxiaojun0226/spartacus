@@ -99,10 +99,10 @@ describe('LoginGuard', () => {
 
   describe('When user is authorized,', () => {
     it('should try to render login CMS page', (done) => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(cmsPageGuard, 'canActivate').and.callThrough();
-      spyOn(authRedirectService, 'reportNotAuthGuard').and.callThrough();
-      spyOn(authService, 'loginWithRedirect').and.callThrough();
+      jest.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+      jest.spyOn(cmsPageGuard, 'canActivate');
+      jest.spyOn(authRedirectService, 'reportNotAuthGuard');
+      jest.spyOn(authService, 'loginWithRedirect');
 
       loginGuard
         .canActivate(
@@ -125,12 +125,12 @@ describe('LoginGuard', () => {
 
   describe('When user is not authorized', () => {
     it('should try to render login CMS page when ResourcePasswordOwnerFlow is used', (done) => {
-      spyOn(cmsPageGuard, 'canActivate').and.callThrough();
-      spyOn(authRedirectService, 'reportNotAuthGuard').and.callThrough();
-      spyOn(authService, 'loginWithRedirect').and.callThrough();
-      spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
-        OAuthFlow.ResourceOwnerPasswordFlow
-      );
+      jest.spyOn(cmsPageGuard, 'canActivate');
+      jest.spyOn(authRedirectService, 'reportNotAuthGuard');
+      jest.spyOn(authService, 'loginWithRedirect');
+      jest
+        .spyOn(authConfigService, 'getOAuthFlow')
+        .mockReturnValue(OAuthFlow.ResourceOwnerPasswordFlow);
 
       loginGuard
         .canActivate(
@@ -151,9 +151,9 @@ describe('LoginGuard', () => {
     });
 
     it('should report previous page and initialize login redirect when flows with redirects are used', () => {
-      spyOn(authRedirectService, 'reportNotAuthGuard').and.callThrough();
-      spyOn(authService, 'loginWithRedirect').and.callThrough();
-      spyOn(cmsPageGuard, 'canActivate').and.callThrough();
+      jest.spyOn(authRedirectService, 'reportNotAuthGuard');
+      jest.spyOn(authService, 'loginWithRedirect');
+      jest.spyOn(cmsPageGuard, 'canActivate');
 
       loginGuard
         .canActivate(
@@ -169,9 +169,9 @@ describe('LoginGuard', () => {
     });
 
     it('should report previous page and initialize login redirect when flows with redirects are used', (done) => {
-      spyOn(authRedirectService, 'reportNotAuthGuard').and.callThrough();
-      spyOn(authService, 'loginWithRedirect').and.returnValue(false);
-      spyOn(cmsPageGuard, 'canActivate').and.callThrough();
+      jest.spyOn(authRedirectService, 'reportNotAuthGuard');
+      jest.spyOn(authService, 'loginWithRedirect').mockReturnValue(false);
+      jest.spyOn(cmsPageGuard, 'canActivate');
 
       loginGuard
         .canActivate(

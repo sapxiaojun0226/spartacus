@@ -5,7 +5,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../../shared/test/mock-feature-level-directive';
 import { OrderAmendService } from '../amend-order.service';
 import { CancelOrReturnItemsComponent } from './amend-order-items.component';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const mockEntries = [
   {

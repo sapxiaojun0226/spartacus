@@ -16,13 +16,11 @@ describe('CmsGuardsService', () => {
   const mockUrlTree = new UrlTree();
 
   class MockCmsComponentsService {
-    getGuards = jasmine.createSpy('getGuards').and.returnValue(guards);
+    getGuards = jest.fn(() => guards);
   }
 
   class PositiveGuard implements CanActivate {
-    canActivate = jasmine
-      .createSpy('PositiveGuard.canActivate')
-      .and.returnValue(true);
+    canActivate = jest.fn(() => true);
   }
 
   class PositiveGuardObservable implements CanActivate {

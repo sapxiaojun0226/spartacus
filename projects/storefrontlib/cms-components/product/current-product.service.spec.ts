@@ -63,8 +63,8 @@ describe('CurrentProductService', () => {
     routingService = TestBed.inject(RoutingService);
     productService = TestBed.inject(ProductService);
 
-    spyOn(routingService, 'getRouterState').and.callThrough();
-    spyOn(productService, 'get').and.callThrough();
+    jest.spyOn(routingService, 'getRouterState');
+    jest.spyOn(productService, 'get');
   });
 
   it('should emit product data', () => {

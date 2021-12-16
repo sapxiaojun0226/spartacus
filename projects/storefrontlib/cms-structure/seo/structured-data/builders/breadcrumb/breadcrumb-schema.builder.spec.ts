@@ -70,7 +70,7 @@ describe('JsonLdProductOfferBuilder', () => {
   });
 
   it('should contain a schema with 2 crumb', () => {
-    spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaHome));
+    jest.spyOn(pageMetaService, 'getMeta').mockReturnValue(of(pageMetaHome));
     service
       .build()
       .subscribe((schema) => {
@@ -80,7 +80,7 @@ describe('JsonLdProductOfferBuilder', () => {
   });
 
   it('should contain a schema with 3 crumbs', () => {
-    spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaChild));
+    jest.spyOn(pageMetaService, 'getMeta').mockReturnValue(of(pageMetaChild));
     service
       .build()
       .subscribe((schema) => {
@@ -90,7 +90,7 @@ describe('JsonLdProductOfferBuilder', () => {
   });
 
   it('should have crumb with positions', () => {
-    spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaHome));
+    jest.spyOn(pageMetaService, 'getMeta').mockReturnValue(of(pageMetaHome));
     service
       .build()
       .subscribe((schema) => {
@@ -100,7 +100,7 @@ describe('JsonLdProductOfferBuilder', () => {
   });
 
   it('should add the page meta title as last crumb', () => {
-    spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaHome));
+    jest.spyOn(pageMetaService, 'getMeta').mockReturnValue(of(pageMetaHome));
     service
       .build()
       .subscribe((schema) => {
@@ -110,9 +110,9 @@ describe('JsonLdProductOfferBuilder', () => {
   });
 
   it('should not add page meta title if there is no title', () => {
-    spyOn(pageMetaService, 'getMeta').and.returnValue(
-      of(pageMetaHomeWithoutTitle)
-    );
+    jest
+      .spyOn(pageMetaService, 'getMeta')
+      .mockReturnValue(of(pageMetaHomeWithoutTitle));
     service
       .build()
       .subscribe((schema) => {
@@ -122,9 +122,9 @@ describe('JsonLdProductOfferBuilder', () => {
   });
 
   it('should not create schema if there are no breadcrumbs', () => {
-    spyOn(pageMetaService, 'getMeta').and.returnValue(
-      of(pageMetaWithoutBreadcrumb)
-    );
+    jest
+      .spyOn(pageMetaService, 'getMeta')
+      .mockReturnValue(of(pageMetaWithoutBreadcrumb));
     let schema: string;
     service
       .build()

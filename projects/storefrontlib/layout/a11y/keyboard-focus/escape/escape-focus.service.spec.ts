@@ -71,12 +71,12 @@ describe('EscapeFocusService', () => {
     };
 
     beforeEach(() => {
-      spyOn(ev, 'preventDefault');
-      spyOn(ev, 'stopPropagation');
+      jest.spyOn(ev, 'preventDefault').mockImplementation(() => {});
+      jest.spyOn(ev, 'stopPropagation').mockImplementation(() => {});
 
       el = fixture.debugElement.query(By.css('#a')).nativeElement;
 
-      spyOn(el, 'focus');
+      jest.spyOn(el, 'focus').mockImplementation(() => {});
     });
 
     describe('focusOnEscape = true', () => {
@@ -95,7 +95,9 @@ describe('EscapeFocusService', () => {
         beforeEach(() => {
           ev.target = el;
 
-          spyOn(focusUtility, 'findFirstFocusable');
+          jest
+            .spyOn(focusUtility, 'findFirstFocusable')
+            .mockImplementation(() => {});
         });
         it('should not focus', () => {
           service.handleEscape(

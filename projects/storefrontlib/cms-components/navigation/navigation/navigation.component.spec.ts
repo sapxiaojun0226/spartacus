@@ -8,7 +8,7 @@ import { NavigationNode } from './navigation-node.model';
 import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
 
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -35,7 +35,7 @@ describe('CmsNavigationComponent', () => {
   let element: DebugElement;
 
   const mockNavigationService = {
-    createNavigation: createSpy().and.returnValue(of(null)),
+    createNavigation: createSpy().mockReturnValue(of(null)),
   };
 
   beforeEach(

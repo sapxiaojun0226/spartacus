@@ -5,7 +5,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../misc/index';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 @Component({
   selector: 'cx-icon',

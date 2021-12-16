@@ -11,7 +11,9 @@ const focusConfig = {
   autofocus: true,
 };
 
-@Component({ template: '<div id="a"></div><div id="b" tabindex="5"></div>' })
+@Component({
+  template: '<div id="a"></div><div id="b" tabindex="5"></div>',
+})
 class MockComponent {}
 
 describe('PopoverService', () => {
@@ -21,11 +23,12 @@ describe('PopoverService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [PopoverService],
+      declarations: [MockComponent],
     });
     service = TestBed.inject(PopoverService);
     fixture = TestBed.createComponent(MockComponent);
     el = fixture.debugElement.query(By.css('#a'));
-    spyOn(el.nativeElement, 'focus').and.callThrough();
+    jest.spyOn(el.nativeElement, 'focus');
   });
 
   it('should inject service', () => {

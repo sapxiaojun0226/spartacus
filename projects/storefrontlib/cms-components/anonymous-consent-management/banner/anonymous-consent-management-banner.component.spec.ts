@@ -74,8 +74,10 @@ describe('AnonymousConsentManagementBannerComponent', () => {
 
   describe('viewDetails', () => {
     it('should hide the banner and open the dialog', () => {
-      spyOn(component, 'hideBanner').and.stub();
-      spyOn(launchDialogService, 'openDialog');
+      jest.spyOn(component, 'hideBanner').mockImplementation();
+      jest
+        .spyOn(launchDialogService, 'openDialog')
+        .mockImplementation(() => {});
 
       component.viewDetails();
 
@@ -90,11 +92,11 @@ describe('AnonymousConsentManagementBannerComponent', () => {
 
   describe('allowAll', () => {
     it('should give all anonymous consents and call hideBanner()', () => {
-      spyOn<any>(component['subscriptions'], 'add').and.callThrough();
-      spyOn(anonymousConsentsService, 'giveAllConsents').and.returnValue(
-        of([])
-      );
-      spyOn(component, 'hideBanner').and.stub();
+      jest.spyOn(component['subscriptions'], 'add');
+      jest
+        .spyOn(anonymousConsentsService, 'giveAllConsents')
+        .mockReturnValue(of([]));
+      jest.spyOn(component, 'hideBanner').mockImplementation();
 
       component.allowAll();
 
@@ -106,7 +108,9 @@ describe('AnonymousConsentManagementBannerComponent', () => {
 
   describe('hideBanner', () => {
     it('should anonymousConsentsService.toggleBannerDismissed call with true as an argument', () => {
-      spyOn(anonymousConsentsService, 'toggleBannerDismissed').and.stub();
+      jest
+        .spyOn(anonymousConsentsService, 'toggleBannerDismissed')
+        .mockImplementation();
       component.hideBanner();
       expect(
         anonymousConsentsService.toggleBannerDismissed
@@ -116,7 +120,9 @@ describe('AnonymousConsentManagementBannerComponent', () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe', () => {
-      spyOn<any>(component['subscriptions'], 'unsubscribe').and.stub();
+      jest
+        .spyOn<any>(component['subscriptions'], 'unsubscribe')
+        .mockImplementation();
       component.ngOnDestroy();
       expect(component['subscriptions'].unsubscribe).toHaveBeenCalled();
     });

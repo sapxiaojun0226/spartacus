@@ -183,7 +183,7 @@ describe('ProductCarouselComponent', () => {
       waitForAsync(() => {
         const el = fixture.debugElement.query(By.css('a:first-child h3'));
         expect(el.nativeElement).toBeTruthy();
-        expect(el.nativeElement.innerText).toEqual('product 1');
+        expect(el.nativeElement.textContent).toEqual('product 1');
       })
     );
 
@@ -192,7 +192,7 @@ describe('ProductCarouselComponent', () => {
       waitForAsync(() => {
         const el = fixture.debugElement.query(By.css('a:last-child .price'));
         expect(el.nativeElement).toBeTruthy();
-        expect(el.nativeElement.innerText).toEqual('$200.00');
+        expect(el.nativeElement.textContent).toEqual('$200.00');
       })
     );
 

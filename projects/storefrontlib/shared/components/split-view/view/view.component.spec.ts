@@ -49,9 +49,9 @@ describe('ViewComponent', () => {
     component = fixture.componentInstance;
     service = TestBed.inject(SplitViewService);
 
-    spyOn(service, 'add').and.stub();
-    spyOn(service, 'remove').and.stub();
-    spyOn(service, 'toggle').and.stub();
+    jest.spyOn(service, 'add').mockImplementation();
+    jest.spyOn(service, 'remove').mockImplementation();
+    jest.spyOn(service, 'toggle').mockImplementation();
   });
 
   it('should create', () => {

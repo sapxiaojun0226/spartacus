@@ -103,13 +103,17 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should redirect to same page and add global message on successful cancellation ', () => {
-    spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder').and.stub();
-    spyOn(
-      userReplenishmentOrderService,
-      'clearCancelReplenishmentOrderProcessState'
-    ).and.stub();
-    spyOn(globalMessageService, 'add').and.stub();
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    jest
+      .spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder')
+      .mockImplementation();
+    jest
+      .spyOn(
+        userReplenishmentOrderService,
+        'clearCancelReplenishmentOrderProcessState'
+      )
+      .mockImplementation();
+    jest.spyOn(globalMessageService, 'add').mockImplementation();
+    jest.spyOn(launchDialogService, 'closeDialog').mockImplementation();
 
     component.onSuccess(true);
 
@@ -133,7 +137,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to call the close dialog', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    jest.spyOn(launchDialogService, 'closeDialog').mockImplementation();
 
     const mockCloseReason = 'test-close';
 
@@ -145,7 +149,9 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to call the cancel replenishment', () => {
-    spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder').and.stub();
+    jest
+      .spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder')
+      .mockImplementation();
 
     component.cancelReplenishment();
 

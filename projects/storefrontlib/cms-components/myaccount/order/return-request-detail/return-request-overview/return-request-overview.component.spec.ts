@@ -10,9 +10,9 @@ const mockReturnRequest: ReturnRequest = {
 };
 
 class MockReturnRequestService {
-  cancelReturnRequest = jasmine.createSpy();
-  cancelSuccess = jasmine.createSpy();
-  backToList = jasmine.createSpy();
+  cancelReturnRequest = jest.fn();
+  cancelSuccess = jest.fn();
+  backToList = jest.fn();
   getReturnRequest(): Observable<ReturnRequest> {
     return of(mockReturnRequest);
   }

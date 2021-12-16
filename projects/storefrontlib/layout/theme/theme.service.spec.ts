@@ -34,7 +34,7 @@ describe('ThemeService', () => {
   });
 
   it('should call setTheme only once', () => {
-    spyOn(service, 'setTheme');
+    jest.spyOn(service, 'setTheme').mockImplementation(() => {});
 
     service.init(componentRef);
     expect(service.setTheme).toHaveBeenCalledWith('test-theme');

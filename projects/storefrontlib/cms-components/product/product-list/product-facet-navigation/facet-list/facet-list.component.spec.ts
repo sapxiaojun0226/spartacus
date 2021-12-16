@@ -112,7 +112,7 @@ describe('FacetListComponent', () => {
   });
 
   it('should emit expandFacetGroup when handling unlock', () => {
-    spyOn(component, 'expandFacetGroup').and.stub();
+    jest.spyOn(component, 'expandFacetGroup').mockImplementation();
     component.isDialog = true;
     fixture.detectChanges();
 
@@ -125,23 +125,23 @@ describe('FacetListComponent', () => {
 
   describe('dialog', () => {
     it('should add modal class to body element', () => {
-      spyOn(renderer, 'addClass').and.stub();
+      jest.spyOn(renderer, 'addClass').mockImplementation();
       component.isDialog = true;
       fixture.detectChanges();
 
       expect(renderer.addClass).toHaveBeenCalledWith(
-        jasmine.any(HTMLElement),
+        expect.any(HTMLElement),
         'modal-open'
       );
     });
 
     it('should remove modal class from body element', () => {
-      spyOn(renderer, 'removeClass').and.stub();
+      jest.spyOn(renderer, 'removeClass').mockImplementation();
       component.close();
       fixture.detectChanges();
 
       expect(renderer.removeClass).toHaveBeenCalledWith(
-        jasmine.any(HTMLElement),
+        expect.any(HTMLElement),
         'modal-open'
       );
     });
@@ -149,7 +149,7 @@ describe('FacetListComponent', () => {
 
   describe('close dialog', () => {
     it('should emit close when clicking the close button', () => {
-      spyOn(component.closeList, 'emit').and.stub();
+      jest.spyOn(component.closeList, 'emit').mockImplementation();
       component.isDialog = true;
       fixture.detectChanges();
 
@@ -159,7 +159,7 @@ describe('FacetListComponent', () => {
     });
 
     it('should emit close when handling escape', () => {
-      spyOn(component.closeList, 'emit').and.stub();
+      jest.spyOn(component.closeList, 'emit').mockImplementation();
       component.isDialog = true;
       fixture.detectChanges();
 
@@ -171,7 +171,7 @@ describe('FacetListComponent', () => {
 
   describe('collapsed', () => {
     beforeEach(() => {
-      spyOn(service, 'getState').and.returnValue(
+      jest.spyOn(service, 'getState').mockReturnValue(
         of({
           toggled: FacetGroupCollapsedState.COLLAPSED,
         } as FacetCollapseState)
@@ -213,7 +213,7 @@ describe('FacetListComponent', () => {
 
   describe('expanded', () => {
     beforeEach(() => {
-      spyOn(service, 'getState').and.returnValue(
+      jest.spyOn(service, 'getState').mockReturnValue(
         of({
           toggled: FacetGroupCollapsedState.EXPANDED,
         } as FacetCollapseState)

@@ -7,6 +7,7 @@ import { DatePickerComponent } from './date-picker.component';
 
 @Component({
   selector: 'cx-form-errors',
+  template: '',
 })
 class MockFormErrorComponent {
   @Input() control: FormControl;
@@ -89,7 +90,7 @@ describe('DatePickerComponent', () => {
 
   describe('change date', () => {
     it('should emit event', () => {
-      spyOn(component.update, 'emit');
+      jest.spyOn(component.update, 'emit').mockImplementation(() => {});
       inputEl.triggerEventHandler('change', mockEvent);
       expect(component.update.emit).toHaveBeenCalledWith();
     });

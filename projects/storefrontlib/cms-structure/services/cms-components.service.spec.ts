@@ -8,7 +8,7 @@ import {
 import { of, Subject } from 'rxjs';
 import { CmsComponentsService } from './cms-components.service';
 import { CmsFeaturesService } from '@spartacus/storefront';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 let service: CmsComponentsService;
 
@@ -52,7 +52,7 @@ const mockComponents: string[] = [
 class MockCmsFeaturesService implements Partial<CmsFeaturesService> {
   private testResovler = new Subject();
 
-  hasFeatureFor = createSpy().and.callFake((type) => type === 'feature');
+  hasFeatureFor = createSpy().mockImplementation((type) => type === 'feature');
   getModule = createSpy();
 
   getCmsMapping() {

@@ -17,7 +17,7 @@ const router = {
 };
 
 class MockRoutingService {
-  go = jasmine.createSpy('go');
+  go = jest.fn();
   getRouterState() {
     return of(router);
   }
@@ -25,10 +25,10 @@ class MockRoutingService {
 
 const mockReturnRequest: ReturnRequest = { rma: '123456', returnEntries: [] };
 class MockOrderReturnRequestService {
-  clearOrderReturnRequestDetail = jasmine.createSpy();
-  loadOrderReturnRequestDetail = jasmine.createSpy();
-  cancelOrderReturnRequest = jasmine.createSpy();
-  resetCancelReturnRequestProcessState = jasmine.createSpy();
+  clearOrderReturnRequestDetail = jest.fn();
+  loadOrderReturnRequestDetail = jest.fn();
+  cancelOrderReturnRequest = jest.fn();
+  resetCancelReturnRequestProcessState = jest.fn();
   getOrderReturnRequest(): Observable<ReturnRequest> {
     return of(mockReturnRequest);
   }
@@ -38,7 +38,7 @@ class MockOrderReturnRequestService {
 }
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy('add');
+  add = jest.fn();
 }
 
 describe('ReturnRequestService', () => {
@@ -80,9 +80,9 @@ describe('ReturnRequestService', () => {
   });
 
   it('should load return request data if return request data not exist', () => {
-    spyOn(orderReturnRequestService, 'getOrderReturnRequest').and.returnValue(
-      of(undefined)
-    );
+    jest
+      .spyOn(orderReturnRequestService, 'getOrderReturnRequest')
+      .mockReturnValue(of(undefined));
     service.getReturnRequest().subscribe().unsubscribe();
     expect(
       orderReturnRequestService.loadOrderReturnRequestDetail
@@ -90,9 +90,9 @@ describe('ReturnRequestService', () => {
   });
 
   it('should load return request data if rma is not equal to returnCode in route parameter', () => {
-    spyOn(orderReturnRequestService, 'getOrderReturnRequest').and.returnValue(
-      of({ rma: '1111', returnEntries: [] })
-    );
+    jest
+      .spyOn(orderReturnRequestService, 'getOrderReturnRequest')
+      .mockReturnValue(of({ rma: '1111', returnEntries: [] }));
     service.getReturnRequest().subscribe().unsubscribe();
     expect(
       orderReturnRequestService.loadOrderReturnRequestDetail
@@ -100,12 +100,12 @@ describe('ReturnRequestService', () => {
   });
 
   it('should NOT load return request data if loading is true', () => {
-    spyOn(orderReturnRequestService, 'getOrderReturnRequest').and.returnValue(
-      of(undefined)
-    );
-    spyOn(orderReturnRequestService, 'getReturnRequestLoading').and.returnValue(
-      of(true)
-    );
+    jest
+      .spyOn(orderReturnRequestService, 'getOrderReturnRequest')
+      .mockReturnValue(of(undefined));
+    jest
+      .spyOn(orderReturnRequestService, 'getReturnRequestLoading')
+      .mockReturnValue(of(true));
     service.getReturnRequest().subscribe().unsubscribe();
     expect(
       orderReturnRequestService.loadOrderReturnRequestDetail

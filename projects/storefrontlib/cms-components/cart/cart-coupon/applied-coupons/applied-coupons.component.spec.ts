@@ -40,9 +40,9 @@ describe('AppliedCouponsComponent', () => {
   let component: MockedCartCouponComponent;
   let fixture: ComponentFixture<MockedCartCouponComponent>;
 
-  const mockCartVoucherService = jasmine.createSpyObj('CartVoucherService', [
-    'removeVoucher',
-  ]);
+  const mockCartVoucherService = {
+    removeVoucher: jest.fn(),
+  };
 
   beforeEach(
     waitForAsync(() => {
@@ -63,7 +63,7 @@ describe('AppliedCouponsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MockedCartCouponComponent);
     component = fixture.componentInstance;
-    mockCartVoucherService.removeVoucher.and.stub();
+    mockCartVoucherService.removeVoucher.mockImplementation();
   });
 
   it('should create', () => {
@@ -94,13 +94,17 @@ describe('AppliedCouponsComponent', () => {
       fixture.detectChanges();
       const couponTitle = fixture.debugElement.query(
         By.css('.cx-applied-coupon-title')
-      ).nativeElement.innerText;
+      ).nativeElement.textContent;
       const elValue = fixture.debugElement.queryAll(
         By.css('.cx-applied-coupon-code')
       );
       expect(couponTitle).toContain('voucher.vouchersApplied');
-      expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
-      expect(elValue[1].nativeElement.innerText).toContain(coupon2.voucherCode);
+      expect(elValue[0].nativeElement.textContent).toContain(
+        coupon1.voucherCode
+      );
+      expect(elValue[1].nativeElement.textContent).toContain(
+        coupon2.voucherCode
+      );
     });
   });
 
@@ -130,8 +134,12 @@ describe('AppliedCouponsComponent', () => {
 
       expect(elButton.length).toBe(2);
       expect(elValue.length).toBe(2);
-      expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
-      expect(elValue[1].nativeElement.innerText).toContain(coupon2.voucherCode);
+      expect(elValue[0].nativeElement.textContent).toContain(
+        coupon1.voucherCode
+      );
+      expect(elValue[1].nativeElement.textContent).toContain(
+        coupon2.voucherCode
+      );
     });
 
     it('should remove applied coupon', () => {
@@ -153,8 +161,12 @@ describe('AppliedCouponsComponent', () => {
       );
 
       expect(elValue.length).toBe(2);
-      expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
-      expect(elValue[1].nativeElement.innerText).toContain(coupon2.voucherCode);
+      expect(elValue[0].nativeElement.textContent).toContain(
+        coupon1.voucherCode
+      );
+      expect(elValue[1].nativeElement.textContent).toContain(
+        coupon2.voucherCode
+      );
     });
   });
 });

@@ -20,10 +20,12 @@ const CUSTOMER_COUPON_CODE = ':customerCouponCode:';
 
 describe('MyCouponsComponentService', () => {
   let service: MyCouponsComponentService;
-  let routingService = jasmine.createSpyObj('RoutingService', ['go']);
-  const translationService = jasmine.createSpyObj('TranslationService', [
-    'translate',
-  ]);
+  let routingService = {
+    go: jest.fn(),
+  };
+  const translationService = {
+    translate: jest.fn(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,11 +35,11 @@ describe('MyCouponsComponentService', () => {
         { provide: TranslationService, useValue: translationService },
       ],
     });
-    routingService.go.and.stub();
+    routingService.go.mockImplementation();
     service = TestBed.inject(MyCouponsComponentService);
     routingService = TestBed.inject(RoutingService);
 
-    translationService.translate.and.stub();
+    translationService.translate.mockImplementation();
   });
 
   it('should service be created', () => {

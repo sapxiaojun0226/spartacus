@@ -78,7 +78,7 @@ describe('ConsentManagementFormComponent', () => {
         const consentGiven = true;
         component.consentGiven = consentGiven;
         component.consentTemplate = mockConsentTemplate;
-        spyOn(component.consentChanged, 'emit').and.stub();
+        jest.spyOn(component.consentChanged, 'emit').mockImplementation();
 
         component.onConsentChange();
 
@@ -114,7 +114,7 @@ describe('ConsentManagementFormComponent', () => {
         id: 'mock ID',
       };
       it('should call onConsentChange()', () => {
-        spyOn(component, 'onConsentChange').and.stub();
+        jest.spyOn(component, 'onConsentChange').mockImplementation();
 
         component.consentTemplate = mockConsentTemplate;
         component.consentGiven = true;

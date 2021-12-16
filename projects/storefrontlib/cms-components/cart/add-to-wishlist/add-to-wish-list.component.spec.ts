@@ -20,7 +20,7 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddToWishListComponent } from './add-to-wish-list.component';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const mockProduct: Product = {
   code: 'xxx',
@@ -76,12 +76,12 @@ const productSubject = new BehaviorSubject(mockProduct);
 class MockWishListService {
   addEntry = createSpy();
   removeEntry = createSpy();
-  getWishList = createSpy().and.returnValue(wishListSubject);
-  getWishListLoading = createSpy().and.returnValue(of(false));
+  getWishList = createSpy().mockReturnValue(wishListSubject);
+  getWishListLoading = createSpy().mockReturnValue(of(false));
 }
 
 class MockCurrentProductService {
-  getProduct = createSpy().and.returnValue(productSubject);
+  getProduct = createSpy().mockReturnValue(productSubject);
 }
 
 @Component({

@@ -76,10 +76,10 @@ describe('EscapeFocusDirective', () => {
       component = fixture.componentInstance;
       service = TestBed.inject(EscapeFocusService);
 
-      spyOn(service, 'shouldFocus').and.callThrough();
-      spyOn(service, 'handleEscape').and.callThrough();
+      jest.spyOn(service, 'shouldFocus');
+      jest.spyOn(service, 'handleEscape');
 
-      spyOn(component, 'handleEmit');
+      jest.spyOn(component, 'handleEmit').mockImplementation(() => {});
 
       fixture.detectChanges();
     })

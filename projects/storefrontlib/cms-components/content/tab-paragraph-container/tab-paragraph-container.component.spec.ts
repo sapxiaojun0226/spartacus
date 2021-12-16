@@ -102,7 +102,7 @@ describe('TabParagraphContainerComponent', () => {
     cmsService = TestBed.inject(CmsService);
     windowRef = TestBed.inject(WindowRef);
 
-    spyOn(console, 'warn');
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
   });
 
   it('should create', () => {
@@ -110,11 +110,13 @@ describe('TabParagraphContainerComponent', () => {
   });
 
   it('should render child components', () => {
-    spyOn(cmsService, 'getComponentData').and.returnValues(
-      of(mockTabComponentData1),
-      of(mockTabComponentData2),
-      of(mockTabComponentData3)
-    );
+    jest
+      .spyOn(cmsService, 'getComponentData')
+      .and.returnValues(
+        of(mockTabComponentData1),
+        of(mockTabComponentData2),
+        of(mockTabComponentData3)
+      );
     let childComponents: any[];
     component.components$
       .subscribe((components) => (childComponents = components))
@@ -156,11 +158,13 @@ describe('TabParagraphContainerComponent', () => {
   });
 
   it('should be able to get tab title parameters from children', () => {
-    spyOn(cmsService, 'getComponentData').and.returnValues(
-      of(mockTabComponentData1),
-      of(mockTabComponentData2),
-      of(mockTabComponentData3)
-    );
+    jest
+      .spyOn(cmsService, 'getComponentData')
+      .and.returnValues(
+        of(mockTabComponentData1),
+        of(mockTabComponentData2),
+        of(mockTabComponentData3)
+      );
     fixture.detectChanges();
 
     let childCompFixture: ComponentFixture<TestComponent>;

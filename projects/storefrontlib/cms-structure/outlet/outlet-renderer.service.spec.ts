@@ -26,8 +26,8 @@ describe('OutletRendererService', () => {
   it('should render using outlet the directive', () => {
     const mockDirective = new MockOutletDirective() as OutletDirective;
     const mockDirective2 = new MockOutletDirective() as OutletDirective;
-    spyOn(mockDirective, 'render');
-    spyOn(mockDirective2, 'render');
+    jest.spyOn(mockDirective, 'render').mockImplementation(() => {});
+    jest.spyOn(mockDirective2, 'render').mockImplementation(() => {});
 
     outletRendererService.register(outlet, mockDirective);
     outletRendererService.register('not-outlet', mockDirective2);

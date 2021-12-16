@@ -59,7 +59,9 @@ describe('AnonymousConsentOpenDialogComponent', () => {
 
   describe('openDialog', () => {
     it('should call modalService.open', () => {
-      spyOn(launchDialogService, 'openDialog');
+      jest
+        .spyOn(launchDialogService, 'openDialog')
+        .mockImplementation(() => {});
       component.openDialog();
 
       expect(launchDialogService.openDialog).toHaveBeenCalledWith(

@@ -36,11 +36,11 @@ const mockUser: User = {
 const isLoading = new BehaviorSubject<boolean>(false);
 
 class MockComponentService {
-  loadAddresses = jasmine.createSpy();
-  addUserAddress = jasmine.createSpy();
-  updateUserAddress = jasmine.createSpy();
-  deleteUserAddress = jasmine.createSpy();
-  setAddressAsDefault = jasmine.createSpy();
+  loadAddresses = jest.fn();
+  addUserAddress = jest.fn();
+  updateUserAddress = jest.fn();
+  deleteUserAddress = jest.fn();
+  setAddressAsDefault = jest.fn();
   getAddressesStateLoading(): Observable<boolean> {
     return isLoading.asObservable();
   }
@@ -111,7 +111,9 @@ describe('AddressBookComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressBookComponent);
     component = fixture.componentInstance;
-    spyOn(component, 'addAddressButtonHandle');
+    jest
+      .spyOn(component, 'addAddressButtonHandle')
+      .mockImplementation(() => {});
     el = fixture.debugElement;
     addressBookComponentService = TestBed.inject(AddressBookComponentService);
 
@@ -150,35 +152,37 @@ describe('AddressBookComponent', () => {
   });
 
   it('should call editAddressButtonHandle(address: Address)', () => {
-    spyOn(component, 'editAddressButtonHandle');
+    jest
+      .spyOn(component, 'editAddressButtonHandle')
+      .mockImplementation(() => {});
     component.editAddressButtonHandle(mockAddress);
 
     expect(component.editAddressButtonHandle).toHaveBeenCalledWith(mockAddress);
   });
 
   it('should call addAddressSubmit(address: Address)', () => {
-    spyOn(component, 'addAddressSubmit');
+    jest.spyOn(component, 'addAddressSubmit').mockImplementation(() => {});
     component.addAddressSubmit(mockAddress);
 
     expect(component.addAddressSubmit).toHaveBeenCalledWith(mockAddress);
   });
 
   it('should call addAddressCancel()', () => {
-    spyOn(component, 'addAddressCancel');
+    jest.spyOn(component, 'addAddressCancel').mockImplementation(() => {});
     component.addAddressCancel();
 
     expect(component.addAddressCancel).toHaveBeenCalledWith();
   });
 
   it('should call editAddressSubmit(address: Address)', () => {
-    spyOn(component, 'editAddressSubmit');
+    jest.spyOn(component, 'editAddressSubmit').mockImplementation(() => {});
     component.editAddressSubmit(mockAddress);
 
     expect(component.editAddressSubmit).toHaveBeenCalledWith(mockAddress);
   });
 
   it('should call editAddressCancel()', () => {
-    spyOn(component, 'editAddressCancel');
+    jest.spyOn(component, 'editAddressCancel').mockImplementation(() => {});
     component.editAddressCancel();
 
     expect(component.editAddressCancel).toHaveBeenCalledWith();

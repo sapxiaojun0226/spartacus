@@ -3,6 +3,7 @@ import { I18nTestingModule, Order, ReplenishmentOrder } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailShippingComponent } from './order-detail-shipping.component';
+import { Component, Input } from '@angular/core';
 
 const mockOrder: Order = {
   code: 'test-code-412',
@@ -45,6 +46,14 @@ class MockOrderDetailsService {
   }
 }
 
+@Component({
+  selector: 'cx-order-overview',
+  template: '<p></p>',
+})
+class MockOrderOverviewComponent {
+  @Input() order: any;
+}
+
 describe('OrderDetailShippingComponent', () => {
   let component: OrderDetailShippingComponent;
   let fixture: ComponentFixture<OrderDetailShippingComponent>;
@@ -57,7 +66,10 @@ describe('OrderDetailShippingComponent', () => {
         providers: [
           { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         ],
-        declarations: [OrderDetailShippingComponent],
+        declarations: [
+          OrderDetailShippingComponent,
+          MockOrderOverviewComponent,
+        ],
       }).compileComponents();
     })
   );

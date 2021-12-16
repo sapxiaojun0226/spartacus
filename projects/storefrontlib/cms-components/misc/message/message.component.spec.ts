@@ -73,7 +73,7 @@ describe('MessageComponent', () => {
   });
 
   it('should show close button and trigger close action', () => {
-    spyOn(component.closeMessage, 'emit');
+    jest.spyOn(component.closeMessage, 'emit').mockImplementation(() => {});
 
     const button = el.query(By.css('.cx-message .close')).nativeElement;
     button.click();
@@ -94,7 +94,7 @@ describe('MessageComponent', () => {
   });
 
   it('should show action button and trigger button action', () => {
-    spyOn(component.buttonAction, 'emit');
+    jest.spyOn(component.buttonAction, 'emit').mockImplementation(() => {});
     component.actionButtonText = 'Test';
     fixture.detectChanges();
 

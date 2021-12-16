@@ -80,7 +80,7 @@ describe('Carousel Component', () => {
     });
 
     it('should log an error when there is no render template given', () => {
-      spyOn(console, 'error');
+      jest.spyOn(console, 'error').mockImplementation(() => {});
       component.ngOnInit();
       expect(console.error).toHaveBeenCalledWith(
         'No template reference provided to render the carousel items for the `cx-carousel`'
@@ -88,7 +88,7 @@ describe('Carousel Component', () => {
     });
 
     it('should have a size of 4 items per slide', () => {
-      spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+      jest.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(4));
       component.template = template;
       component.ngOnInit();
       let results: number;
@@ -99,7 +99,7 @@ describe('Carousel Component', () => {
     });
 
     it('should default to first activeSlide', () => {
-      spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+      jest.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(4));
       component.template = template;
       component.ngOnInit();
       component.size$.subscribe().unsubscribe();
@@ -133,7 +133,7 @@ describe('Carousel Component', () => {
     });
     describe('carousel title', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(1));
+        jest.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(1));
         component.items = [of()];
       });
 
@@ -145,7 +145,7 @@ describe('Carousel Component', () => {
         const el = fixture.debugElement.query(By.css('h2'));
         expect(el.nativeElement).toBeTruthy();
 
-        expect((<HTMLElement>el.nativeElement).innerText).toEqual(
+        expect((<HTMLElement>el.nativeElement).textContent).toEqual(
           'test carousel with title'
         );
       });
@@ -161,7 +161,7 @@ describe('Carousel Component', () => {
 
     describe('carousel buttons', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+        jest.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(4));
         component.items = [of(), of(), of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
@@ -257,7 +257,7 @@ describe('Carousel Component', () => {
 
     describe('carousel with 5 items divided by 2 slides', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+        jest.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(4));
         component.items = [of(), of(), of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
@@ -294,7 +294,7 @@ describe('Carousel Component', () => {
 
     describe('carousel with 7 items divided by 3 slides', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(3));
+        jest.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(3));
         component.title = 'test carousel with title';
         component.items = [of(), of(), of(), of(), of(), of(), of(), of()];
         component.ngOnInit();
@@ -332,7 +332,7 @@ describe('Carousel Component', () => {
 
     describe('carousel with 3 items divided by 1 slide', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(3));
+        jest.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(3));
         component.title = 'test carousel with title';
         component.items = [of(), of(), of()];
         component.ngOnInit();
@@ -366,7 +366,7 @@ describe('Carousel Component', () => {
 
     describe('empty carousel', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(1));
+        jest.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(1));
         component.items = [];
       });
 

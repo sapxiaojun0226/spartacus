@@ -40,9 +40,9 @@ describe('CartPageLayoutHandler', () => {
   });
 
   it('should remove empty content slot when cart has items', () => {
-    spyOn(mockActiveCartService, 'getActive').and.returnValue(
-      of({ totalItems: 3 })
-    );
+    jest
+      .spyOn(mockActiveCartService, 'getActive')
+      .mockReturnValue(of({ totalItems: 3 }));
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
       mockSelectiveCartService
@@ -56,9 +56,9 @@ describe('CartPageLayoutHandler', () => {
   });
 
   it('should remove empty content slot when save for later has items', () => {
-    spyOn(mockSelectiveCartService, 'getCart').and.returnValue(
-      of({ totalItems: 3 })
-    );
+    jest
+      .spyOn(mockSelectiveCartService, 'getCart')
+      .mockReturnValue(of({ totalItems: 3 }));
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
       mockSelectiveCartService
@@ -72,8 +72,8 @@ describe('CartPageLayoutHandler', () => {
   });
 
   it('should not check save for later cart if the feature is disabled', () => {
-    spyOn(mockSelectiveCartService, 'getCart').and.stub();
-    spyOn(mockSelectiveCartService, 'isEnabled').and.returnValue(false);
+    jest.spyOn(mockSelectiveCartService, 'getCart').mockImplementation();
+    jest.spyOn(mockSelectiveCartService, 'isEnabled').mockReturnValue(false);
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
       mockSelectiveCartService
@@ -97,8 +97,8 @@ describe('CartPageLayoutHandler', () => {
   });
 
   it('should not return content slots when cart is loading', () => {
-    spyOn(mockActiveCartService, 'getActive').and.returnValue(of({}));
-    spyOn(mockActiveCartService, 'getLoading').and.returnValue(of(true));
+    jest.spyOn(mockActiveCartService, 'getActive').mockReturnValue(of({}));
+    jest.spyOn(mockActiveCartService, 'getLoading').mockReturnValue(of(true));
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
       mockSelectiveCartService

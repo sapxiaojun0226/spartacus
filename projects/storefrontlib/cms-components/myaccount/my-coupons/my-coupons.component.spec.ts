@@ -146,22 +146,21 @@ describe('MyCouponsComponent', () => {
   let fixture: ComponentFixture<MyCouponsComponent>;
   let el: DebugElement;
 
-  const customerCouponService = jasmine.createSpyObj('CustomerCouponService', [
-    'getCustomerCoupons',
-    'getCustomerCouponsLoading',
-    'loadCustomerCoupons',
-    'subscribeCustomerCoupon',
-    'unsubscribeCustomerCoupon',
-    'getSubscribeCustomerCouponResultLoading',
-    'getUnsubscribeCustomerCouponResultLoading',
-    'getSubscribeCustomerCouponResultError',
-    'getUnsubscribeCustomerCouponResultError',
-  ]);
+  const customerCouponService = {
+    getCustomerCoupons: jest.fn(),
+    getCustomerCouponsLoading: jest.fn(),
+    loadCustomerCoupons: jest.fn(),
+    subscribeCustomerCoupon: jest.fn(),
+    unsubscribeCustomerCoupon: jest.fn(),
+    getSubscribeCustomerCouponResultLoading: jest.fn(),
+    getUnsubscribeCustomerCouponResultLoading: jest.fn(),
+    getSubscribeCustomerCouponResultError: jest.fn(),
+    getUnsubscribeCustomerCouponResultError: jest.fn(),
+  };
 
-  const myCouponsComponentService = jasmine.createSpyObj(
-    'MyCouponsComponentService',
-    ['getSortLabels']
-  );
+  const myCouponsComponentService = {
+    getSortLabels: jest.fn(),
+  };
   const subscriptionFail = new BehaviorSubject<boolean>(false);
 
   beforeEach(
@@ -191,27 +190,27 @@ describe('MyCouponsComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    customerCouponService.getCustomerCoupons.and.returnValue(
+    customerCouponService.getCustomerCoupons.mockReturnValue(
       of(emptyCouponResult)
     );
-    customerCouponService.getCustomerCouponsLoading.and.returnValue(of(false));
-    customerCouponService.loadCustomerCoupons.and.stub();
-    customerCouponService.subscribeCustomerCoupon.and.stub();
-    customerCouponService.unsubscribeCustomerCoupon.and.stub();
-    customerCouponService.getSubscribeCustomerCouponResultLoading.and.returnValue(
+    customerCouponService.getCustomerCouponsLoading.mockReturnValue(of(false));
+    customerCouponService.loadCustomerCoupons.mockImplementation();
+    customerCouponService.subscribeCustomerCoupon.mockImplementation();
+    customerCouponService.unsubscribeCustomerCoupon.mockImplementation();
+    customerCouponService.getSubscribeCustomerCouponResultLoading.mockReturnValue(
       subLoading$
     );
-    customerCouponService.getUnsubscribeCustomerCouponResultLoading.and.returnValue(
+    customerCouponService.getUnsubscribeCustomerCouponResultLoading.mockReturnValue(
       unsubLoading$
     );
-    customerCouponService.getSubscribeCustomerCouponResultError.and.returnValue(
+    customerCouponService.getSubscribeCustomerCouponResultError.mockReturnValue(
       subscriptionFail
     );
-    customerCouponService.getUnsubscribeCustomerCouponResultError.and.returnValue(
+    customerCouponService.getUnsubscribeCustomerCouponResultError.mockReturnValue(
       subscriptionFail
     );
 
-    myCouponsComponentService.getSortLabels.and.returnValue(of(sortLabels));
+    myCouponsComponentService.getSortLabels.mockReturnValue(of(sortLabels));
   });
 
   it('should create', () => {
@@ -231,13 +230,13 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should show spinner when loading', () => {
-    customerCouponService.getCustomerCouponsLoading.and.returnValue(of(true));
+    customerCouponService.getCustomerCouponsLoading.mockReturnValue(of(true));
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
   it('should be able to show coupons', () => {
-    customerCouponService.getCustomerCoupons.and.returnValue(
+    customerCouponService.getCustomerCoupons.mockReturnValue(
       of(couponsSearchResult)
     );
     fixture.detectChanges();
@@ -281,7 +280,7 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should be able to change coupon notification', () => {
-    customerCouponService.getCustomerCoupons.and.returnValue(
+    customerCouponService.getCustomerCoupons.mockReturnValue(
       of(couponsSearchResult)
     );
     fixture.detectChanges();

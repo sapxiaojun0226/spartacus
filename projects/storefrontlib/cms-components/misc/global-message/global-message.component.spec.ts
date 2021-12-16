@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { GlobalMessageComponent } from './global-message.component';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const mockMessages: GlobalMessageEntities = {
   [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],

@@ -106,7 +106,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   });
 
   it('should be able to call the open dialog', () => {
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    jest.spyOn(launchDialogService, 'openDialog').mockImplementation();
 
     el.query(By.css('button.btn-action:last-child')).nativeElement.click();
 

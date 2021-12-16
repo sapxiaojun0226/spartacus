@@ -99,16 +99,24 @@ const mockProduct = {
   },
 };
 
+@Component({
+  template: '',
+  selector: 'cx-cart-item-validation-warning',
+})
+class MockCartItemValidationWarningComponent {
+  @Input() code;
+}
+
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let componentInjector: Injector;
   let fixture: ComponentFixture<CartItemComponent>;
   let el: DebugElement;
 
-  const featureConfig = jasmine.createSpyObj('FeatureConfigService', [
-    'isEnabled',
-    'isLevel',
-  ]);
+  const featureConfig = {
+    isEnabled: jest.fn(),
+    isLevel: jest.fn(),
+  };
 
   beforeEach(
     waitForAsync(() => {
@@ -129,6 +137,7 @@ describe('CartItemComponent', () => {
           MockFeatureLevelDirective,
           MockModalDirective,
           MockOutletDirective,
+          MockCartItemValidationWarningComponent,
         ],
         providers: [
           {
@@ -150,7 +159,7 @@ describe('CartItemComponent', () => {
     };
     cartItemComponent.quantityControl = new FormControl('1');
     cartItemComponent.quantityControl.markAsPristine();
-    spyOn(cartItemComponent, 'removeItem').and.callThrough();
+    jest.spyOn(cartItemComponent, 'removeItem');
     fixture.detectChanges();
     el = fixture.debugElement;
   });
@@ -177,7 +186,9 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "compact" to context', () => {
-      spyOn(cartItemContextSource.compact$, 'next');
+      jest
+        .spyOn(cartItemContextSource.compact$, 'next')
+        .mockImplementation(() => {});
       cartItemComponent.compact = true;
       cartItemComponent.ngOnChanges({
         compact: { currentValue: cartItemComponent.compact } as SimpleChange,
@@ -188,7 +199,9 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "readonly" to context', () => {
-      spyOn(cartItemContextSource.readonly$, 'next');
+      jest
+        .spyOn(cartItemContextSource.readonly$, 'next')
+        .mockImplementation(() => {});
       cartItemComponent.readonly = true;
       cartItemComponent.ngOnChanges({
         readonly: { currentValue: cartItemComponent.readonly } as SimpleChange,
@@ -199,7 +212,9 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "item" to context', () => {
-      spyOn(cartItemContextSource.item$, 'next');
+      jest
+        .spyOn(cartItemContextSource.item$, 'next')
+        .mockImplementation(() => {});
       cartItemComponent.item = { orderCode: '123' };
       cartItemComponent.ngOnChanges({
         item: { currentValue: cartItemComponent.item } as SimpleChange,
@@ -210,7 +225,9 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "quantityControl" to context', () => {
-      spyOn(cartItemContextSource.quantityControl$, 'next');
+      jest
+        .spyOn(cartItemContextSource.quantityControl$, 'next')
+        .mockImplementation(() => {});
       cartItemComponent.quantityControl = new FormControl(2);
       cartItemComponent.ngOnChanges({
         quantityControl: {
@@ -223,7 +240,9 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "promotionLocation" to context', () => {
-      spyOn(cartItemContextSource.location$, 'next');
+      jest
+        .spyOn(cartItemContextSource.location$, 'next')
+        .mockImplementation(() => {});
       cartItemComponent.promotionLocation = PromotionLocation.Order;
       cartItemComponent.ngOnChanges({
         promotionLocation: {
@@ -236,7 +255,9 @@ describe('CartItemComponent', () => {
     });
 
     it('should push change of input "options" to context', () => {
-      spyOn(cartItemContextSource.options$, 'next');
+      jest
+        .spyOn(cartItemContextSource.options$, 'next')
+        .mockImplementation(() => {});
       cartItemComponent.options = { isSaveForLater: true };
       cartItemComponent.ngOnChanges({
         options: { currentValue: cartItemComponent.options } as SimpleChange,
@@ -248,12 +269,12 @@ describe('CartItemComponent', () => {
   });
 
   it('should create cart details component', () => {
-    featureConfig.isEnabled.and.returnValue(true);
+    featureConfig.isEnabled.mockReturnValue(true);
     expect(cartItemComponent).toBeTruthy();
 
     fixture.detectChanges();
 
-    featureConfig.isEnabled.and.returnValue(false);
+    featureConfig.isEnabled.mockReturnValue(false);
     expect(cartItemComponent).toBeTruthy();
   });
 
@@ -300,7 +321,7 @@ describe('CartItemComponent', () => {
       const infoContainer: HTMLElement = el.query(
         By.css('.cx-info-container')
       ).nativeElement;
-      expect(infoContainer.innerText).toContain(
+      expect(infoContainer.textContent).toContain(
         `${variant.name}: ${variant.value}`
       );
     });

@@ -6,9 +6,9 @@ import { Priority } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { CxApiService } from '../services/cx-api.service';
 
-const mockCmsMappingService = jasmine.createSpyObj('CmsMappingService', [
-  'getComponentMapping',
-]);
+const mockCmsMappingService = {
+  getComponentMapping: jest.fn(),
+};
 
 @Component({
   template: '',
@@ -32,6 +32,7 @@ describe('WebComponentHandler', () => {
           useValue: {},
         },
       ],
+      declarations: [WrapperComponent],
     });
     handler = TestBed.inject(WebComponentHandler);
   });

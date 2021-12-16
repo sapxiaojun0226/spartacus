@@ -173,7 +173,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should redirect when clicking on replenishment order row', () => {
-    spyOn(routingService, 'go').and.stub();
+    jest.spyOn(routingService, 'go').mockImplementation();
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
@@ -205,7 +205,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(userService, 'loadReplenishmentOrderList').and.stub();
+    jest.spyOn(userService, 'loadReplenishmentOrderList').mockImplementation();
 
     component.changeSortCode('byReplenishmentNumber');
 
@@ -218,7 +218,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should set correctly page', () => {
-    spyOn(userService, 'loadReplenishmentOrderList').and.stub();
+    jest.spyOn(userService, 'loadReplenishmentOrderList').mockImplementation();
 
     component.sortType = 'byDate';
     component.pageChange(1);
@@ -231,7 +231,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should be able to call the open dialog', () => {
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    jest.spyOn(launchDialogService, 'openDialog').mockImplementation();
 
     replenishmentOrderHistory.next(mockReplenishmentOrders);
 
@@ -304,7 +304,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should clear replenishment order history data when component destroy', () => {
-    spyOn(userService, 'clearReplenishmentOrderList').and.stub();
+    jest.spyOn(userService, 'clearReplenishmentOrderList').mockImplementation();
 
     component.ngOnDestroy();
 

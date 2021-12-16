@@ -13,6 +13,15 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
+@Component({
+  selector: 'cx-truncate-text-popover',
+  template: '',
+})
+class MockTruncateTextPopoverComponent {
+  @Input() content: string;
+  @Input() charactersLimit: number = 100;
+}
+
 describe('CardComponent', () => {
   let component: CardComponent;
   let fixture: ComponentFixture<CardComponent>;
@@ -22,7 +31,11 @@ describe('CardComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [CardComponent, MockCxIconComponent],
+        declarations: [
+          CardComponent,
+          MockCxIconComponent,
+          MockTruncateTextPopoverComponent,
+        ],
       }).compileComponents();
     })
   );
@@ -33,11 +46,11 @@ describe('CardComponent', () => {
     el = fixture.debugElement;
     fixture.detectChanges();
 
-    spyOn(component.deleteCard, 'emit').and.callThrough();
-    spyOn(component.cancelCard, 'emit').and.callThrough();
-    spyOn(component.setDefaultCard, 'emit').and.callThrough();
-    spyOn(component.sendCard, 'emit').and.callThrough();
-    spyOn(component.editCard, 'emit').and.callThrough();
+    jest.spyOn(component.deleteCard, 'emit');
+    jest.spyOn(component.cancelCard, 'emit');
+    jest.spyOn(component.setDefaultCard, 'emit');
+    jest.spyOn(component.sendCard, 'emit');
+    jest.spyOn(component.editCard, 'emit');
   });
 
   it('should create', () => {

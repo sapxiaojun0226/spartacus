@@ -31,17 +31,17 @@ describe('CouponClaimComponent', () => {
   let component: CouponClaimComponent;
   let fixture: ComponentFixture<CouponClaimComponent>;
 
-  const couponService = jasmine.createSpyObj('CustomerCouponService', [
-    'claimCustomerCoupon',
-    'getClaimCustomerCouponResultSuccess',
-  ]);
-  const routingService = jasmine.createSpyObj('RoutingService', [
-    'getRouterState',
-    'go',
-  ]);
-  const globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
-    'add',
-  ]);
+  const couponService = {
+    claimCustomerCoupon: jest.fn(),
+    getClaimCustomerCouponResultSuccess: jest.fn(),
+  };
+  const routingService = {
+    getRouterState: jest.fn(),
+    go: jest.fn(),
+  };
+  const globalMessageService = {
+    add: jest.fn(),
+  };
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -56,11 +56,11 @@ describe('CouponClaimComponent', () => {
   );
 
   beforeEach(() => {
-    couponService.claimCustomerCoupon.and.stub();
-    couponService.getClaimCustomerCouponResultSuccess.and.returnValue(of(true));
-    routingService.getRouterState.and.returnValue(of(mockRouterState));
-    routingService.go.and.stub();
-    globalMessageService.add.and.stub();
+    couponService.claimCustomerCoupon.mockImplementation();
+    couponService.getClaimCustomerCouponResultSuccess.mockReturnValue(of(true));
+    routingService.getRouterState.mockReturnValue(of(mockRouterState));
+    routingService.go.mockImplementation();
+    globalMessageService.add.mockImplementation();
 
     fixture = TestBed.createComponent(CouponClaimComponent);
     component = fixture.componentInstance;
@@ -82,7 +82,7 @@ describe('CouponClaimComponent', () => {
   });
 
   it('should navigate to coupons page when claim fail', () => {
-    couponService.getClaimCustomerCouponResultSuccess.and.returnValue(
+    couponService.getClaimCustomerCouponResultSuccess.mockReturnValue(
       of(false)
     );
     component.ngOnInit();
@@ -94,7 +94,7 @@ describe('CouponClaimComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    routingService.getRouterState.and.returnValue(
+    routingService.getRouterState.mockReturnValue(
       of({
         state: {
           cmsRequired: true,

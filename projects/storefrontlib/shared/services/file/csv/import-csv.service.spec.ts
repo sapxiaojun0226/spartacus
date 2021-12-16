@@ -47,7 +47,7 @@ describe('ImportCsvFileService', () => {
   });
 
   it('should return extracted CSV string', (done: DoneFn) => {
-    spyOn(fileReaderService, 'loadTextFile').and.callThrough();
+    jest.spyOn(fileReaderService, 'loadTextFile');
 
     service.loadFile(mockFile, separator).subscribe(() => {
       expect(fileReaderService.loadTextFile).toHaveBeenCalledWith(mockFile);

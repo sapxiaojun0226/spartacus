@@ -75,9 +75,9 @@ describe('MediaComponent', () => {
   });
 
   it('should contain loading="lazy" for the image element', () => {
-    spyOnProperty(service, 'loadingStrategy').and.returnValue(
-      ImageLoadingStrategy.LAZY
-    );
+    jest
+      .spyOn(service, 'loadingStrategy')
+      .mockReturnValue(ImageLoadingStrategy.LAZY);
     const lazyFixture = TestBed.createComponent(MediaComponent);
     const lazyComponent = lazyFixture.componentInstance;
     lazyComponent.container = mockImageContainer;
@@ -110,7 +110,7 @@ describe('MediaComponent', () => {
   });
 
   it('should have is-missing class when there is no image', () => {
-    spyOn(service, 'getMedia').and.returnValue(null);
+    jest.spyOn(service, 'getMedia').mockReturnValue(null);
     component.container = mockMissingImageContainer;
 
     component.ngOnChanges();

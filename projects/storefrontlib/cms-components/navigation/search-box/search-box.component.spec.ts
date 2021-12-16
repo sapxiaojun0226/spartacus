@@ -1,4 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { APP_BASE_HREF } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -110,8 +111,8 @@ describe('SearchBoxComponent', () => {
   class SearchBoxComponentServiceSpy
     implements Partial<SearchBoxComponentService>
   {
-    launchSearchPage = jasmine.createSpy('launchSearchPage');
-    getResults = jasmine.createSpy('search').and.callFake(() =>
+    launchSearchPage = jest.fn();
+    getResults = jest.fn(() =>
       of(<SearchResults>{
         suggestions: ['te', 'test'],
         message: 'I found stuff for you!',
@@ -122,12 +123,8 @@ describe('SearchBoxComponent', () => {
         ],
       })
     );
-    dispatchSuggestionSelectedEvent = jasmine.createSpy(
-      'dispatchSuggestionSelectedEvent'
-    );
-    dispatchProductSelectedEvent = jasmine.createSpy(
-      'dispatchSuggestionSelectedEvent'
-    );
+    dispatchSuggestionSelectedEvent = jest.fn();
+    dispatchProductSelectedEvent = jest.fn();
     search() {}
     toggleBodyClass() {}
     clearResults() {}
@@ -149,6 +146,7 @@ describe('SearchBoxComponent', () => {
           MockMediaComponent,
         ],
         providers: [
+          { provide: APP_BASE_HREF, useValue: '/' },
           {
             provide: ProductSearchService,
             useValue: {},
@@ -174,9 +172,9 @@ describe('SearchBoxComponent', () => {
     beforeEach(() => {
       cmsComponentData = TestBed.inject(CmsComponentData);
 
-      spyOnProperty(cmsComponentData, 'data$').and.returnValue(
-        of(mockSearchBoxComponentData)
-      );
+      jest
+        .spyOn(cmsComponentData, 'data$', 'get')
+        .mockReturnValue(of(mockSearchBoxComponentData));
 
       fixture = TestBed.createComponent(SearchBoxComponent);
       searchBoxComponent = fixture.componentInstance;
@@ -188,8 +186,8 @@ describe('SearchBoxComponent', () => {
         SearchBoxComponentService
       ) as any;
 
-      spyOn(searchBoxComponent, 'search').and.callThrough();
-      spyOn(routingService, 'getRouterState').and.callThrough();
+      jest.spyOn(searchBoxComponent, 'search');
+      jest.spyOn(routingService, 'getRouterState');
     });
 
     it('should be created', () => {
@@ -262,7 +260,7 @@ describe('SearchBoxComponent', () => {
 
         const el = fixture.debugElement.query(By.css('.results .message'));
         expect(el).toBeTruthy();
-        expect((<HTMLElement>el.nativeElement).innerText).toEqual(
+        expect((<HTMLElement>el.nativeElement).textContent).toEqual(
           'I found stuff for you!'
         );
       });
@@ -275,6 +273,8 @@ describe('SearchBoxComponent', () => {
         ).nativeElement;
         box.select();
         fixture.debugElement.query(By.css('.reset')).nativeElement.click();
+
+        fixture.detectChanges();
 
         expect(box.value).toBe('');
         expect(box).toBe(getFocusedElement());
@@ -422,7 +422,7 @@ describe('SearchBoxComponent', () => {
       beforeEach(() => {
         cmsComponentData = TestBed.inject(CmsComponentData);
 
-        spyOnProperty(cmsComponentData, 'data$').and.returnValue(
+        jest.spyOn(cmsComponentData, 'data$', 'get').mockReturnValue(
           of({
             ...mockSearchBoxComponentData,
             displayProductImages: false,
@@ -457,7 +457,7 @@ describe('SearchBoxComponent', () => {
       beforeEach(() => {
         cmsComponentData = TestBed.inject(CmsComponentData);
 
-        spyOnProperty(cmsComponentData, 'data$').and.returnValue(
+        jest.spyOn(cmsComponentData, 'data$', 'get').mockReturnValue(
           of({
             ...mockSearchBoxComponentData,
             displaySuggestions: false,

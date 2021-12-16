@@ -104,11 +104,11 @@ describe('LogoutGuard', () => {
 
   describe('When user is authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'coreLogout').and.callThrough();
+      jest.spyOn(authService, 'coreLogout');
     });
 
     it('should report with reportNotAuthGuard to AuthRedirectService', () => {
-      spyOn(authRedirectService, 'reportNotAuthGuard').and.callThrough();
+      jest.spyOn(authRedirectService, 'reportNotAuthGuard');
 
       logoutGuard.canActivate();
 
@@ -121,9 +121,9 @@ describe('LogoutGuard', () => {
     });
 
     it('should return redirect url to home page if app not protected', (done) => {
-      spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
-        false
-      );
+      jest
+        .spyOn(protectedRoutesService, 'shouldProtect', 'get')
+        .mockReturnValue(false);
 
       logoutGuard
         .canActivate()
@@ -135,9 +135,9 @@ describe('LogoutGuard', () => {
     });
 
     it('should return redirect url to login page if app protected', (done) => {
-      spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
-        true
-      );
+      jest
+        .spyOn(protectedRoutesService, 'shouldProtect', 'get')
+        .mockReturnValue(true);
 
       logoutGuard
         .canActivate()
@@ -149,7 +149,7 @@ describe('LogoutGuard', () => {
     });
 
     it('should return true if the logout page exists', (done) => {
-      spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+      jest.spyOn(cmsService, 'hasPage').mockReturnValue(of(true));
 
       logoutGuard
         .canActivate()

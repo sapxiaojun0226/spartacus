@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { WishListComponent } from './wish-list.component';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const mockWishList: Cart = {
   code: 'xxx',
@@ -16,8 +16,8 @@ const mockWishList: Cart = {
 };
 
 class MockWishListService {
-  getWishList = createSpy().and.returnValue(of(mockWishList));
-  getWishListLoading = createSpy().and.returnValue(of(false));
+  getWishList = createSpy().mockReturnValue(of(mockWishList));
+  getWishListLoading = createSpy().mockReturnValue(of(false));
 }
 
 @Component({

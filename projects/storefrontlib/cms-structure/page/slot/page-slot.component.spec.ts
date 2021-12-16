@@ -74,6 +74,7 @@ class MockDeferLoaderService {
 
 class MockPageSlotService implements Partial<PageSlotService> {
   getComponentDeferOptions = () => undefined;
+  class: string;
 }
 @Directive({
   selector: '[cxComponentWrapper]',
@@ -124,7 +125,7 @@ describe('PageSlotComponent', () => {
 
     cmsService = TestBed.inject(CmsService);
     pageSlotService = TestBed.inject(PageSlotService);
-    spyOn(pageSlotService, 'getComponentDeferOptions').and.callThrough();
+    jest.spyOn(pageSlotService, 'getComponentDeferOptions');
 
     fixture = TestBed.createComponent(PageSlotComponent);
     pageSlotComponent = fixture.componentInstance;
@@ -182,29 +183,31 @@ describe('PageSlotComponent', () => {
 
   describe('cx-pending style class', () => {
     it('should not have cx-pending class when there is no slot data', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(null));
+      jest.spyOn(cmsService, 'getContentSlot').mockReturnValue(of(null));
       fixture.detectChanges();
       expect(pageSlotComponent.class).not.toContain('cx-pending');
       expect(pageSlotComponent.isPending).toEqual(false);
     });
 
     it('should not have cx-pending class when there is empty slot data', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
+      jest.spyOn(cmsService, 'getContentSlot').mockReturnValue(of({}));
       fixture.detectChanges();
       expect(pageSlotComponent.class).not.toContain('cx-pending');
       expect(pageSlotComponent.isPending).toEqual(false);
     });
 
     it('should have cx-pending class when there is at least one component', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithOneComp));
+      jest
+        .spyOn(cmsService, 'getContentSlot')
+        .mockReturnValue(of(slotWithOneComp));
       fixture.detectChanges();
       expect(pageSlotComponent.isPending).toEqual(true);
     });
 
     it('should no longer have cx-pending when the components are loaded', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(
-        of({ components: [{}] } as ContentSlotData)
-      );
+      jest
+        .spyOn(cmsService, 'getContentSlot')
+        .mockReturnValue(of({ components: [{}] } as ContentSlotData));
       fixture.detectChanges();
       // simulate component load
       pageSlotComponent.isLoaded(true);
@@ -214,7 +217,9 @@ describe('PageSlotComponent', () => {
     });
 
     it('should still have cx-pending class when not all components are loaded', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
+      jest
+        .spyOn(cmsService, 'getContentSlot')
+        .mockReturnValue(of(slotWithTwoComp));
       fixture.detectChanges();
       // simulate component load
       pageSlotComponent.isLoaded(true);
@@ -224,7 +229,9 @@ describe('PageSlotComponent', () => {
     });
 
     it('should no longer have cx-pending when all components are loaded', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
+      jest
+        .spyOn(cmsService, 'getContentSlot')
+        .mockReturnValue(of(slotWithTwoComp));
       fixture.detectChanges();
 
       expect(pageSlotComponent.isPending).toEqual(true);
@@ -239,7 +246,7 @@ describe('PageSlotComponent', () => {
 
   describe('components', () => {
     it('should have empty component list if slot is undefined', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(undefined));
+      jest.spyOn(cmsService, 'getContentSlot').mockReturnValue(of(undefined));
       fixture.detectChanges();
       let results;
       pageSlotComponent.components$
@@ -249,7 +256,7 @@ describe('PageSlotComponent', () => {
     });
 
     it('should have empty component list if slot is empty', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
+      jest.spyOn(cmsService, 'getContentSlot').mockReturnValue(of({}));
       fixture.detectChanges();
       let results;
       pageSlotComponent.components$
@@ -259,7 +266,9 @@ describe('PageSlotComponent', () => {
     });
 
     it('should have one components', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithOneComp));
+      jest
+        .spyOn(cmsService, 'getContentSlot')
+        .mockReturnValue(of(slotWithOneComp));
       fixture.detectChanges();
       let results;
       pageSlotComponent.components$
@@ -269,7 +278,9 @@ describe('PageSlotComponent', () => {
     });
 
     it('should have two components', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
+      jest
+        .spyOn(cmsService, 'getContentSlot')
+        .mockReturnValue(of(slotWithTwoComp));
       fixture.detectChanges();
       let results;
       pageSlotComponent.components$
@@ -309,19 +320,23 @@ describe('PageSlotComponent', () => {
 
   describe('has-components class', () => {
     it('should not add has-components class when slot has no components', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
+      jest.spyOn(cmsService, 'getContentSlot').mockReturnValue(of({}));
       fixture.detectChanges();
       expect(pageSlotComponent.hasComponents).toEqual(false);
     });
 
     it('should add has-components class when slot has at least one components', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithOneComp));
+      jest
+        .spyOn(cmsService, 'getContentSlot')
+        .mockReturnValue(of(slotWithOneComp));
       fixture.detectChanges();
       expect(pageSlotComponent.hasComponents).toEqual(true);
     });
 
     it('should add has-components class when slot has multiple components', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
+      jest
+        .spyOn(cmsService, 'getContentSlot')
+        .mockReturnValue(of(slotWithTwoComp));
       fixture.detectChanges();
       expect(pageSlotComponent.hasComponents).toEqual(true);
     });
@@ -340,7 +355,7 @@ describe('PageSlotComponent', () => {
 
   describe('SmartEdit integration', () => {
     it('should add page slot contract', () => {
-      spyOn(dynamicAttributeService, 'addAttributesToSlot').and.callThrough();
+      jest.spyOn(dynamicAttributeService, 'addAttributesToSlot');
 
       fixture.detectChanges();
 

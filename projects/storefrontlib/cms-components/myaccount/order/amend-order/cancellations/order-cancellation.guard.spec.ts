@@ -48,7 +48,7 @@ describe(`OrderCancellationGuard`, () => {
     guard = TestBed.inject(OrderCancellationGuard);
     service = TestBed.inject(OrderCancellationService);
 
-    spyOn(service, 'getForm').and.returnValue(of(mockForm));
+    jest.spyOn(service, 'getForm').mockReturnValue(of(mockForm));
   });
 
   it(`should redirect to the order detail page`, () => {

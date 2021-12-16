@@ -185,7 +185,7 @@ describe('ProductListItemComponent in product-list', () => {
   it('should display noReviews when rating is unavailable', () => {
     component.product.averageRating = undefined;
     fixture.detectChanges();
-    expect(fixture.debugElement.nativeElement.innerText).toContain(
+    expect(fixture.debugElement.nativeElement.textContent).toContain(
       'productDetails.noReviews'
     );
   });
@@ -223,7 +223,7 @@ describe('ProductListItemComponent in product-list', () => {
     const contextSource: ProductListItemContextSource = componentInjector.get(
       ProductListItemContextSource
     );
-    spyOn(contextSource.product$, 'next');
+    jest.spyOn(contextSource.product$, 'next').mockImplementation(() => {});
     component.product = mockProduct;
     component.ngOnChanges({
       product: { currentValue: component.product } as SimpleChange,

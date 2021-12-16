@@ -111,10 +111,10 @@ describe('CartItemListComponent', () => {
   let activeCartService: ActiveCartService;
   let multiCartService: MultiCartService;
 
-  const mockSelectiveCartService = jasmine.createSpyObj(
-    'SelectiveCartService',
-    ['removeEntry', 'updateEntry']
-  );
+  const mockSelectiveCartService = {
+    removeEntry: jest.fn(),
+    updateEntry: jest.fn(),
+  };
 
   beforeEach(
     waitForAsync(() => {
@@ -150,9 +150,9 @@ describe('CartItemListComponent', () => {
     component.items = [mockItem0, mockItem1];
     component.options = { isSaveForLater: false };
 
-    spyOn(activeCartService, 'updateEntry').and.callThrough();
-    spyOn(multiCartService, 'updateEntry').and.callThrough();
-    spyOn(multiCartService, 'removeEntry').and.callThrough();
+    jest.spyOn(activeCartService, 'updateEntry');
+    jest.spyOn(multiCartService, 'updateEntry');
+    jest.spyOn(multiCartService, 'removeEntry');
 
     fixture.detectChanges();
   });
@@ -289,7 +289,7 @@ describe('CartItemListComponent', () => {
   });
 
   it('remove entry from cart', () => {
-    spyOn(activeCartService, 'removeEntry').and.callThrough();
+    jest.spyOn(activeCartService, 'removeEntry');
     const item = mockItems[0];
     expect(component.form.controls[item.entryNumber]).toBeDefined();
     component.removeEntry(item);

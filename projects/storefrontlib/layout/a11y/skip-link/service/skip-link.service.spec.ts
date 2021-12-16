@@ -129,10 +129,10 @@ describe('SkipLinkService', () => {
     });
 
     it('should focus skip link target if autoFocusService will respond undefined', () => {
-      spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(
-        undefined
-      );
-      const spy = spyOn(firstSkipLink.target, 'focus');
+      jest
+        .spyOn(keyboardFocusService, 'findFirstFocusable')
+        .mockReturnValue(undefined);
+      const spy = jest.spyOn(firstSkipLink.target, 'focus');
       expect(spy).not.toHaveBeenCalled();
       service.scrollToTarget(firstSkipLink);
       expect(spy).toHaveBeenCalled();
@@ -140,7 +140,9 @@ describe('SkipLinkService', () => {
     });
 
     it('should use autoFocusService to find first focusable element for the skiplink target', () => {
-      spyOn(keyboardFocusService, 'findFirstFocusable');
+      jest
+        .spyOn(keyboardFocusService, 'findFirstFocusable')
+        .mockImplementation(() => {});
       service.scrollToTarget(firstSkipLink);
       expect(keyboardFocusService.findFirstFocusable).toHaveBeenCalledWith(
         firstSkipLink.target
@@ -148,20 +150,24 @@ describe('SkipLinkService', () => {
     });
 
     it('should autofocus first focusable element of the skiplink target', () => {
-      spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(
-        firstSkipLink.target
-      );
-      spyOn(firstSkipLink.target, 'focus').and.callThrough();
+      jest
+        .spyOn(keyboardFocusService, 'findFirstFocusable')
+        .mockReturnValue(firstSkipLink.target);
+      jest.spyOn(firstSkipLink.target, 'focus');
       service.scrollToTarget(firstSkipLink);
       expect(firstSkipLink.target.focus).toHaveBeenCalled();
     });
 
     it('should not temporarily store tabindex when target has a tabindex', () => {
-      spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(
-        firstSkipLink.target
-      );
-      spyOn(firstSkipLink.target, 'setAttribute');
-      spyOn(firstSkipLink.target, 'removeAttribute');
+      jest
+        .spyOn(keyboardFocusService, 'findFirstFocusable')
+        .mockReturnValue(firstSkipLink.target);
+      jest
+        .spyOn(firstSkipLink.target, 'setAttribute')
+        .mockImplementation(() => {});
+      jest
+        .spyOn(firstSkipLink.target, 'removeAttribute')
+        .mockImplementation(() => {});
 
       service.scrollToTarget(firstSkipLink);
 
@@ -170,11 +176,15 @@ describe('SkipLinkService', () => {
     });
 
     it('should temporarily store tabindex when target does not have a tabindex', () => {
-      spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(
-        secondSkipLink.target
-      );
-      spyOn(secondSkipLink.target, 'setAttribute');
-      spyOn(secondSkipLink.target, 'removeAttribute');
+      jest
+        .spyOn(keyboardFocusService, 'findFirstFocusable')
+        .mockReturnValue(secondSkipLink.target);
+      jest
+        .spyOn(secondSkipLink.target, 'setAttribute')
+        .mockImplementation(() => {});
+      jest
+        .spyOn(secondSkipLink.target, 'removeAttribute')
+        .mockImplementation(() => {});
 
       service.scrollToTarget(secondSkipLink);
 

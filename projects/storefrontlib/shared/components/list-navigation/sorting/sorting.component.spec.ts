@@ -27,7 +27,7 @@ describe('SortingComponent', () => {
   });
 
   it('should emit sort event', () => {
-    spyOn(component.sortListEvent, 'emit');
+    jest.spyOn(component.sortListEvent, 'emit').mockImplementation(() => {});
     component.sortList('sortCode');
     expect(component.sortListEvent.emit).toHaveBeenCalledWith('sortCode');
   });

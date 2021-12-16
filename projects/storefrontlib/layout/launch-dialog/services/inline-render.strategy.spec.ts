@@ -58,7 +58,7 @@ describe('InlineRenderStrategy', () => {
       TestContainerComponent
     ).componentInstance;
 
-    spyOn(component.vcr, 'createComponent');
+    jest.spyOn(component.vcr, 'createComponent').mockImplementation(() => {});
   });
 
   it('should be created', () => {

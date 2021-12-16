@@ -2,7 +2,7 @@ import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { SupplementHashAnchorsPipe } from './supplement-hash-anchors.pipe';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const pathname = '/electronics-spa/en/USD/faq';
 const search = '?query=param&and=other';
@@ -17,10 +17,10 @@ const mockWindowRef = {
 };
 
 const mockRenderer2 = {
-  createElement: createSpy('createElement').and.callFake((type: string) =>
+  createElement: createSpy('createElement').mockImplementation((type: string) =>
     document.createElement(type)
   ),
-  setProperty: createSpy('setProperty').and.callFake(
+  setProperty: createSpy('setProperty').mockImplementation(
     (el: HTMLElement, prop: string, val: string) => (el[prop] = val)
   ),
 };
@@ -71,9 +71,9 @@ describe('AnchorPipe', () => {
       mockLink1.href = `${currentUrlWithoutFragment}#head1`;
       mockLink5.href = `${currentUrlWithoutFragment}#head5`;
       mockLink6.href = `${currentUrlWithoutFragment}#`;
-      mockLink1.innerText = `link1`;
-      mockLink5.innerText = `link5`;
-      mockLink6.innerText = `link6`;
+      mockLink1.textContent = `link1`;
+      mockLink5.textContent = `link5`;
+      mockLink6.textContent = `link6`;
 
       expect(pipe.transform(mockHtml)).toBe(expectedHtml);
       expect(renderer.createElement).toHaveBeenCalledWith('template');

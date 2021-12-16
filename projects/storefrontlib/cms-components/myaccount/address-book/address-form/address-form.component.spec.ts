@@ -18,7 +18,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { FormErrorsModule } from '../../../../shared/index';
 import { AddressFormComponent } from './address-form.component';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -163,8 +163,8 @@ describe('AddressFormComponent', () => {
     controls = component.addressForm.controls;
     component.showTitleCode = true;
 
-    spyOn(component.submitAddress, 'emit').and.callThrough();
-    spyOn(component.backToAddress, 'emit').and.callThrough();
+    jest.spyOn(component.submitAddress, 'emit');
+    jest.spyOn(component.backToAddress, 'emit');
   });
 
   it('should be created', () => {
@@ -172,12 +172,16 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call ngOnInit to get countries data even when they not exist', (done) => {
-    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-    spyOn(userAddressService, 'loadDeliveryCountries').and.stub();
+    jest
+      .spyOn(userAddressService, 'getDeliveryCountries')
+      .mockReturnValue(of([]));
+    jest
+      .spyOn(userAddressService, 'loadDeliveryCountries')
+      .mockImplementation();
 
-    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    jest.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
 
-    spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+    jest.spyOn(userAddressService, 'getAddresses').mockReturnValue(of([]));
 
     component.ngOnInit();
 
@@ -190,11 +194,13 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call ngOnInit to get countries, titles and regions data when data exist', () => {
-    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(
-      of(mockCountries)
-    );
-    spyOn(userService, 'getTitles').and.returnValue(of(mockTitles));
-    spyOn(userAddressService, 'getRegions').and.returnValue(of(mockRegions));
+    jest
+      .spyOn(userAddressService, 'getDeliveryCountries')
+      .mockReturnValue(of(mockCountries));
+    jest.spyOn(userService, 'getTitles').mockReturnValue(of(mockTitles));
+    jest
+      .spyOn(userAddressService, 'getRegions')
+      .mockReturnValue(of(mockRegions));
 
     component.ngOnInit();
 
@@ -223,15 +229,17 @@ describe('AddressFormComponent', () => {
   });
 
   it('should add address with address verification result "accept"', () => {
-    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-    spyOn(userService, 'getTitles').and.returnValue(of([]));
-    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    jest
+      .spyOn(userAddressService, 'getDeliveryCountries')
+      .mockReturnValue(of([]));
+    jest.spyOn(userService, 'getTitles').mockReturnValue(of([]));
+    jest.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
 
     const mockAddressVerificationResult: AddressValidation = {
       decision: 'ACCEPT',
     };
 
-    spyOn(component, 'openSuggestedAddress');
+    jest.spyOn(component, 'openSuggestedAddress').mockImplementation(() => {});
     component.ngOnInit();
     component['handleAddressVerificationResults'](
       mockAddressVerificationResult
@@ -242,9 +250,11 @@ describe('AddressFormComponent', () => {
   });
 
   it('should dispplay error message on address verification result "reject"', () => {
-    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-    spyOn(userService, 'getTitles').and.returnValue(of([]));
-    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    jest
+      .spyOn(userAddressService, 'getDeliveryCountries')
+      .mockReturnValue(of([]));
+    jest.spyOn(userService, 'getTitles').mockReturnValue(of([]));
+    jest.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
 
     const mockAddressVerificationResult: AddressValidation = {
       decision: 'REJECT',
@@ -256,7 +266,7 @@ describe('AddressFormComponent', () => {
       mockAddressVerificationResult
     );
 
-    spyOn(component, 'openSuggestedAddress');
+    jest.spyOn(component, 'openSuggestedAddress').mockImplementation(() => {});
     component.ngOnInit();
     mockAddressVerificationResult.errors.errors = [{ subject: 'titleCode' }];
     component.ngOnInit();
@@ -264,15 +274,17 @@ describe('AddressFormComponent', () => {
   });
 
   it('should open suggested address with address verification result "review"', () => {
-    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-    spyOn(userService, 'getTitles').and.returnValue(of([]));
-    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    jest
+      .spyOn(userAddressService, 'getDeliveryCountries')
+      .mockReturnValue(of([]));
+    jest.spyOn(userService, 'getTitles').mockReturnValue(of([]));
+    jest.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
 
     const mockAddressVerificationResult: AddressValidation = {
       decision: 'REVIEW',
     };
 
-    spyOn(component, 'openSuggestedAddress');
+    jest.spyOn(component, 'openSuggestedAddress').mockImplementation(() => {});
     component.ngOnInit();
     component['handleAddressVerificationResults'](
       mockAddressVerificationResult
@@ -283,7 +295,7 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call verifyAddress() when address has some changes', () => {
-    spyOn(userAddressService, 'verifyAddress').and.returnValue(
+    jest.spyOn(userAddressService, 'verifyAddress').mockReturnValue(
       of({
         decision: 'ACCEPT',
       })
@@ -297,7 +309,7 @@ describe('AddressFormComponent', () => {
   });
 
   it('should not call verifyAddress() when address does not have change', () => {
-    spyOn(userAddressService, 'verifyAddress').and.stub();
+    jest.spyOn(userAddressService, 'verifyAddress').mockImplementation();
     component.ngOnInit();
     component.addressForm.setValue(mockAddress);
     component.verifyAddress();
@@ -311,9 +323,9 @@ describe('AddressFormComponent', () => {
 
   it('should toggleDefaultAddress() adapt control value', () => {
     component.setAsDefaultField = true;
-    spyOn(userAddressService, 'getAddresses').and.returnValue(
-      of([mockAddress])
-    );
+    jest
+      .spyOn(userAddressService, 'getAddresses')
+      .mockReturnValue(of([mockAddress]));
 
     fixture.detectChanges();
     defaultAddressCheckbox().nativeElement.click();
@@ -322,7 +334,7 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call countrySelected()', () => {
-    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    jest.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
     const mockCountryIsocode = 'test country isocode';
     component.countrySelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
@@ -336,7 +348,7 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call verifyAddress', () => {
-    spyOn(component, 'verifyAddress').and.callThrough();
+    jest.spyOn(component, 'verifyAddress');
     const mockCountryIsocode = 'test country isocode';
     component.regionSelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
@@ -353,10 +365,12 @@ describe('AddressFormComponent', () => {
       fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "verifyAddress" function when being clicked and when form is valid', () => {
-      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-      spyOn(userService, 'getTitles').and.returnValue(of([]));
-      spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
-      spyOn(component, 'verifyAddress');
+      jest
+        .spyOn(userAddressService, 'getDeliveryCountries')
+        .mockReturnValue(of([]));
+      jest.spyOn(userService, 'getTitles').mockReturnValue(of([]));
+      jest.spyOn(userAddressService, 'getRegions').mockReturnValue(of([]));
+      jest.spyOn(component, 'verifyAddress').mockImplementation(() => {});
 
       fixture.detectChanges();
 
@@ -383,7 +397,7 @@ describe('AddressFormComponent', () => {
       component.cancelBtnLabel = 'Back to cart';
       fixture.detectChanges();
       expect(
-        fixture.nativeElement.querySelector('.btn-action').innerText
+        fixture.nativeElement.querySelector('.btn-action').textContent.trim()
       ).toEqual('Back to cart');
     });
 
@@ -391,7 +405,7 @@ describe('AddressFormComponent', () => {
       component.cancelBtnLabel = undefined;
       fixture.detectChanges();
       expect(
-        fixture.nativeElement.querySelector('.btn-action').innerText
+        fixture.nativeElement.querySelector('.btn-action').textContent.trim()
       ).toEqual('addressForm.chooseAddress');
     });
   });
@@ -418,7 +432,7 @@ describe('AddressFormComponent', () => {
 
     it('should call "back" function after being clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'back');
+      jest.spyOn(component, 'back').mockImplementation(() => {});
       getBackBtn().nativeElement.click();
       expect(component.back).toHaveBeenCalled();
     });
@@ -426,15 +440,17 @@ describe('AddressFormComponent', () => {
 
   it('should unsubscribe from any subscriptions when destroyed', () => {
     component.regionsSub = new Subscription();
-    spyOn(component.regionsSub, 'unsubscribe');
+    jest
+      .spyOn(component.regionsSub, 'unsubscribe')
+      .mockImplementation(() => {});
     component.ngOnDestroy();
     expect(component.regionsSub.unsubscribe).toHaveBeenCalled();
   });
 
   it('should show the "Set as default" checkbox when there is one or more saved addresses', () => {
-    spyOn(userAddressService, 'getAddresses').and.returnValue(
-      of([mockAddress])
-    );
+    jest
+      .spyOn(userAddressService, 'getAddresses')
+      .mockReturnValue(of([mockAddress]));
 
     fixture.detectChanges();
 
@@ -442,7 +458,7 @@ describe('AddressFormComponent', () => {
   });
 
   it('should not show the "Set as default" checkbox when there no saved addresses', () => {
-    spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+    jest.spyOn(userAddressService, 'getAddresses').mockReturnValue(of([]));
 
     fixture.detectChanges();
 

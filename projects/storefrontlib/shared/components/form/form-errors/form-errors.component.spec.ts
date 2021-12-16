@@ -12,7 +12,7 @@ describe('FormErrors', () => {
   let fixture: ComponentFixture<FormErrorsComponent>;
   let control: FormControl;
 
-  const getContent = () => fixture.debugElement.nativeElement.innerText;
+  const getContent = () => fixture.debugElement.nativeElement.textContent;
 
   beforeEach(
     waitForAsync(() => {
@@ -98,8 +98,8 @@ describe('FormErrors', () => {
     fixture.detectChanges();
     const renderedErrors =
       fixture.debugElement.nativeElement.querySelectorAll('p');
-    expect(renderedErrors[0].innerText).toEqual('formErrors.email');
-    expect(renderedErrors[1].innerText).toEqual('formErrors.required');
+    expect(renderedErrors[0].textContent).toEqual('formErrors.email');
+    expect(renderedErrors[1].textContent).toEqual('formErrors.required');
   });
 
   describe('i18n', () => {
@@ -120,7 +120,7 @@ describe('FormErrors', () => {
 
     describe('params', () => {
       it('should use the method `getTranslationParams`', () => {
-        spyOn(component, 'getTranslationParams').and.returnValue({
+        jest.spyOn(component, 'getTranslationParams').mockReturnValue({
           foo: '1',
           bar: '2',
         });

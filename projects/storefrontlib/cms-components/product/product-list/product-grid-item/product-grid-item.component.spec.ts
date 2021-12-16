@@ -213,7 +213,7 @@ describe('ProductGridItemComponent in product-list', () => {
     const contextSource: ProductListItemContextSource = componentInjector.get(
       ProductListItemContextSource
     );
-    spyOn(contextSource.product$, 'next');
+    jest.spyOn(contextSource.product$, 'next').mockImplementation(() => {});
     component.product = mockProduct;
     component.ngOnChanges({
       product: { currentValue: component.product } as SimpleChange,

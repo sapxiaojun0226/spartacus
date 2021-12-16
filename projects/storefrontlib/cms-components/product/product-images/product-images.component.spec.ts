@@ -104,9 +104,9 @@ describe('ProductImagesComponent', () => {
 
   describe('with multiple pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockDataWithMultiplePictures)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockDataWithMultiplePictures));
 
       fixture = TestBed.createComponent(ProductImagesComponent);
       component = fixture.componentInstance;
@@ -163,9 +163,9 @@ describe('ProductImagesComponent', () => {
 
   describe('with one pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockDataWithOnePicture)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockDataWithOnePicture));
 
       fixture = TestBed.createComponent(ProductImagesComponent);
       component = fixture.componentInstance;
@@ -204,9 +204,9 @@ describe('ProductImagesComponent', () => {
 
   describe('without pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockDataWitoutPrimaryPictures)
-      );
+      jest
+        .spyOn(currentProductService, 'getProduct')
+        .mockReturnValue(of(mockDataWitoutPrimaryPictures));
 
       fixture = TestBed.createComponent(ProductImagesComponent);
       component = fixture.componentInstance;

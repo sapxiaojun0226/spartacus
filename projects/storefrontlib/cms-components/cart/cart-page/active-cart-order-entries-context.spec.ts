@@ -4,7 +4,7 @@ import { of, Subject } from 'rxjs';
 import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import { ProductData } from '../order-entries-context/import-to-cart.model';
 import { ActiveCartOrderEntriesContext } from './active-cart-order-entries-context';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const mockActionsSubject = new Subject<Action>();
 
@@ -23,9 +23,9 @@ const mockEntries: OrderEntry[] = [
 ];
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  addEntries = createSpy().and.callThrough();
-  getEntries = createSpy().and.returnValue(of(mockEntries));
-  getActiveCartId = createSpy().and.returnValue(of(mockCartId));
+  addEntries = createSpy();
+  getEntries = createSpy().mockReturnValue(of(mockEntries));
+  getActiveCartId = createSpy().mockReturnValue(of(mockCartId));
 }
 
 describe('ActiveCartOrderEntriesContext', () => {

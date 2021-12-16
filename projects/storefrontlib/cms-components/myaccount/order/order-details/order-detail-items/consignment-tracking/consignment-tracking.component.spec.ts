@@ -11,7 +11,7 @@ import { ModalService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { SpinnerModule } from '../../../../../../shared/components/spinner/spinner.module';
 import { ConsignmentTrackingComponent } from './consignment-tracking.component';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const consignmentStatus: string[] = [
   'DELIVERING',
@@ -54,11 +54,11 @@ describe('ConsignmentTrackingComponent', () => {
     }
     return equals;
   };
-  const userOrderService = jasmine.createSpyObj('UserOrderService', [
-    'loadConsignmentTracking',
-    'getConsignmentTracking',
-    'clearConsignmentTracking',
-  ]);
+  const userOrderService = {
+    loadConsignmentTracking: jest.fn(),
+    getConsignmentTracking: jest.fn(),
+    clearConsignmentTracking: jest.fn(),
+  };
 
   beforeEach(
     waitForAsync(() => {
@@ -76,10 +76,10 @@ describe('ConsignmentTrackingComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConsignmentTrackingComponent);
     modalService = TestBed.inject(ModalService);
-    userOrderService.getConsignmentTracking.and.returnValue(
+    userOrderService.getConsignmentTracking.mockReturnValue(
       of({ trackingID: '1234567890' })
     );
-    userOrderService.loadConsignmentTracking.and.callFake(
+    userOrderService.loadConsignmentTracking.mockImplementation(
       (_orderCode: string, _consignmentCode: string) => {}
     );
     el = fixture.debugElement;
@@ -87,10 +87,10 @@ describe('ConsignmentTrackingComponent', () => {
     component.consignment = mockConsignment;
     component.orderCode = 'test_order_id';
 
-    userOrderService.getConsignmentTracking.and.returnValue(
+    userOrderService.getConsignmentTracking.mockReturnValue(
       of(mockConsignment)
     );
-    userOrderService.clearConsignmentTracking.and.callFake(() => {});
+    userOrderService.clearConsignmentTracking.mockImplementation(() => {});
   });
 
   it('should create', () => {

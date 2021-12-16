@@ -9,15 +9,13 @@ import { PRODUCT_DETAILS_URL_MATCHER } from './product-details-url-matcher';
 
 const combinedUrlMatcher: UrlMatcher = () => null;
 class MockUrlMatcherService implements Partial<UrlMatcherService> {
-  getCombined = jasmine
-    .createSpy('combine')
-    .and.returnValue(combinedUrlMatcher);
+  getCombined = jest.fn(() => combinedUrlMatcher);
 }
 
 const mockDefaultUrlMatcher: UrlMatcher = () => null;
-const mockDefaultUrlMatcherFactory: UrlMatcherFactory = jasmine
-  .createSpy('mockDefaultUrlMatcherFactory')
-  .and.returnValue(mockDefaultUrlMatcher);
+const mockDefaultUrlMatcherFactory: UrlMatcherFactory = jest.fn(
+  () => mockDefaultUrlMatcher
+);
 
 describe('PRODUCT_DETAILS_URL_MATCHER', () => {
   let urlMatcherService: UrlMatcherService;

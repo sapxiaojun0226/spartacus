@@ -91,7 +91,9 @@ describe('OrderReturnRequestListComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(returnService, 'loadOrderReturnRequestList').and.stub();
+    jest
+      .spyOn(returnService, 'loadOrderReturnRequestList')
+      .mockImplementation();
 
     component.changeSortCode('byOrderNumber');
 
@@ -104,7 +106,9 @@ describe('OrderReturnRequestListComponent', () => {
   });
 
   it('should set correctly page', () => {
-    spyOn(returnService, 'loadOrderReturnRequestList').and.stub();
+    jest
+      .spyOn(returnService, 'loadOrderReturnRequestList')
+      .mockImplementation();
 
     component.sortType = 'byDate';
     component.pageChange(1);
@@ -117,7 +121,9 @@ describe('OrderReturnRequestListComponent', () => {
   });
 
   it('should clear return  requests data when component destroy', () => {
-    spyOn(returnService, 'clearOrderReturnRequestList').and.stub();
+    jest
+      .spyOn(returnService, 'clearOrderReturnRequestList')
+      .mockImplementation();
 
     component.ngOnDestroy();
     expect(returnService.clearOrderReturnRequestList).toHaveBeenCalledWith();

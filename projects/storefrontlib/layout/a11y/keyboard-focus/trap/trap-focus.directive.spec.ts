@@ -58,7 +58,7 @@ describe('TrapFocusDirective', () => {
   describe('configuration', () => {
     it('should use trap=true by default', () => {
       const host = fixture.debugElement.query(By.css('#a'));
-      spyOn(service, 'moveFocus').and.callThrough();
+      jest.spyOn(service, 'moveFocus');
       fixture.detectChanges();
 
       host.triggerEventHandler('keydown.arrowup', event);
@@ -70,7 +70,7 @@ describe('TrapFocusDirective', () => {
 
     it('should move when trap = true', () => {
       const host = fixture.debugElement.query(By.css('#b'));
-      spyOn(service, 'moveFocus').and.callThrough();
+      jest.spyOn(service, 'moveFocus');
       fixture.detectChanges();
 
       host.triggerEventHandler('keydown.arrowup', event);
@@ -82,7 +82,7 @@ describe('TrapFocusDirective', () => {
 
     it('should not move when trap = false', () => {
       const host = fixture.debugElement.query(By.css('#c'));
-      spyOn(service, 'moveFocus').and.callThrough();
+      jest.spyOn(service, 'moveFocus');
       fixture.detectChanges();
 
       host.triggerEventHandler('keydown.arrowup', event);
@@ -93,9 +93,9 @@ describe('TrapFocusDirective', () => {
     });
 
     it('should not move when there are not focusable childs', () => {
-      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
+      jest.spyOn(service, 'hasFocusableChildren').mockReturnValue(false);
       const host = fixture.debugElement.query(By.css('#b'));
-      spyOn(service, 'moveFocus').and.callThrough();
+      jest.spyOn(service, 'moveFocus');
       fixture.detectChanges();
 
       host.triggerEventHandler('keydown.arrowup', event);

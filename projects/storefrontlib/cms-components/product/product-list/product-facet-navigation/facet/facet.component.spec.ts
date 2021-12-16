@@ -119,7 +119,7 @@ describe('FacetComponent', () => {
 
   describe('count', () => {
     it('should call increaseVisible()', () => {
-      spyOn(facetService, 'increaseVisibleValues').and.stub();
+      jest.spyOn(facetService, 'increaseVisibleValues').mockImplementation();
       component.increaseVisibleValues();
       expect(facetService.increaseVisibleValues).toHaveBeenCalledWith(
         component.facet
@@ -127,7 +127,7 @@ describe('FacetComponent', () => {
     });
 
     it('should call decreaseVisible()', () => {
-      spyOn(facetService, 'decreaseVisibleValues').and.stub();
+      jest.spyOn(facetService, 'decreaseVisibleValues').mockImplementation();
       component.decreaseVisibleValues();
       expect(facetService.decreaseVisibleValues).toHaveBeenCalledWith(
         component.facet
@@ -137,7 +137,7 @@ describe('FacetComponent', () => {
 
   describe('toggleGroup', () => {
     beforeEach(() => {
-      spyOn(facetService, 'toggle').and.stub();
+      jest.spyOn(facetService, 'toggle').mockImplementation();
       component.facet = MockFacet;
       fixture.detectChanges();
     });

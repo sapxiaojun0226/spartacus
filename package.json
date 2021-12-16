@@ -95,8 +95,8 @@
     "build:cds:ssr": "cross-env SPARTACUS_CDS=true ng run storefrontapp:server:production",
     "dev:cds:ssr": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_CDS=true ng run storefrontapp:serve-ssr",
     "prerender:cds:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_CDS=true ng run storefrontapp:prerender --routesFile projects/storefrontapp/prerender.txt",
-    "test:jest:watch": "jest --watch --config projects/core/jest.config.js",
-    "test:jest": "jest --config projects/core/jest.config.js"
+    "jest:core": "jest --watch --config projects/storefrontlib/jest.config.js",
+    "jest:lib": "jest --watch --config projects/core/jest.config.js"
   },
   "private": false,
   "dependencies": {

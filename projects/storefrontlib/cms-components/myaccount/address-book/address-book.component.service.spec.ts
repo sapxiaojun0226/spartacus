@@ -22,11 +22,11 @@ const mockUser: User = {
 };
 
 class MockUserAddressService {
-  loadAddresses = jasmine.createSpy();
-  addUserAddress = jasmine.createSpy();
-  updateUserAddress = jasmine.createSpy();
-  setAddressAsDefault = jasmine.createSpy();
-  deleteUserAddress = jasmine.createSpy();
+  loadAddresses = jest.fn();
+  addUserAddress = jest.fn();
+  updateUserAddress = jest.fn();
+  setAddressAsDefault = jest.fn();
+  deleteUserAddress = jest.fn();
 
   getAddresses(): Observable<Address[]> {
     return of(mockAddresses);

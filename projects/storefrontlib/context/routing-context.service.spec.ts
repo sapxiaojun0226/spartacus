@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 import { ActivatedRoutesService } from '@spartacus/core';
 import { RoutingContextService } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
-import createSpy = jasmine.createSpy;
+import createSpy = jest.fn;
 
 const contextToken1 = 'contextToken1';
 const contextToken2 = Symbol('contextToken2');
@@ -16,7 +16,7 @@ const contextInstance1 = 'contextInstance1';
 const contextInstance2 = 'contextInstance2';
 
 const mockInjector = {
-  get: createSpy('get').and.callFake((providerToken: string) =>
+  get: createSpy('get').mockImplementation((providerToken: string) =>
     providerToken === providerToken1 ? contextInstance1 : contextInstance2
   ),
 };

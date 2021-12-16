@@ -262,9 +262,9 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should show promotions on replenishment details', () => {
-    spyOn(mockOrderDetailsService, 'getOrderDetails').and.returnValue(
-      of(mockReplenishmentOrder)
-    );
+    jest
+      .spyOn(mockOrderDetailsService, 'getOrderDetails')
+      .mockReturnValue(of(mockReplenishmentOrder));
     fixture.detectChanges();
     let order: ReplenishmentOrder;
     mockOrderDetailsService

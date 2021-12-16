@@ -75,7 +75,9 @@ describe('CmsPageGuard', () => {
     describe('when ProtectedRoutesGuard.canActivate emits redirect url,', () => {
       const urlTree = new UrlTree();
       beforeEach(() => {
-        spyOn(protectedRoutesGuard, 'canActivate').and.returnValue(of(urlTree));
+        jest
+          .spyOn(protectedRoutesGuard, 'canActivate')
+          .mockReturnValue(of(urlTree));
       });
 
       it('should emit redirect url', () => {
@@ -91,15 +93,17 @@ describe('CmsPageGuard', () => {
 
     describe('when ProtectedRoutesGuard.canActivate emits true,', () => {
       beforeEach(() => {
-        spyOn(protectedRoutesGuard, 'canActivate').and.returnValue(of(true));
+        jest
+          .spyOn(protectedRoutesGuard, 'canActivate')
+          .mockReturnValue(of(true));
       });
 
       it('should force loading of CMS page for the anticipated page context', () => {
         const pageContext = {} as PageContext;
-        spyOn(routingService, 'getNextPageContext').and.returnValue(
-          of(pageContext)
-        );
-        spyOn(cmsService, 'getPage').and.returnValue(NEVER);
+        jest
+          .spyOn(routingService, 'getNextPageContext')
+          .mockReturnValue(of(pageContext));
+        jest.spyOn(cmsService, 'getPage').mockReturnValue(NEVER);
         guard
           .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
           .subscribe()
@@ -111,17 +115,17 @@ describe('CmsPageGuard', () => {
       describe('and when `loadStrategy` is set to ONCE', () => {
         beforeEach(() => {
           const routingConfig = TestBed.inject(RoutingConfigService);
-          spyOn(routingConfig, 'getLoadStrategy').and.returnValue(
-            RouteLoadStrategy.ONCE
-          );
+          jest
+            .spyOn(routingConfig, 'getLoadStrategy')
+            .mockReturnValue(RouteLoadStrategy.ONCE);
         });
 
         it('should get (but not force reload) CMS page for the anticipated page context', () => {
           const pageContext = {} as PageContext;
-          spyOn(routingService, 'getNextPageContext').and.returnValue(
-            of(pageContext)
-          );
-          spyOn(cmsService, 'getPage').and.returnValue(NEVER);
+          jest
+            .spyOn(routingService, 'getNextPageContext')
+            .mockReturnValue(of(pageContext));
+          jest.spyOn(cmsService, 'getPage').mockReturnValue(NEVER);
 
           guard
             .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
@@ -138,11 +142,11 @@ describe('CmsPageGuard', () => {
           const pageContext = {} as PageContext;
           const pageData = {} as Page;
           const urlTree = {} as UrlTree;
-          spyOn(routingService, 'getNextPageContext').and.returnValue(
-            of(pageContext)
-          );
-          spyOn(cmsService, 'getPage').and.returnValue(of(pageData));
-          spyOn(service, 'canActivatePage').and.returnValue(of(urlTree));
+          jest
+            .spyOn(routingService, 'getNextPageContext')
+            .mockReturnValue(of(pageContext));
+          jest.spyOn(cmsService, 'getPage').mockReturnValue(of(pageData));
+          jest.spyOn(service, 'canActivatePage').mockReturnValue(of(urlTree));
 
           let result;
           guard
@@ -163,13 +167,13 @@ describe('CmsPageGuard', () => {
         it('should return result of CmsPageGuardService.canActivatePage', () => {
           const pageContext = {} as PageContext;
           const urlTree = {} as UrlTree;
-          spyOn(routingService, 'getNextPageContext').and.returnValue(
-            of(pageContext)
-          );
-          spyOn(cmsService, 'getPage').and.returnValue(of(null));
-          spyOn(service, 'canActivateNotFoundPage').and.returnValue(
-            of(urlTree)
-          );
+          jest
+            .spyOn(routingService, 'getNextPageContext')
+            .mockReturnValue(of(pageContext));
+          jest.spyOn(cmsService, 'getPage').mockReturnValue(of(null));
+          jest
+            .spyOn(service, 'canActivateNotFoundPage')
+            .mockReturnValue(of(urlTree));
 
           let result;
           guard

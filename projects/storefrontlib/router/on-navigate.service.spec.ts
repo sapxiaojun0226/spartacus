@@ -87,8 +87,8 @@ describe('OnNavigateService', () => {
     config.enableResetViewOnNavigate.active = true;
     config.enableResetViewOnNavigate.ignoreQueryString = false;
     config.enableResetViewOnNavigate.ignoreRoutes = [];
-    spyOn(service, 'setResetViewOnNavigate').and.callThrough();
-    spyOn(viewportScroller, 'scrollToPosition').and.callThrough();
+    jest.spyOn(service, 'setResetViewOnNavigate');
+    jest.spyOn(viewportScroller, 'scrollToPosition');
   });
 
   describe('initializeWithConfig()', () => {
@@ -175,7 +175,7 @@ describe('OnNavigateService', () => {
     });
 
     it('should trigger focus on any navigation', () => {
-      spyOn(mockComponentRef.location.nativeElement, 'focus').and.callThrough();
+      jest.spyOn(mockComponentRef.location.nativeElement, 'focus');
       service.setResetViewOnNavigate(true);
 
       emitPairScrollEvent(null);

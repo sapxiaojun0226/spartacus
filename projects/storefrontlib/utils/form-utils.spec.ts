@@ -12,7 +12,9 @@ describe('FormUtils', () => {
     describe('for any form control', () => {
       it('should call #updateValueAndValidity', () => {
         const control = new FormControl();
-        spyOn(control, 'updateValueAndValidity');
+        jest
+          .spyOn(control, 'updateValueAndValidity')
+          .mockImplementation(() => {});
 
         FormUtils.deepUpdateValueAndValidity(control);
 
@@ -24,7 +26,9 @@ describe('FormUtils', () => {
 
       it('should call #updateValueAndValidity with `emitEvent` false', () => {
         const control = new FormControl();
-        spyOn(control, 'updateValueAndValidity');
+        jest
+          .spyOn(control, 'updateValueAndValidity')
+          .mockImplementation(() => {});
 
         FormUtils.deepUpdateValueAndValidity(control, { emitEvent: false });
 
@@ -40,11 +44,19 @@ describe('FormUtils', () => {
         const control = fb.group({
           person: fb.group({ name: '', age: '' }),
         });
-        spyOn(control, 'updateValueAndValidity');
+        jest
+          .spyOn(control, 'updateValueAndValidity')
+          .mockImplementation(() => {});
 
-        spyOn(control.get('person'), 'updateValueAndValidity');
-        spyOn(control.get('person').get('name'), 'updateValueAndValidity');
-        spyOn(control.get('person').get('age'), 'updateValueAndValidity');
+        jest
+          .spyOn(control.get('person'), 'updateValueAndValidity')
+          .mockImplementation(() => {});
+        jest
+          .spyOn(control.get('person').get('name'), 'updateValueAndValidity')
+          .mockImplementation(() => {});
+        jest
+          .spyOn(control.get('person').get('age'), 'updateValueAndValidity')
+          .mockImplementation(() => {});
 
         FormUtils.deepUpdateValueAndValidity(control);
 
@@ -74,7 +86,9 @@ describe('FormUtils', () => {
         const control = fb.group({
           person: fb.group({ name: '', age: '' }),
         });
-        spyOn(control.get('person').get('age'), 'updateValueAndValidity');
+        jest
+          .spyOn(control.get('person').get('age'), 'updateValueAndValidity')
+          .mockImplementation(() => {});
 
         FormUtils.deepUpdateValueAndValidity(control, { emitEvent: false });
 
@@ -94,15 +108,29 @@ describe('FormUtils', () => {
           fb.group({ name: '', age: '' }),
         ]);
 
-        spyOn(control, 'updateValueAndValidity');
+        jest
+          .spyOn(control, 'updateValueAndValidity')
+          .mockImplementation(() => {});
 
-        spyOn(control.get('0'), 'updateValueAndValidity');
-        spyOn(control.get('0').get('name'), 'updateValueAndValidity');
-        spyOn(control.get('0').get('age'), 'updateValueAndValidity');
+        jest
+          .spyOn(control.get('0'), 'updateValueAndValidity')
+          .mockImplementation(() => {});
+        jest
+          .spyOn(control.get('0').get('name'), 'updateValueAndValidity')
+          .mockImplementation(() => {});
+        jest
+          .spyOn(control.get('0').get('age'), 'updateValueAndValidity')
+          .mockImplementation(() => {});
 
-        spyOn(control.get('1'), 'updateValueAndValidity');
-        spyOn(control.get('1').get('name'), 'updateValueAndValidity');
-        spyOn(control.get('1').get('age'), 'updateValueAndValidity');
+        jest
+          .spyOn(control.get('1'), 'updateValueAndValidity')
+          .mockImplementation(() => {});
+        jest
+          .spyOn(control.get('1').get('name'), 'updateValueAndValidity')
+          .mockImplementation(() => {});
+        jest
+          .spyOn(control.get('1').get('age'), 'updateValueAndValidity')
+          .mockImplementation(() => {});
 
         FormUtils.deepUpdateValueAndValidity(control);
 
@@ -145,7 +173,9 @@ describe('FormUtils', () => {
         fb.group({ name: '', age: '' }),
         fb.group({ name: '', age: '' }),
       ]);
-      spyOn(control.get('0').get('age'), 'updateValueAndValidity');
+      jest
+        .spyOn(control.get('0').get('age'), 'updateValueAndValidity')
+        .mockImplementation(() => {});
 
       FormUtils.deepUpdateValueAndValidity(control, { emitEvent: false });
 

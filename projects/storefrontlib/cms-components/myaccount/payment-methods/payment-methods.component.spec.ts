@@ -13,7 +13,7 @@ import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy();
+  add = jest.fn();
 }
 
 @Component({
@@ -54,6 +54,15 @@ class MockUserPaymentService {
   setPaymentMethodAsDefault(_paymentMethodId: string): void {}
 }
 
+@Component({
+  selector: 'cx-truncate-text-popover',
+  template: '',
+})
+class MockTruncateTextPopoverComponent {
+  @Input() content: string;
+  @Input() charactersLimit: number = 100;
+}
+
 describe('PaymentMethodsComponent', () => {
   let component: PaymentMethodsComponent;
   let fixture: ComponentFixture<PaymentMethodsComponent>;
@@ -69,6 +78,7 @@ describe('PaymentMethodsComponent', () => {
           MockCxSpinnerComponent,
           CardComponent,
           MockCxIconComponent,
+          MockTruncateTextPopoverComponent,
         ],
         providers: [
           { provide: UserPaymentService, useClass: MockUserPaymentService },
@@ -105,7 +115,9 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should show spinner if payment methods are loading', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(true));
+    jest
+      .spyOn(userService, 'getPaymentMethodsLoading')
+      .mockReturnValue(of(true));
 
     function getSpinner(elem: DebugElement) {
       return elem.query(By.css('cx-spinner'));
@@ -116,7 +128,9 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should show payment methods after loading', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
+    jest
+      .spyOn(userService, 'getPaymentMethodsLoading')
+      .mockReturnValue(of(false));
     function getCard(elem: DebugElement) {
       return elem.query(By.css('cx-card'));
     }
@@ -126,10 +140,12 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should render all payment methods', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
-    spyOn(userService, 'getPaymentMethods').and.returnValue(
-      of([mockPayment, mockPayment])
-    );
+    jest
+      .spyOn(userService, 'getPaymentMethodsLoading')
+      .mockReturnValue(of(false));
+    jest
+      .spyOn(userService, 'getPaymentMethods')
+      .mockReturnValue(of([mockPayment, mockPayment]));
 
     function getCards(elem: DebugElement): DebugElement[] {
       return elem.queryAll(By.css('cx-card'));
@@ -140,10 +156,14 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should render correct content in card', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
-    spyOn(userService, 'getPaymentMethods').and.returnValue(
-      of([mockPayment, { ...mockPayment, defaultPayment: false }])
-    );
+    jest
+      .spyOn(userService, 'getPaymentMethodsLoading')
+      .mockReturnValue(of(false));
+    jest
+      .spyOn(userService, 'getPaymentMethods')
+      .mockReturnValue(
+        of([mockPayment, { ...mockPayment, defaultPayment: false }])
+      );
 
     function getCardHeader(elem: DebugElement): string {
       return elem.query(By.css('cx-card .card-header')).nativeElement
@@ -176,7 +196,9 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should show confirm on delete', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
+    jest
+      .spyOn(userService, 'getPaymentMethodsLoading')
+      .mockReturnValue(of(false));
 
     function getDeleteMsg(elem: DebugElement): string {
       return elem.query(By.css('cx-card .cx-card-delete-msg')).nativeElement
@@ -199,8 +221,10 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should successfully delete card', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
-    spyOn(userService, 'deletePaymentMethod').and.stub();
+    jest
+      .spyOn(userService, 'getPaymentMethodsLoading')
+      .mockReturnValue(of(false));
+    jest.spyOn(userService, 'deletePaymentMethod').mockImplementation();
 
     function getDeleteButton(elem: DebugElement): any {
       return elem.query(By.css('cx-card .card-link')).nativeElement;
@@ -220,11 +244,15 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should successfully set card as default', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
-    spyOn(userService, 'getPaymentMethods').and.returnValue(
-      of([mockPayment, { ...mockPayment, defaultPayment: false }])
-    );
-    spyOn(userService, 'setPaymentMethodAsDefault').and.stub();
+    jest
+      .spyOn(userService, 'getPaymentMethodsLoading')
+      .mockReturnValue(of(false));
+    jest
+      .spyOn(userService, 'getPaymentMethods')
+      .mockReturnValue(
+        of([mockPayment, { ...mockPayment, defaultPayment: false }])
+      );
+    jest.spyOn(userService, 'setPaymentMethodAsDefault').mockImplementation();
 
     function getSetDefaultButton(elem: DebugElement): any {
       return elem.queryAll(By.css('cx-card .card-link'))[1].nativeElement;
