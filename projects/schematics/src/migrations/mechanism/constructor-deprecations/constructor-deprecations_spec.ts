@@ -180,7 +180,7 @@ const REMOVE_PARAMETER_EXPECTED_CLASS = `
 import { Dummy } from '@angular/core';
 import {
   CmsService,
-  
+
   PageMetaResolver,
   PageMetaService
 } from '@spartacus/core';
@@ -188,7 +188,7 @@ export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
     cms: CmsService
-    
+
   ) {
     super(resolvers, cms );
   }
@@ -218,7 +218,7 @@ const REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_EXPECTED_CLASS = `
 import { ActionsSubject } from '@ngrx/store';
 import {
   CmsService,
-  
+
   PageMetaResolver,
   PageMetaService
 } from '@spartacus/core';
@@ -362,7 +362,7 @@ import {
   Renderer2, ChangeDetectorRef,
 } from '@angular/core';
 import {
-  
+
   CmsService,
   ContentSlotData,
   DynamicAttributeService,
@@ -422,7 +422,7 @@ import {
   PageMetaService,
   PageMetaResolver,
   CmsService,
-  
+
 } from '@spartacus/core';
 import {Injectable, Inject} from '@angular/core';
 @Injectable({})
@@ -431,11 +431,98 @@ export class CustomPageMetaService extends PageMetaService {
       @Inject(PageMetaResolver)
       protected resolvers: PageMetaResolver[],
       protected cms: CmsService
-      
+
   ) {
       super(resolvers, cms );
   }
 }
+`;
+
+const CONFIGURATOR_GROUP_MENU_COMPONENT_VALID_TEST_CLASS = `
+    import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+    import { DirectionService, HamburgerMenuService } from '@spartacus/storefront';
+    import { ConfiguratorCommonsService, ConfiguratorGroupsService, ConfiguratorStorefrontUtilsService, ConfiguratorGroupMenuService} from '@spartacus/product-configurator/rulebased';
+    export class InheritingService extends ConfiguratorGroupMenuComponent {
+      constructor(
+        protected configCommonsService: ConfiguratorCommonsService,
+        protected configuratorGroupsService: ConfiguratorGroupsService,
+        protected hamburgerMenuService: HamburgerMenuService,
+        protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+        protected configUtils: ConfiguratorStorefrontUtilsService,
+        protected configGroupMenuService: ConfiguratorGroupMenuService,
+        protected directionService: DirectionService
+      ) {
+      }
+    }
+`;
+
+const CONFIGURATOR_GROUP_MENU_COMPONENT_EXPECTED_CLASS = `
+    import { TranslationService } from '@spartacus/core';
+    import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+    import { DirectionService, HamburgerMenuService } from '@spartacus/storefront';
+    import { ConfiguratorCommonsService, ConfiguratorGroupsService, ConfiguratorStorefrontUtilsService, ConfiguratorGroupMenuService} from '@spartacus/product-configurator/rulebased';
+    export class InheritingService extends ConfiguratorGroupMenuComponent {
+      constructor(
+        protected configCommonsService: ConfiguratorCommonsService,
+        protected configuratorGroupsService: ConfiguratorGroupsService,
+        protected hamburgerMenuService: HamburgerMenuService,
+        protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+        protected configUtils: ConfiguratorStorefrontUtilsService,
+        protected configGroupMenuService: ConfiguratorGroupMenuService,
+        protected directionService: DirectionService
+        ,
+        protected translation: TranslationService
+      ) {
+      }
+    }
+`;
+
+const CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT_VALID_TEST_CLASS = `
+    import { ProductService } from '@spartacus/core';
+    import { KeyboardFocusService } from '@spartacus/storefront';
+    export class InheritingService extends ConfiguratorAttributeProductCardComponent {
+      constructor(
+        protected productService: ProductService,
+        protected keyBoardFocus: KeyboardFocusService
+      ) {
+      }
+    }
+`;
+
+const CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT_EXPECTED_CLASS = `
+    import { ProductService, TranslationService } from '@spartacus/core';
+    import { KeyboardFocusService } from '@spartacus/storefront';
+    export class InheritingService extends ConfiguratorAttributeProductCardComponent {
+      constructor(
+        protected productService: ProductService,
+        protected keyBoardFocus: KeyboardFocusService
+        ,
+        protected translation: TranslationService
+      ) {
+      }
+    }
+`;
+
+const CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_VALID_TEST_CLASS = `
+    import { ProductService } from '@spartacus/core';
+    export class InheritingService extends ConfiguratorOverviewBundleAttributeComponent {
+      constructor(
+        protected productService: ProductService
+      ) {
+      }
+    }
+`;
+
+const CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_EXPECTED_CLASS = `
+    import { ProductService, TranslationService } from '@spartacus/core';
+    export class InheritingService extends ConfiguratorOverviewBundleAttributeComponent {
+      constructor(
+        protected productService: ProductService
+        ,
+        protected translation: TranslationService
+      ) {
+      }
+    }
 `;
 
 describe('constructor migrations', () => {
@@ -490,6 +577,54 @@ describe('constructor migrations', () => {
   afterEach(() => {
     shx.cd(previousWorkingDir);
     shx.rm('-r', tmpDirPath);
+  });
+
+  describe('when all the pre-conditions are valid for adding new dependency', () => {
+    it('should make the required changes for group menu component', async () => {
+      writeFile(
+        host,
+        '/src/index.ts',
+        CONFIGURATOR_GROUP_MENU_COMPONENT_VALID_TEST_CLASS
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      console.log(content);
+      expect(content).toEqual(CONFIGURATOR_GROUP_MENU_COMPONENT_EXPECTED_CLASS);
+    });
+
+    it('should make the required changes for product card component', async () => {
+      writeFile(
+        host,
+        '/src/index.ts',
+        CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT_VALID_TEST_CLASS
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      console.log(content);
+      expect(content).toEqual(
+        CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT_EXPECTED_CLASS
+      );
+    });
+
+    it('should make the required changes for overview bundle attribute component', async () => {
+      writeFile(
+        host,
+        '/src/index.ts',
+        CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_VALID_TEST_CLASS
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      console.log(content);
+      expect(content).toEqual(
+        CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_EXPECTED_CLASS
+      );
+    });
   });
 
   describe('when the class does NOT extend a Spartacus class', () => {
