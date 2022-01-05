@@ -438,24 +438,6 @@ export class CustomPageMetaService extends PageMetaService {
 }
 `;
 
-const CONFIGURATOR_GROUP_MENU_COMPONENT_VALID_TEST_CLASS = `
-    import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
-    import { DirectionService, HamburgerMenuService } from '@spartacus/storefront';
-    import { ConfiguratorCommonsService, ConfiguratorGroupsService, ConfiguratorStorefrontUtilsService, ConfiguratorGroupMenuService} from '@spartacus/product-configurator/rulebased';
-    export class InheritingService extends ConfiguratorGroupMenuComponent {
-      constructor(
-        protected configCommonsService: ConfiguratorCommonsService,
-        protected configuratorGroupsService: ConfiguratorGroupsService,
-        protected hamburgerMenuService: HamburgerMenuService,
-        protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-        protected configUtils: ConfiguratorStorefrontUtilsService,
-        protected configGroupMenuService: ConfiguratorGroupMenuService,
-        protected directionService: DirectionService
-      ) {
-      }
-    }
-`;
-
 const CONFIGURATOR_GROUP_MENU_COMPONENT_EXPECTED_CLASS = `
     import { TranslationService } from '@spartacus/core';
     import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
@@ -469,21 +451,8 @@ const CONFIGURATOR_GROUP_MENU_COMPONENT_EXPECTED_CLASS = `
         protected configRouterExtractorService: ConfiguratorRouterExtractorService,
         protected configUtils: ConfiguratorStorefrontUtilsService,
         protected configGroupMenuService: ConfiguratorGroupMenuService,
-        protected directionService: DirectionService
-        ,
+        protected directionService: DirectionService,
         protected translation: TranslationService
-      ) {
-      }
-    }
-`;
-
-const CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT_VALID_TEST_CLASS = `
-    import { ProductService } from '@spartacus/core';
-    import { KeyboardFocusService } from '@spartacus/storefront';
-    export class InheritingService extends ConfiguratorAttributeProductCardComponent {
-      constructor(
-        protected productService: ProductService,
-        protected keyBoardFocus: KeyboardFocusService
       ) {
       }
     }
@@ -495,19 +464,8 @@ const CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT_EXPECTED_CLASS = `
     export class InheritingService extends ConfiguratorAttributeProductCardComponent {
       constructor(
         protected productService: ProductService,
-        protected keyBoardFocus: KeyboardFocusService
-        ,
+        protected keyBoardFocus: KeyboardFocusService,
         protected translation: TranslationService
-      ) {
-      }
-    }
-`;
-
-const CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_VALID_TEST_CLASS = `
-    import { ProductService } from '@spartacus/core';
-    export class InheritingService extends ConfiguratorOverviewBundleAttributeComponent {
-      constructor(
-        protected productService: ProductService
       ) {
       }
     }
@@ -517,8 +475,7 @@ const CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_EXPECTED_CLASS = `
     import { ProductService, TranslationService } from '@spartacus/core';
     export class InheritingService extends ConfiguratorOverviewBundleAttributeComponent {
       constructor(
-        protected productService: ProductService
-        ,
+        protected productService: ProductService,
         protected translation: TranslationService
       ) {
       }
@@ -579,12 +536,12 @@ describe('constructor migrations', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  describe('when all the pre-conditions are valid for adding new dependency', () => {
+  describe('product configuration', () => {
     it('should make the required changes for group menu component', async () => {
       writeFile(
         host,
         '/src/index.ts',
-        CONFIGURATOR_GROUP_MENU_COMPONENT_VALID_TEST_CLASS
+        CONFIGURATOR_GROUP_MENU_COMPONENT_EXPECTED_CLASS
       );
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -598,7 +555,7 @@ describe('constructor migrations', () => {
       writeFile(
         host,
         '/src/index.ts',
-        CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT_VALID_TEST_CLASS
+        CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT_EXPECTED_CLASS
       );
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -614,7 +571,7 @@ describe('constructor migrations', () => {
       writeFile(
         host,
         '/src/index.ts',
-        CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_VALID_TEST_CLASS
+        CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_EXPECTED_CLASS
       );
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
