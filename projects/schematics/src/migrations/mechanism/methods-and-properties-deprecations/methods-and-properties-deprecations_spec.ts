@@ -170,6 +170,63 @@ const CMS_COMPONENT_ACTIONS_TEST_TWO_CLASSES = `
     }
 `;
 
+const CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT_MIGRATION_TEST_CLASS = `
+@Component({
+  selector: 'cx-configurator-attribute-multi-selection-bundle',
+  templateUrl: './configurator-attribute-multi-selection-bundle.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CustomConfiguratorAttributeMultiSelectionBundleComponent extends ConfiguratorAttributeMultiSelectionBundleComponent {
+    extractProductCardParameters(
+    disableAllButtons: boolean | null,
+    hideRemoveButton: boolean | null,
+    value: Configurator.Value,
+    index: number
+  ): ConfiguratorAttributeProductCardComponentOptions {
+    return {
+      disableAllButtons: disableAllButtons ? disableAllButtons : false,
+      hideRemoveButton: hideRemoveButton ? hideRemoveButton : false,
+      productBoundValue: value,
+      multiSelect: true,
+      withQuantity: this.withQuantity,
+      loading$: this.loading$,
+      attributeId: this.getAttributeCode(this.attribute),
+      attributeLabel: this.attribute.label,
+      attributeName: this.attribute.name,
+      itemCount: this.attribute.values?.length
+        ? this.attribute.values?.length
+        : 0,
+      itemIndex: index ? index : 0,
+    };
+}`;
+
+const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT_MIGRATION_TEST_CLASS = `
+@Component({
+  selector: 'cx-configurator-attribute-single-selection-bundle',
+  templateUrl:
+    './configurator-attribute-single-selection-bundle.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CustomConfiguratorAttributeSingleSelectionBundleComponent extends ConfiguratorAttributeSingleSelectionBundleComponent {
+    extractProductCardParameters(
+    value: Configurator.Value,
+    index: number
+  ): ConfiguratorAttributeProductCardComponentOptions {
+    return {
+      hideRemoveButton: this.attribute.required,
+      fallbackFocusId: this.getFocusIdOfNearestValue(value),
+      productBoundValue: value,
+      loading$: this.loading$,
+      attributeId: this.getAttributeCode(this.attribute),
+      attributeLabel: this.attribute.label,
+      attributeName: this.attribute.name,
+      itemCount: this.attribute.values?.length
+        ? this.attribute.values?.length
+        : 0,
+      itemIndex: index,
+    };
+}`;
+
 describe('updateCmsComponentState migration', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
@@ -222,6 +279,40 @@ describe('updateCmsComponentState migration', () => {
   afterEach(() => {
     shx.cd(previousWorkingDir);
     shx.rm('-r', tmpDirPath);
+  });
+
+  describe('configurator migration', () => {
+    it('should make the required changes for configurator attribute multi-selection component', async () => {
+      writeFile(
+        host,
+        '/src/index.ts',
+        CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT_MIGRATION_TEST_CLASS
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      console.warn('content: ' + content);
+      expect(content).toEqual(
+        CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT_MIGRATION_TEST_CLASS
+      );
+    });
+
+    it('should make the required changes for configurator attribute single-selection component', async () => {
+      writeFile(
+        host,
+        '/src/index.ts',
+        CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT_MIGRATION_TEST_CLASS
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      console.warn('content: ' + content);
+      expect(content).toEqual(
+        CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT_MIGRATION_TEST_CLASS
+      );
+    });
   });
 
   it('getComponentState', async () => {
