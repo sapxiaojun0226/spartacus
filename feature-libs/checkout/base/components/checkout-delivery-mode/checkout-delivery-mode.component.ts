@@ -72,6 +72,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
           )
         )
         .subscribe(([deliveryModes, code]) => {
+          console.log('out', [deliveryModes, code]);
           if (
             !(
               code &&
@@ -82,10 +83,14 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
               this.checkoutConfigService.getPreferredDeliveryMode(
                 deliveryModes
               );
+            console.log('no code', code);
+            console.log([deliveryModes, code]);
           }
           if (code) {
             this.mode.controls['deliveryModeId'].setValue(code);
             this.changeMode(code);
+            console.log('yes code', code);
+            console.log([deliveryModes, code]);
           }
         })
     );

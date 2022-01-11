@@ -70,6 +70,12 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
           { key: 'addressForm.userAddressAddSuccess' },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
+        // this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode();
+        this.eventService.dispatch({}, ResetDeliveryModesEvent);
+
+        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
+        // // check what happens to the address when we 'create' api;
+        // this.eventService.dispatch({}, ReloadCheckoutQueryEvent);
       })
     );
     this.subscriptions.add(

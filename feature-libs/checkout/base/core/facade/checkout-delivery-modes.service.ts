@@ -217,9 +217,10 @@ export class CheckoutDeliveryModesService
   getSelectedDeliveryModeState(): Observable<
     QueryState<DeliveryMode | undefined>
   > {
-    return this.checkoutQueryFacade
-      .getCheckoutDetailsState()
-      .pipe(map((state) => ({ ...state, data: state.data?.deliveryMode })));
+    return this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
+      map((state) => ({ ...state, data: state.data?.deliveryMode })),
+      tap((who) => console.log('state', who))
+    );
   }
 
   setDeliveryMode(mode: string): Observable<unknown> {
