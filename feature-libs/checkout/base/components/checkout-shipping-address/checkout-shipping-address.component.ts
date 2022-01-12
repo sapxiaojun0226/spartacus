@@ -1,15 +1,21 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
   Address,
+  EventService,
   getLastValueSync,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
@@ -23,10 +29,11 @@ export interface CardWithAddress {
   templateUrl: './checkout-shipping-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutShippingAddressComponent implements OnInit {
+export class CheckoutShippingAddressComponent implements OnInit, OnDestroy {
   addressFormOpened = false;
   shouldRedirect = false; // this helps with smoother steps transition
   doneAutoSelect = false;
+  subscription = new Subscription();
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -34,7 +41,8 @@ export class CheckoutShippingAddressComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
+    protected eventService: EventService
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -167,10 +175,28 @@ export class CheckoutShippingAddressComponent implements OnInit {
   }
 
   next(): void {
-    this.checkoutStepService.next(this.activatedRoute);
+    // const hello = getLastValueSync(
+    //   this.eventService.get(DeliveryAddressCreatedEvent)
+    // );
+
+    // test test testttt
+    // let testMe;
+    // this.subscription.add(
+    //   this.eventService
+    //     .get(DeliveryAddressCreatedEvent)
+    //     .subscribe((who) => (testMe = who))
+    // );
+
+    this.checkoutStepService.next(this.activatedRoute, {
+      state: { addressEvent: 'otherside' },
+    });
   }
 
   back(): void {
     this.checkoutStepService.back(this.activatedRoute);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

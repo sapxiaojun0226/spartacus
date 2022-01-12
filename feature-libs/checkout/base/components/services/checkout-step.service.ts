@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import {
   CheckoutConfig,
   CheckoutStep,
@@ -56,9 +56,9 @@ export class CheckoutStepService {
     this.routingService.go(previousUrl === null ? 'cart' : previousUrl);
   }
 
-  next(activatedRoute: ActivatedRoute): void {
+  next(activatedRoute: ActivatedRoute, extras?: NavigationExtras): void {
     const nextUrl = this.getNextCheckoutStepUrl(activatedRoute);
-    this.routingService.go(nextUrl);
+    this.routingService.go(nextUrl, extras);
   }
 
   goToStepWithIndex(stepIndex: number): void {

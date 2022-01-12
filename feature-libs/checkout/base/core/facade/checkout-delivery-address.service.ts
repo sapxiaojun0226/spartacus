@@ -20,16 +20,8 @@ import {
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, queueScheduler } from 'rxjs';
-import {
-  concatMap,
-  filter,
-  map,
-  observeOn,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDeliveryAddressConnector } from '../connectors/checkout-delivery-address/checkout-delivery-address.connector';
 
 @Injectable()
@@ -41,62 +33,44 @@ export class CheckoutDeliveryAddressService
       (payload) =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
-            return this.checkoutDeliveryModesFacade
-              .clearCheckoutDeliveryMode()
+            return this.checkoutDeliveryAddressConnector
+              .createAddress(userId, cartId, payload)
               .pipe(
-                observeOn(queueScheduler),
-                // delayWhen()
-                tap(
-                  () =>
-                    this.checkoutQueryFacade
-                      .getCheckoutDetailsState()
-                      .pipe(filter((x) => !!x.data))
-                  // this.eventService.get(ResetCheckoutQueryEvent).pipe(
-                  //   filter((x) => !!x),
-                  //   tap((vat) => console.log('vat', vat))
-                  // )
-                ),
-                concatMap(() => {
-                  return this.checkoutDeliveryAddressConnector
-                    .createAddress(userId, cartId, payload)
-                    .pipe(
-                      tap(() => {
-                        if (userId !== OCC_USER_ID_ANONYMOUS) {
-                          /**
-                           * TODO:#deprecation-checkout We have to keep this here, since the user address feature is still ngrx-based.
-                           * Remove once it is switched from ngrx to c&q.
-                           * We should dispatch an event, which will reload the userAddress$ query.
-                           */
-                          this.store.dispatch(
-                            new UserActions.LoadUserAddresses(userId)
-                          );
-                        }
-                      }),
-                      map((address) => {
-                        address.titleCode = payload.titleCode;
-                        if (payload.region?.isocodeShort) {
-                          address.region = {
-                            ...address.region,
-                            isocodeShort: payload.region.isocodeShort,
-                          };
-                        }
-                        return address;
-                      }),
-                      tap((address) => {
-                        this.eventService.dispatch(
-                          {
-                            userId,
-                            cartId,
-                            address,
-                          },
-                          DeliveryAddressCreatedEvent
-                        );
-                        // // // check what happens to the address when we 'create' api;
-                        // this.eventService.dispatch({}, ResetCheckoutQueryEvent);
-                      })
-                      // switchMap((address) => this.setDeliveryAddress(address))
+                tap(() => {
+                  if (userId !== OCC_USER_ID_ANONYMOUS) {
+                    /**
+                     * TODO:#deprecation-checkout We have to keep this here, since the user address feature is still ngrx-based.
+                     * Remove once it is switched from ngrx to c&q.
+                     * We should dispatch an event, which will reload the userAddress$ query.
+                     */
+                    this.store.dispatch(
+                      new UserActions.LoadUserAddresses(userId)
                     );
+                  }
+                }),
+                map((address) => {
+                  address.titleCode = payload.titleCode;
+                  if (payload.region?.isocodeShort) {
+                    address.region = {
+                      ...address.region,
+                      isocodeShort: payload.region.isocodeShort,
+                    };
+                  }
+                  return address;
+                }),
+                tap((address) => {
+                  this.eventService.dispatch(
+                    {
+                      userId,
+                      cartId,
+                      address,
+                    },
+                    DeliveryAddressCreatedEvent
+                  );
+                  // // // check what happens to the address when we 'create' api;
+                  // this.eventService.dispatch({}, ResetCheckoutQueryEvent);
                 })
+                // switchMap((address) => this.setDeliveryAddress(address))
               );
           })
         ),

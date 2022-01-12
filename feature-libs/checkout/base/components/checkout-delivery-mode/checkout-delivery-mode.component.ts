@@ -7,12 +7,17 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DeliveryMode } from '@spartacus/cart/main/root';
-import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import {
+  CheckoutDeliveryModesFacade,
+  DeliveryAddressCreatedEvent,
+} from '@spartacus/checkout/base/root';
+import { EventService } from '@spartacus/core';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
+  startWith,
   withLatestFrom,
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -45,7 +50,8 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
     protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    protected eventService: EventService
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +65,12 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
       );
 
     this.subscriptions.add(
-      this.supportedDeliveryModes$
+      combineLatest([
+        this.supportedDeliveryModes$,
+        this.eventService
+          .get(DeliveryAddressCreatedEvent)
+          .pipe(startWith(undefined)),
+      ])
         .pipe(
           withLatestFrom(
             this.checkoutDeliveryModesFacade
@@ -69,28 +80,44 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
                 map((state) => state.data),
                 map((deliveryMode) => deliveryMode?.code)
               )
+            //     this.eventService
+            // .get(DeliveryAddressCreatedEvent)
+            // .pipe(startWith(undefined)),
           )
         )
-        .subscribe(([deliveryModes, code]) => {
-          console.log('out', [deliveryModes, code]);
+        .subscribe(([[deliveryModes, isAddressCreatedEventFired], code]) => {
+          console.log('out', [deliveryModes, isAddressCreatedEventFired, code]);
+
+          console.log('activatedroute state', this.activatedRoute.snapshot);
+          console.log('history :thinking', history.state);
+
+          // const hello = getLastValueSync(
+          //   this.eventService.get(DeliveryAddressCreatedEvent)
+          // );
+          // console.log('hello :(', hello);
+
+          // console.log(this.activatedRoute);
+
+          // this.eventService
+          //   .get(DeliveryAddressCreatedEvent)
+          //   .subscribe((who) => console.log('inside thing', who));
           if (
             !(
               code &&
               !!deliveryModes.find((deliveryMode) => deliveryMode.code === code)
-            )
+            ) ||
+            !!isAddressCreatedEventFired
           ) {
             code =
               this.checkoutConfigService.getPreferredDeliveryMode(
                 deliveryModes
               );
-            console.log('no code', code);
-            console.log([deliveryModes, code]);
+            console.log('no code', [deliveryModes, code]);
           }
           if (code) {
             this.mode.controls['deliveryModeId'].setValue(code);
             this.changeMode(code);
-            console.log('yes code', code);
-            console.log([deliveryModes, code]);
+            console.log('yes code', [deliveryModes, code]);
           }
         })
     );
