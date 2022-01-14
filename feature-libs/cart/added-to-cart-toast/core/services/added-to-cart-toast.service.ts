@@ -44,7 +44,7 @@ export class AddedToCartToastService {
   }
 
   setPosition(className: string) {
-    const length = this.cartToastItems.length;
-    if (length) this.cartToastItems[length - 1].baseClass = className;
+    const lastIndex = this.cartToastItems.length - 1;
+    this.cartToastItems[lastIndex].baseClass = className;
   }
 }
