@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Product } from '@spartacus/core';
 import { ProductService } from 'projects/core/src/product';
 import { Observable, of } from 'rxjs';
@@ -18,7 +18,7 @@ const mockProduct: Partial<Product> = {
   images: {},
 };
 
-fdescribe('AddedToCartToastService', () => {
+describe('AddedToCartToastService', () => {
   let addedToCartToastService: AddedToCartToastService;
 
   beforeEach(() => {
@@ -42,13 +42,15 @@ fdescribe('AddedToCartToastService', () => {
     expect(addedToCartToastService.cartToastItems.length).toBe(1);
   });
 
-  it('should remove previous toasts when adding a new one', () => {
+  it('should remove previous toasts when adding a new one', fakeAsync(() => {
     const removeSpy = spyOn(addedToCartToastService, 'removePrevious');
     addedToCartToastService.addToast(1, mockProduct, 'toast-test');
     addedToCartToastService.addToast(1, mockProduct, 'toast-test');
+    tick(500);
+    addedToCartToastService.removeToast();
     expect(removeSpy).toHaveBeenCalled();
     expect(addedToCartToastService.cartToastItems.length).toBe(1);
-  });
+  }));
 
   it('should remove a toast', () => {
     addedToCartToastService.addToast(1, mockProduct, 'toast-test');
@@ -56,5 +58,12 @@ fdescribe('AddedToCartToastService', () => {
     expect(addedToCartToastService.cartToastItems.length).toBe(0);
   });
 
-  it('it should change the class of the toast', () => {});
+  it('it should set the position of the toast', () => {
+    const testClassName = 'test-class';
+    addedToCartToastService.addToast(1, mockProduct, 'toast-test');
+    addedToCartToastService.setPosition('test-class');
+    expect(addedToCartToastService.cartToastItems[0].baseClass).toBe(
+      testClassName
+    );
+  });
 });
