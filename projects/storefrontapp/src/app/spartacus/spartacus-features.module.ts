@@ -61,6 +61,7 @@ import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { ImportExportFeatureModule } from './features/import-export-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { OrderFeatureModule } from './features/order-feature.module';
@@ -77,6 +78,7 @@ import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
 import { PickupInStoreFeatureModule } from './features/pickup-in-store-feature.module';
+import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
 
 const featureModules = [];
 
@@ -182,7 +184,7 @@ if (environment.digitalPayments) {
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
     JsonLdBuilderModule,
 
-    /************************* External features *************************/
+    /************************* Feature libraries *************************/
     UserFeatureModule,
     CheckoutFeatureModule,
     AsmFeatureModule,
@@ -194,8 +196,10 @@ if (environment.digitalPayments) {
     SavedCartFeatureModule,
     OrderFeatureModule,
     QuickOrderFeatureModule,
+    ImportExportFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     PickupInStoreFeatureModule,
+    ImageZoomFeatureModule,
     ...featureModules,
   ],
 })
