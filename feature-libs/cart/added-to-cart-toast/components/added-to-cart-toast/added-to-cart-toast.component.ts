@@ -10,7 +10,6 @@ import {
   CartAddEntrySuccessEvent,
   EventService,
   ProductService,
-  RoutingService,
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
@@ -57,7 +56,6 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
     protected eventService: EventService,
     protected productService: ProductService,
     protected renderer: Renderer2,
-    protected routerService: RoutingService,
     protected cd: ChangeDetectorRef
   ) {}
 
@@ -65,7 +63,7 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
     this.headerElement = this.winRef.document.querySelector('header');
 
     if (!this.customClass) {
-      this.customClass = 'cx-added-cart-toast';
+      this.customClass = 'cx-added-to-cart-toast';
     }
 
     this.baseClass = `${this.customClass}`;
@@ -89,6 +87,7 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
       this.cartAddEntrySuccess$
         .pipe(
           switchMap((cartEntry) => {
+            console.log(cartEntry);
             return combineLatest([
               of(cartEntry),
               this.productService.get(cartEntry.productCode),
