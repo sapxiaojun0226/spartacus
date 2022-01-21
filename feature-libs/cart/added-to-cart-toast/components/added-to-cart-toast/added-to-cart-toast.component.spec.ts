@@ -94,6 +94,7 @@ fdescribe('AddedToCartToastComponent', () => {
   let component: AddedToCartToastComponent;
   let fixture: ComponentFixture<AddedToCartToastComponent>;
   let service: AddedToCartToastService;
+  let productService: ProductService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -121,13 +122,13 @@ fdescribe('AddedToCartToastComponent', () => {
     }).compileComponents();
 
     service = TestBed.inject(AddedToCartToastService);
+    productService = TestBed.inject(ProductService);
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddedToCartToastComponent);
     component = fixture.componentInstance;
     component.scrollEventUnlistener = () => {};
-    mockCartAddEntrySuccess$.next({ mockCartAddEntrySuccess });
     fixture.detectChanges();
   });
 
@@ -137,6 +138,13 @@ fdescribe('AddedToCartToastComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call the product service', () => {
+    const spy = spyOn(productService, 'get').and.callThrough();
+    component.ngOnInit();
+    mockCartAddEntrySuccess$.next({ mockCartAddEntrySuccess });
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should set the class on init', () => {
