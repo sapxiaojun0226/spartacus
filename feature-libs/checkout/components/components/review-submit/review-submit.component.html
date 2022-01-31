@@ -45,12 +45,13 @@
       <cx-card [content]="getPoNumberCard(poNumber$ | async) | async"></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
+          [attr.aria-label]="'checkoutReview.editPaymentType' | cxTranslate"
           [routerLink]="
             {
               cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
             } | cxUrl
           "
-          ><cx-icon [type]="iconTypes.PENCIL"></cx-icon
+          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
         ></a>
       </div>
     </div>
@@ -65,12 +66,13 @@
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
+          [attr.aria-label]="'checkoutReview.editPaymentType' | cxTranslate"
           [routerLink]="
             {
               cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
             } | cxUrl
           "
-          ><cx-icon [type]="iconTypes.PENCIL"></cx-icon
+          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
         ></a>
       </div>
     </div>
@@ -86,12 +88,15 @@
         ></cx-card>
         <div class="cx-review-summary-edit-step">
           <a
+            [attr.aria-label]="
+              'checkoutReview.editShippingAddressDetails' | cxTranslate
+            "
             [routerLink]="
               {
                 cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
               } | cxUrl
             "
-            ><cx-icon [type]="iconTypes.PENCIL"></cx-icon
+            ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
           ></a>
         </div>
       </div>
@@ -110,12 +115,15 @@
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
+          [attr.aria-label]="
+            'checkoutReview.editShippingAddressDetails' | cxTranslate
+          "
           [routerLink]="
             {
               cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
             } | cxUrl
           "
-          ><cx-icon [type]="iconTypes.PENCIL"></cx-icon
+          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
         ></a>
       </div>
     </div>
@@ -130,12 +138,13 @@
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
+          [attr.aria-label]="'checkoutReview.editDeliveryMode' | cxTranslate"
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }
               | cxUrl
           "
         >
-          <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
         </a>
       </div>
     </div>
@@ -152,12 +161,13 @@
       </div>
       <div class="cx-review-summary-edit-step">
         <a
+          [attr.aria-label]="'checkoutReview.editPaymentDetails' | cxTranslate"
           [routerLink]="
             { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }
               | cxUrl
           "
         >
-          <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
         </a>
       </div>
     </div>
@@ -165,16 +175,16 @@
 
   <!-- CART ITEM SECTION -->
   <ng-container *ngIf="cart$ | async as cart">
-    <h4 class="cx-review-cart-total d-none d-lg-block d-xl-block">
+    <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
       {{
         'cartItems.cartTotal'
           | cxTranslate: { count: cart.deliveryItemsQuantity }
       }}:
       {{ cart.totalPrice?.formattedValue }}
-    </h4>
-    <h4 class="cx-review-cart-heading d-block d-lg-none d-xl-none">
+    </div>
+    <div class="cx-review-cart-heading d-block d-lg-none d-xl-none">
       {{ 'checkoutReview.placeOrder' | cxTranslate }}
-    </h4>
+    </div>
     <div
       class="cx-review-cart-item col-md-12"
       *ngIf="entries$ | async as entries"

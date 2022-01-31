@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OrderAmendService } from '../../amend-order.service';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Component({
   selector: 'cx-cancel-order-confirmation',
   templateUrl: './cancel-order-confirmation.component.html',
@@ -17,9 +20,8 @@ export class CancelOrderConfirmationComponent {
     .getForm()
     .pipe(tap((form) => (this.orderCode = form.value.orderCode)));
 
-  entries$: Observable<
-    OrderEntry[]
-  > = this.orderAmendService.getAmendedEntries();
+  entries$: Observable<OrderEntry[]> =
+    this.orderAmendService.getAmendedEntries();
 
   constructor(protected orderAmendService: OrderAmendService) {}
 

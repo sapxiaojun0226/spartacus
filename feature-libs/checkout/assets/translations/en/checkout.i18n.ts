@@ -5,6 +5,7 @@ export const checkout = {
     defaultShippingAddress: 'Default Shipping Address',
     addNewAddress: 'Add New Address',
     shipToThisAddress: 'Ship to this address',
+    selectShippingAddressSuccess: 'Shipping address changed successfully',
   },
   checkoutOrderConfirmation: {
     confirmationOfOrder: 'Confirmation of Order:',
@@ -28,6 +29,11 @@ export const checkout = {
     orderType_SCHEDULE_REPLENISHMENT_ORDER: 'Replenish Order',
     termsAndConditions: 'Terms & Conditions',
     editShippingAddress: 'Edit shipping address',
+    editShippingAddressDetails:
+      'Edit shipping address details, opens Shipping Address page',
+    editPaymentDetails: 'Edit payment details, opens Payment Details page',
+    editPaymentType: 'Edit payment method, opens Method of Payment page',
+    editDeliveryMode: 'Edit delivery mode, opens Delivery Mode page',
     poNumber: 'Purchase Order Number',
     every: 'Every',
     startOn: 'Start on',
@@ -57,6 +63,7 @@ export const checkout = {
       "Shipping addresses available to you depend on the cost center's unit",
   },
   checkoutProgress: {
+    label: 'Checkout Progress',
     methodOfPayment: 'Method of Payment',
     shippingAddress: 'Shipping Address',
     deliveryMode: 'Delivery Mode',

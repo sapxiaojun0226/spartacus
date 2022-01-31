@@ -27,11 +27,12 @@ SPARTACUS_PROJECTS=(
         "feature-libs/product-configurator"
         "feature-libs/qualtrics"
         "feature-libs/cart"
+        "feature-libs/order"
         "feature-libs/user"
         "feature-libs/tracking"
         )
 
-SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"
+SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
 BRANCH='develop'
 
 # custom location for the installation output

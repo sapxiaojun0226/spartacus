@@ -10,6 +10,7 @@ import {
 import {
   ActiveCartService,
   Address,
+  GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
   UserCostCenterService,
@@ -50,6 +51,10 @@ class MockCheckoutStepService {
   getBackBntText(): string {
     return 'common.back';
   }
+}
+
+class MockGlobalMessageService {
+  add = jasmine.createSpy();
 }
 
 const isAccount: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
@@ -142,6 +147,7 @@ describe('ShippingAddressComponent', () => {
   let activeCartService: ActiveCartService;
   let checkoutStepService: CheckoutStepService;
   let userCostCenterService: UserCostCenterService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(
     waitForAsync(() => {
@@ -171,6 +177,7 @@ describe('ShippingAddressComponent', () => {
             provide: CheckoutCostCenterFacade,
             useClass: MockCheckoutCostCenterService,
           },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       })
         .overrideComponent(ShippingAddressComponent, {
@@ -185,6 +192,7 @@ describe('ShippingAddressComponent', () => {
       );
       userAddressService = TestBed.inject(UserAddressService);
       userCostCenterService = TestBed.inject(UserCostCenterService);
+      globalMessageService = TestBed.inject(GlobalMessageService);
     })
   );
 
@@ -285,6 +293,12 @@ describe('ShippingAddressComponent', () => {
     component.addAddress({});
     expect(component.forceLoader).toBeTruthy();
     expect(checkoutDeliveryFacade.createAndSetAddress).toHaveBeenCalledWith({});
+  });
+
+  it('should send a global message when a new default address is selected', () => {
+    component.onAddressCardSelect({});
+    expect(component.selectAddress).toHaveBeenCalledWith({});
+    expect(globalMessageService.add).toHaveBeenCalled();
   });
 
   it('should be able to get card content', () => {

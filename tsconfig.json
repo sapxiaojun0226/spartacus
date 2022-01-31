@@ -29,22 +29,6 @@
       "@spartacus/asm/occ": ["feature-libs/asm/occ/public_api"],
       "@spartacus/asm/root": ["feature-libs/asm/root/public_api"],
       "@spartacus/cart": ["feature-libs/cart/public_api"],
-      "@spartacus/cart/saved-cart/assets": [
-        "feature-libs/cart/saved-cart/assets/public_api"
-      ],
-      "@spartacus/cart/saved-cart/components": [
-        "feature-libs/cart/saved-cart/components/public_api"
-      ],
-      "@spartacus/cart/saved-cart/core": [
-        "feature-libs/cart/saved-cart/core/public_api"
-      ],
-      "@spartacus/cart/saved-cart": ["feature-libs/cart/saved-cart/public_api"],
-      "@spartacus/cart/saved-cart/occ": [
-        "feature-libs/cart/saved-cart/occ/public_api"
-      ],
-      "@spartacus/cart/saved-cart/root": [
-        "feature-libs/cart/saved-cart/root/public_api"
-      ],
       "@spartacus/cart/quick-order/assets": [
         "feature-libs/cart/quick-order/assets/public_api"
       ],
@@ -70,6 +54,38 @@
         "feature-libs/cart/added-to-cart-toast/assets/public_api"
       ],
       "@spartacus/checkout/assets": ["feature-libs/checkout/assets/public_api"],
+      "@spartacus/cart/saved-cart/assets": [
+        "feature-libs/cart/saved-cart/assets/public_api"
+      ],
+      "@spartacus/cart/saved-cart/components": [
+        "feature-libs/cart/saved-cart/components/public_api"
+      ],
+      "@spartacus/cart/saved-cart/core": [
+        "feature-libs/cart/saved-cart/core/public_api"
+      ],
+      "@spartacus/cart/saved-cart": ["feature-libs/cart/saved-cart/public_api"],
+      "@spartacus/cart/saved-cart/occ": [
+        "feature-libs/cart/saved-cart/occ/public_api"
+      ],
+      "@spartacus/cart/saved-cart/root": [
+        "feature-libs/cart/saved-cart/root/public_api"
+      ],
+      "@spartacus/cart/import-export/assets": [
+        "feature-libs/cart/import-export/assets/public_api"
+      ],
+      "@spartacus/cart/import-export/components": [
+        "feature-libs/cart/import-export/components/public_api"
+      ],
+      "@spartacus/cart/import-export/core": [
+        "feature-libs/cart/import-export/core/public_api"
+      ],
+      "@spartacus/cart/import-export": [
+        "feature-libs/cart/import-export/public_api"
+      ],
+      "@spartacus/cart/import-export/root": [
+        "feature-libs/cart/import-export/root/public_api"
+      ],
+      "@spartacus/checkout/assets": ["feature-libs/checkout/assets/public_api"],
       "@spartacus/checkout/components": [
         "feature-libs/checkout/components/public_api"
       ],
@@ -77,6 +93,14 @@
       "@spartacus/checkout": ["feature-libs/checkout/public_api"],
       "@spartacus/checkout/occ": ["feature-libs/checkout/occ/public_api"],
       "@spartacus/checkout/root": ["feature-libs/checkout/root/public_api"],
+      "@spartacus/order/assets": ["feature-libs/order/assets/public_api"],
+      "@spartacus/order/components": [
+        "feature-libs/order/components/public_api"
+      ],
+      "@spartacus/order/core": ["feature-libs/order/core/public_api"],
+      "@spartacus/order": ["feature-libs/order/public_api"],
+      "@spartacus/order/occ": ["feature-libs/order/occ/public_api"],
+      "@spartacus/order/root": ["feature-libs/order/root/public_api"],
       "@spartacus/organization/administration/assets": [
         "feature-libs/organization/administration/assets/public_api"
       ],
@@ -114,14 +138,14 @@
       "@spartacus/product-configurator": [
         "feature-libs/product-configurator/public_api"
       ],
+      "@spartacus/product-configurator/rulebased/cpq": [
+        "feature-libs/product-configurator/rulebased/cpq/public_api"
+      ],
       "@spartacus/product-configurator/rulebased": [
         "feature-libs/product-configurator/rulebased/public_api"
       ],
       "@spartacus/product-configurator/rulebased/root": [
         "feature-libs/product-configurator/rulebased/root/public_api"
-      ],
-      "@spartacus/product-configurator/rulebased/cpq": [
-        "feature-libs/product-configurator/rulebased/cpq/public_api"
       ],
       "@spartacus/product-configurator/textfield": [
         "feature-libs/product-configurator/textfield/public_api"
@@ -146,6 +170,18 @@
       ],
       "@spartacus/product/bulk-pricing/root": [
         "feature-libs/product/bulk-pricing/root/public_api"
+      ],
+      "@spartacus/product/image-zoom/assets": [
+        "feature-libs/product/image-zoom/assets/public_api"
+      ],
+      "@spartacus/product/image-zoom/components": [
+        "feature-libs/product/image-zoom/components/public_api"
+      ],
+      "@spartacus/product/image-zoom": [
+        "feature-libs/product/image-zoom/public_api"
+      ],
+      "@spartacus/product/image-zoom/root": [
+        "feature-libs/product/image-zoom/root/public_api"
       ],
       "@spartacus/product": ["feature-libs/product/public_api"],
       "@spartacus/product/variants/assets": [

@@ -11,6 +11,9 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Component({
   selector: 'cx-order-history',
   templateUrl: './order-history.component.html',
@@ -37,11 +40,13 @@ export class OrderHistoryComponent implements OnDestroy {
       })
     );
 
-  hasReplenishmentOrder$: Observable<boolean> = this.userReplenishmentOrderService
-    .getReplenishmentOrderDetails()
-    .pipe(map((order) => order && Object.keys(order).length !== 0));
+  hasReplenishmentOrder$: Observable<boolean> =
+    this.userReplenishmentOrderService
+      .getReplenishmentOrderDetails()
+      .pipe(map((order) => order && Object.keys(order).length !== 0));
 
-  isLoaded$: Observable<boolean> = this.userOrderService.getOrderHistoryListLoaded();
+  isLoaded$: Observable<boolean> =
+    this.userOrderService.getOrderHistoryListLoaded();
 
   /**
    * When "Order Return" feature is enabled, this component becomes one tab in
