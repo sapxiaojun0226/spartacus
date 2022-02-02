@@ -58,17 +58,6 @@ cx-added-to-cart-toast {
           display: block;
         }
       }
-
-      .continue-shopping {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--cx-color-primary);
-        &:hover {
-          cursor: pointer;
-          text-decoration: underline;
-        }
-      }
     }
 
     @include media-breakpoint-up(md) {

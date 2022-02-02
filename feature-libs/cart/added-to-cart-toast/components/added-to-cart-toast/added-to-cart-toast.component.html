@@ -1,5 +1,10 @@
 <ng-container *ngIf="cartToasts$ | async as cartToasts">
-  <div *ngFor="let toast of cartToasts" [class]="toast.baseClass">
+  <div
+    *ngFor="let toast of cartToasts"
+    [class]="toast.baseClass"
+    aria-live="polite"
+    aria-atomic="true"
+  >
     <div class="added-to-cart-toast-title">
       {{
         toast.quantity > 1
@@ -25,9 +30,9 @@
           {{ 'addedToCartToast.price' | cxTranslate }}: {{ toast.unitPrice }}
         </span>
       </div>
-      <span class="continue-shopping" (click)="closeToast(toast)">
+      <button class="link cx-action-link" (click)="closeToast(toast)">
         {{ 'addedToCartToast.continueShopping' | cxTranslate }}
-      </span>
+      </button>
       <a
         [routerLink]="{ cxRoute: 'cart' } | cxUrl"
         (click)="closeToast(toast)"
