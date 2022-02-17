@@ -14,7 +14,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -103,20 +103,22 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       this.translationService.translate('checkoutAddress.shipToThisAddress'),
       this.translationService.translate('addressCard.selected'),
     ]).pipe(
-      tap(([addresses, selected]) =>
-        this.selectDefaultAddress(addresses, selected)
-      ),
-      map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-        addresses.map((address) => ({
-          address,
-          card: this.getCardContent(
-            address,
-            selected,
-            textDefault,
-            textShipTo,
-            textSelected
-          ),
-        }))
+      switchMap(
+        ([addresses, selected, textDefault, textShipTo, textSelected]) =>
+          this.selectDefaultAddress(addresses, selected).pipe(
+            map(() =>
+              addresses.map((address) => ({
+                address,
+                card: this.getCardContent(
+                  address,
+                  selected,
+                  textDefault,
+                  textShipTo,
+                  textSelected
+                ),
+              }))
+            )
+          )
       )
     );
   }
@@ -129,7 +131,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   selectDefaultAddress(
     addresses: Address[],
     selected: Address | undefined
-  ): void {
+  ): Observable<unknown> {
+    let selection$: Observable<unknown> = of();
     if (
       !this.doneAutoSelect &&
       addresses?.length &&
@@ -137,10 +140,11 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     ) {
       selected = addresses.find((address) => address.defaultAddress);
       if (selected) {
-        this.setAddress(selected);
+        selection$ = this.setAddress(selected);
       }
       this.doneAutoSelect = true;
     }
+    return selection$;
   }
 
   getCardContent(
@@ -231,23 +235,21 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     this.checkoutStepService.back(this.activatedRoute);
   }
 
-  protected setAddress(address: Address): void {
+  protected setAddress(address: Address): Observable<unknown> {
     this.busy$.next(true);
-    this.checkoutDeliveryAddressFacade
-      .setDeliveryAddress(address)
-      .pipe(
-        switchMap(() =>
-          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
-        )
-      )
-      .subscribe({
+    return this.checkoutDeliveryAddressFacade.setDeliveryAddress(address).pipe(
+      switchMap(() =>
+        this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
+      ),
+      tap({
         complete: () => {
           this.onSuccess();
         },
         error: () => {
           this.onError();
         },
-      });
+      })
+    );
   }
 
   protected onSuccess(): void {

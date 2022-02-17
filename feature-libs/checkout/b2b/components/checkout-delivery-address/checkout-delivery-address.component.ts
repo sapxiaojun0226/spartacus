@@ -114,7 +114,8 @@ export class B2BCheckoutDeliveryAddressComponent
   selectDefaultAddress(
     addresses: Address[],
     selected: Address | undefined
-  ): void {
+  ): Observable<unknown> {
+    let selection$: Observable<unknown> = of();
     if (
       !this.doneAutoSelect &&
       addresses?.length &&
@@ -122,13 +123,14 @@ export class B2BCheckoutDeliveryAddressComponent
     ) {
       if (this.isAccountPayment) {
         if (addresses.length === 1) {
-          this.setAddress(addresses[0]);
+          selection$ = this.setAddress(addresses[0]);
         }
       } else {
-        super.selectDefaultAddress(addresses, selected);
+        selection$ = super.selectDefaultAddress(addresses, selected);
       }
       this.doneAutoSelect = true;
     }
+    return selection$;
   }
 
   ngOnDestroy(): void {
