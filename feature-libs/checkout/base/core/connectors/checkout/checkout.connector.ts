@@ -16,6 +16,7 @@ export class CheckoutConnector {
     return this.adapter.placeOrder(userId, cartId, termsChecked);
   }
 
+  // TODO: BRIAN decouple from place order
   public getCheckoutDetails(
     userId: string,
     cartId: string

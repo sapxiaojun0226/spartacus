@@ -28,6 +28,7 @@ export class UnnamedService implements UnnamedFacade {
           switchMap(([userId, cartId]) =>
             this.checkoutConnector.placeOrder(userId, cartId, payload).pipe(
               tap((order) => {
+                console.log('ordered');
                 this.order$.next(order);
                 this.eventService.dispatch(
                   {
@@ -70,6 +71,7 @@ export class UnnamedService implements UnnamedFacade {
    * Performs the necessary checkout preconditions.
    */
   protected checkoutPreconditions(): Observable<[string, string]> {
+    console.log('1 precondi');
     return combineLatest([
       this.userIdService.takeUserId(),
       this.activeCartFacade.takeActiveCartId(),
@@ -77,19 +79,23 @@ export class UnnamedService implements UnnamedFacade {
     ]).pipe(
       take(1),
       map(([userId, cartId, isGuestCart]) => {
+        console.log('2 precondi');
         if (
           !userId ||
           !cartId ||
           (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
         ) {
+          console.log('3 error precondi');
           throw new Error('Checkout conditions not met');
         }
+        console.log('last precondi');
         return [userId, cartId];
       })
     );
   }
 
   placeOrder(termsChecked: boolean): Observable<Order> {
+    console.log('called place order');
     return this.placeOrderCommand.execute(termsChecked);
   }
 

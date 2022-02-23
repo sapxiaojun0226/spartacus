@@ -9,7 +9,8 @@ export const defaultCheckoutRoutingConfig: RoutingConfig = {
       checkoutDeliveryMode: { paths: ['checkout/delivery-mode'] },
       checkoutPaymentDetails: { paths: ['checkout/payment-details'] },
       checkoutReviewOrder: { paths: ['checkout/review-order'] },
-      orderConfirmation: { paths: ['order-confirmation'] },
+      // TODO: remove BRIAN
+      // orderConfirmation: { paths: ['order-confirmation'] },
     },
   },
 };

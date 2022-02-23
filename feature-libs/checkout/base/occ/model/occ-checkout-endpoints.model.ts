@@ -8,6 +8,7 @@ export interface CheckoutOccEndpoints {
   /**
    * Endpoint for place order
    */
+  // TODO: remove Brian
   placeOrder?: string | OccEndpoint;
   /**
    * Get a list of supported payment card types.

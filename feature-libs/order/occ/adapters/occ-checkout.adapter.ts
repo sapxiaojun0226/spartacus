@@ -33,7 +33,9 @@ export class OccUnnamedAdapter implements UnnamedAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
+    console.log('1 occ place order');
     if (userId === OCC_USER_ID_ANONYMOUS) {
+      console.log('2 anon occ place order');
       headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     }
 

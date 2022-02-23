@@ -6,8 +6,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { RoutingService } from '@spartacus/core';
+import { UnnamedFacade } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 
@@ -28,7 +28,7 @@ export class CheckoutPlaceOrderComponent implements OnDestroy {
   }
 
   constructor(
-    protected checkoutFacade: CheckoutFacade,
+    protected checkoutFacade: UnnamedFacade,
     protected routingService: RoutingService,
     protected fb: FormBuilder,
     protected launchDialogService: LaunchDialogService,
@@ -43,6 +43,7 @@ export class CheckoutPlaceOrderComponent implements OnDestroy {
       );
       this.checkoutFacade.placeOrder(this.checkoutSubmitForm.valid).subscribe({
         error: () => {
+          console.log('failed b2c place order');
           if (!this.placedOrder) {
             return;
           }
@@ -56,7 +57,10 @@ export class CheckoutPlaceOrderComponent implements OnDestroy {
             })
             .unsubscribe();
         },
-        next: () => this.onSuccess(),
+        next: () => {
+          console.log('next b2c place order');
+          this.onSuccess();
+        },
       });
     } else {
       this.checkoutSubmitForm.markAllAsTouched();

@@ -16,6 +16,7 @@ export abstract class CheckoutAdapter {
     termsChecked: boolean
   ): Observable<Order>;
 
+  // TODO: BRIAN decouple from place order
   /**
    * Abstract method used to get checkout details
    *
