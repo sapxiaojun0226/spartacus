@@ -64,7 +64,9 @@ export class CheckoutService implements CheckoutFacade {
     protected commandService: CommandService,
     protected checkoutConnector: CheckoutConnector,
     protected eventService: EventService
-  ) {}
+  ) {
+    console.log('OLD heckout constructor');
+  }
 
   /**
    * Performs the necessary checkout preconditions.
@@ -90,6 +92,7 @@ export class CheckoutService implements CheckoutFacade {
   }
 
   placeOrder(termsChecked: boolean): Observable<Order> {
+    console.log('old place order service command');
     return this.placeOrderCommand.execute(termsChecked);
   }
 

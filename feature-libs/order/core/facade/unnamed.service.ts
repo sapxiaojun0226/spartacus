@@ -65,7 +65,9 @@ export class UnnamedService implements UnnamedFacade {
     protected commandService: CommandService,
     protected checkoutConnector: UnnamedConnector,
     protected eventService: EventService
-  ) {}
+  ) {
+    console.log('unnamed service instantiate');
+  }
 
   /**
    * Performs the necessary checkout preconditions.
@@ -95,7 +97,7 @@ export class UnnamedService implements UnnamedFacade {
   }
 
   placeOrder(termsChecked: boolean): Observable<Order> {
-    console.log('called place order');
+    console.log('unnamed called place order');
     return this.placeOrderCommand.execute(termsChecked);
   }
 
