@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
+import { UnnamedFacade } from '@spartacus/order/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -55,10 +56,18 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
     protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    protected testService: UnnamedFacade
   ) {}
 
   ngOnInit(): void {
+    setTimeout(() => {
+      console.log('fireeeeee');
+      this.testService.getCurrentOrderDetails().subscribe((a) => {
+        console.log('who', a);
+      });
+    }, 3000);
+
     this.supportedDeliveryModes$ = this.checkoutDeliveryModesFacade
       .getSupportedDeliveryModes()
       .pipe(

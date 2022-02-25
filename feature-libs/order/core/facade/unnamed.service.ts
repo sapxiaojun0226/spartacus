@@ -19,7 +19,9 @@ import { UnnamedConnector } from '../connectors/unnamed.connector';
 
 @Injectable()
 export class UnnamedService implements UnnamedFacade {
-  protected order$ = new BehaviorSubject<Order | undefined>(undefined);
+  protected order$ = new BehaviorSubject<Partial<Order> | undefined>({
+    code: 'test',
+  });
 
   protected placeOrderCommand: Command<boolean, Order> =
     this.commandService.create<boolean, Order>(
