@@ -980,6 +980,37 @@
           }
         }
       }
+    },
+    "s4om": {
+      "projectType": "library",
+      "root": "feature-libs/s4om",
+      "sourceRoot": "feature-libs/s4om/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "feature-libs/s4om/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/s4om/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "feature-libs/s4om/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/s4om/src/test.ts",
+            "tsConfig": "feature-libs/s4om/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/s4om/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "storefrontapp"

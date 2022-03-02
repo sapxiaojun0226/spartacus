@@ -366,7 +366,13 @@
       ],
       "@spartacus/assets": ["projects/assets/src/public_api"],
       "@spartacus/core": ["projects/core/public_api"],
-      "@spartacus/storefront": ["projects/storefrontlib/public_api"]
+      "@spartacus/storefront": [
+        "projects/storefrontlib/public_api"
+      ],
+      "s4om": [
+        "dist/s4om/s4om",
+        "dist/s4om"
+      ]
     }
   },
   "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]
