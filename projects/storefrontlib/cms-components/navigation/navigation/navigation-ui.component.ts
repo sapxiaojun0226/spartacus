@@ -57,7 +57,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
 
   private openNodes: HTMLElement[] = [];
   private subscriptions = new Subscription();
-  private resize = new EventEmitter();
+  private resize = new EventEmitter<void>();
 
   @HostListener('window:resize')
   onResize() {

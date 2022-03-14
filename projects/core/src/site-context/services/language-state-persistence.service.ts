@@ -13,7 +13,7 @@ export class LanguageStatePersistenceService {
     protected config: SiteContextConfig
   ) {}
 
-  protected initialized$ = new ReplaySubject<unknown>(1);
+  protected initialized$ = new ReplaySubject<void>(1);
 
   /**
    * Initializes the synchronization of the active language with the local storage.

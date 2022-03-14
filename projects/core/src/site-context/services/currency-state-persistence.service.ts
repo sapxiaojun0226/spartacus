@@ -13,7 +13,7 @@ export class CurrencyStatePersistenceService {
     protected config: SiteContextConfig
   ) {}
 
-  protected initialized$ = new ReplaySubject<unknown>(1);
+  protected initialized$ = new ReplaySubject<void>(1);
 
   public initSync(): Observable<unknown> {
     this.statePersistenceService.syncWithStorage({

@@ -95,6 +95,8 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
             this.subscriptionFail(error);
           })
       )
+
+    this.subscriptions
       .add(
         this.couponService
           .getUnsubscribeCustomerCouponResultError()
