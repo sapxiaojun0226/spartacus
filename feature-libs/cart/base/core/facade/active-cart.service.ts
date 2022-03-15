@@ -15,7 +15,7 @@ import {
   User,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable, of, Subscription, using } from 'rxjs';
+import { combineLatest, iif, Observable, of, Subscription, using } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -42,16 +42,18 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   protected subscription = new Subscription();
 
   // This stream is used for referencing carts in API calls.
-  protected activeCartId$ = this.userIdService.getUserId().pipe(
-    // We want to wait the initialization of cartId until the userId is initialized
-    // We have take(1) to not trigger this stream, when userId changes.
-    take(1),
-    switchMapTo(this.multiCartFacade.getCartIdByType(CartType.ACTIVE)),
-    // We also wait until we initialize cart from localStorage
-    filter((cartId) => cartId !== undefined),
-    // fallback to current when we don't have particular cart id
-    map((cartId) => (cartId === '' ? OCC_CART_ID_CURRENT : cartId))
-  );
+  protected activeCartId$: Observable<string> = this.userIdService
+    .getUserId()
+    .pipe(
+      // We want to wait the initialization of cartId until the userId is initialized
+      // We have take(1) to not trigger this stream, when userId changes.
+      take(1),
+      switchMapTo(this.multiCartFacade.getCartIdByType(CartType.ACTIVE)),
+      // We also wait until we initialize cart from localStorage
+      filter((cartId: string) => cartId !== undefined),
+      // fallback to current when we don't have particular cart id
+      map((cartId: string) => (cartId === '' ? OCC_CART_ID_CURRENT : cartId))
+    );
 
   // Stream with active cart entity
   protected cartEntity$ = this.activeCartId$.pipe(
@@ -297,18 +299,23 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   // When the function `requireLoadedCart` is first called, the init cart loading for login user may not be done
   private checkInitLoad: boolean | undefined = undefined;
 
-  requireLoadedCart(forGuestMerge = false): Observable<Cart> {
+  // temporary type any to pass project build, should be fixed ASAP (#13916)
+  requireLoadedCart(forGuestMerge = false): Observable<any> {
     this.checkInitLoad = this.checkInitLoad === undefined;
 
     // For guest cart merge we want to filter guest cart in the whole stream
     // We have to wait with load/create/addEntry after guest cart will be deleted.
-    const cartSelector$ = (
-      forGuestMerge
-        ? this.cartEntity$.pipe(
-            filter(() => !Boolean(getLastValueSync(this.isGuestCart())))
-          )
-        : this.cartEntity$
-    ).pipe(filter((cartState) => !cartState.loading || !!this.checkInitLoad));
+    const cartSelector$: Observable<
+      StateUtils.ProcessesLoaderState<Cart | undefined>
+    > = iif(
+      () => forGuestMerge,
+      this.cartEntity$.pipe(
+        filter(() => !Boolean(getLastValueSync(this.isGuestCart())))
+      ),
+      this.cartEntity$
+    ).pipe(
+      filter((cartState: any) => !cartState.loading || !!this.checkInitLoad)
+    );
 
     return this.activeCartId$.pipe(
       // Avoid load/create call when there are new cart creating at the moment
