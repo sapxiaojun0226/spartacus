@@ -57,9 +57,11 @@ export class ConfiguratorAttributeQuantityComponent
   protected subscribeToQuantityChange(): Subscription {
     return this.quantity.valueChanges
       .pipe(
-        debounce(() =>
-          timer(this.config.productConfigurator?.updateDebounceTime?.quantity)
-        ),
+        debounce(() => {
+          const quantity =
+            this.config.productConfigurator?.updateDebounceTime?.quantity || 0;
+          return timer(quantity);
+        }),
         take(1)
       )
       .subscribe(() => this.onChangeQuantity());

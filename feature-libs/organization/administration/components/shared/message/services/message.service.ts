@@ -45,6 +45,6 @@ export class MessageService<
   }
 
   clear(): void {
-    this.data$.next();
+    this.data$.next(null);
   }
 }

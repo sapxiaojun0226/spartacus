@@ -355,7 +355,9 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       this.entries$.next([...entries, ...[entry]]);
     }
 
-    this.productAdded$.next(entry.product?.code);
+    if (entry.product?.code) {
+      this.productAdded$.next(entry.product?.code);
+    }
   }
 
   /**

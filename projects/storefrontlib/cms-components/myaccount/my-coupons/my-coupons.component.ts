@@ -87,23 +87,21 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
     );
     this.sortLabels = this.myCouponsComponentService.getSortLabels();
 
-    this.subscriptions
-      .add(
-        this.couponService
-          .getSubscribeCustomerCouponResultError()
-          .subscribe((error) => {
-            this.subscriptionFail(error);
-          })
-      )
+    this.subscriptions.add(
+      this.couponService
+        .getSubscribeCustomerCouponResultError()
+        .subscribe((error) => {
+          this.subscriptionFail(error);
+        })
+    );
 
-    this.subscriptions
-      .add(
-        this.couponService
-          .getUnsubscribeCustomerCouponResultError()
-          .subscribe((error) => {
-            this.subscriptionFail(error);
-          })
-      );
+    this.subscriptions.add(
+      this.couponService
+        .getUnsubscribeCustomerCouponResultError()
+        .subscribe((error) => {
+          this.subscriptionFail(error);
+        })
+    );
   }
 
   private subscriptionFail(error: boolean) {

@@ -38,7 +38,7 @@ export class WishListItemComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes?: SimpleChanges): void {
-    if (changes?.cartEntry) {
+    if (changes?.cartEntry && this.cartEntry.product) {
       this.productListItemContextSource.product$.next(this.cartEntry.product);
     }
   }
