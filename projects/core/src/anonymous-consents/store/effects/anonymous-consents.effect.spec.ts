@@ -21,6 +21,7 @@ import { AnonymousConsentTemplatesConnector } from '../../connectors/index';
 import { AnonymousConsentsService } from '../../facade/index';
 import { AnonymousConsentsActions } from '../actions/index';
 import * as fromEffect from './anonymous-consents.effect';
+import { setupEnvironment } from 'jasmine-marbles/es6';
 
 const getTemplatesBehavior = new BehaviorSubject<ConsentTemplate[]>([]);
 const getConsentsBehavior = new BehaviorSubject<AnonymousConsent[]>([]);
@@ -140,7 +141,11 @@ const consentTemplateListMock: ConsentTemplate[] = [
   { id: 'yyy', version: 0 },
 ];
 
+
 describe('AnonymousConsentsEffects', () => {
+
+  setupEnvironment();
+
   let effect: fromEffect.AnonymousConsentsEffects;
   let connector: AnonymousConsentTemplatesConnector;
   let actions$: Observable<Action>;
@@ -187,26 +192,29 @@ describe('AnonymousConsentsEffects', () => {
     authService = TestBed.inject(AuthService);
     userConsentService = TestBed.inject(UserConsentService);
     userIdService = TestBed.inject(UserIdService);
+
   });
 
-  describe('checkConsentVersions$', () => {
+  fdescribe('checkConsentVersions$', () => {
     const currentConsents: AnonymousConsent[] = [
       { templateVersion: 0, templateCode: 'test1' },
     ];
-    describe('when the update was detected', () => {
-      it('should return LoadAnonymousConsentTemplates', () => {
-        getConsentsBehavior.next(currentConsents);
-        loadAnonymousConsentsBehavior.next([]);
+    fdescribe('when the update was detected', () => {
+      fit('should return LoadAnonymousConsentTemplates', () => {
 
-        const action =
-          new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
+          getConsentsBehavior.next(currentConsents);
+          loadAnonymousConsentsBehavior.next([]);
 
-        actions$ = hot('-a', { a: action });
-        const completion =
-          new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
-        const expected = cold('-b', { b: completion });
+          const action =
+            new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
+          const completion =
+            new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
 
-        expect(effect.checkConsentVersions$).toBeObservable(expected);
+
+          actions$ = hot('-a', { a: action });
+          const expected = cold('-b', { b: completion });
+
+          expect(effect.checkConsentVersions$).toBeObservable(expected);
       });
     });
     describe('when the update was NOT detected', () => {
