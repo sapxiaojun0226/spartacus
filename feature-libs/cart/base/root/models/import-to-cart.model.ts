@@ -18,6 +18,7 @@ export interface ProductImportInfo {
   productName?: string;
   quantity?: number;
   quantityAdded?: number;
+  cartId?: string;
 }
 
 export interface ProductImportSummary {
@@ -28,4 +29,5 @@ export interface ProductImportSummary {
   successesCount: number;
   warningMessages: ProductImportInfo[];
   errorMessages: ProductImportInfo[];
+  cartId?: string;
 }

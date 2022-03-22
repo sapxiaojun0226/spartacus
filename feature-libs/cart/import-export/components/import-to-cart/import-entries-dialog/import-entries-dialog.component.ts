@@ -12,6 +12,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { SavedCartFacade } from 'feature-libs/cart/saved-cart/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, pluck } from 'rxjs/operators';
 
@@ -31,6 +32,7 @@ export class ImportEntriesDialogComponent {
 
   formState: boolean = true;
   summary$ = new BehaviorSubject<ProductImportSummary>({
+    cartId: '',
     loading: false,
     cartName: '',
     count: 0,
@@ -43,7 +45,10 @@ export class ImportEntriesDialogComponent {
   context$: Observable<AddOrderEntriesContext> =
     this.launchDialogService.data$.pipe(pluck('orderEntriesContext'));
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  constructor(
+    protected launchDialogService: LaunchDialogService,
+    protected savedCartService: SavedCartFacade
+  ) {}
 
   isNewCartForm(context: AddOrderEntriesContext) {
     return context.type === OrderEntriesSource.NEW_SAVED_CART;
@@ -76,14 +81,28 @@ export class ImportEntriesDialogComponent {
     context
       .addEntries(products, savedCartInfo)
       .pipe(
+        // tap(()=> this.savedCartService.deleteSavedCart(this.summary$.value.cartId)),
         finalize(() => {
           this.summary$.next({
             ...this.summary$.value,
             loading: false,
           });
+          console.log(
+            '**** import-entries-dialog.component.ts: finalize' +
+              this.summary$.value.cartId
+          );
+          if (
+            this.summary$.value.successesCount === 0 &&
+            this.summary$.value.cartId
+          ) {
+            console.log('**** all failed: ' + this.summary$.value.cartId);
+            // remove cart
+            this.savedCartService.deleteSavedCart(this.summary$.value.cartId);
+          }
         })
       )
       .subscribe((action: ProductImportInfo) => {
+        console.log('**** addEntries subscribe');
         this.populateSummary(action);
       });
   }
@@ -92,18 +111,21 @@ export class ImportEntriesDialogComponent {
     if (action.statusCode === ProductImportStatus.SUCCESS) {
       this.summary$.next({
         ...this.summary$.value,
+        cartId: action.cartId,
         count: this.summary$.value.count + 1,
         successesCount: this.summary$.value.successesCount + 1,
       });
     } else if (action.statusCode === ProductImportStatus.LOW_STOCK) {
       this.summary$.next({
         ...this.summary$.value,
+        cartId: action.cartId,
         count: this.summary$.value.count + 1,
         warningMessages: [...this.summary$.value.warningMessages, action],
       });
     } else {
       this.summary$.next({
         ...this.summary$.value,
+        cartId: action.cartId,
         count: this.summary$.value.count + 1,
         errorMessages: [...this.summary$.value.errorMessages, action],
       });

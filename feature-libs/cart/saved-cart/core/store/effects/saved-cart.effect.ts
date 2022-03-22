@@ -8,7 +8,7 @@ import {
   GlobalMessageType,
   normalizeHttpError,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SavedCartConnector } from '../../connectors/saved-cart.connector';
 import { SavedCartActions } from '../actions/index';
@@ -59,10 +59,35 @@ export class SavedCartEffects {
     switchMap(({ userId }) =>
       this.savedCartConnector.getList(userId).pipe(
         switchMap((savedCarts: Cart[]) => {
-          return [
-            new CartActions.LoadCartsSuccess(savedCarts),
-            new SavedCartActions.LoadSavedCartsSuccess({ userId }),
-          ];
+          const validCarts = savedCarts.filter(
+            (cart) => cart.totalItems && cart.totalItems > 0
+          );
+          const invalidCarts = savedCarts.filter((cart) => !cart.totalItems);
+          const deleteCarts: Array<Observable<{}>> = [];
+          if (invalidCarts.length) {
+            // invalidCarts.forEach((invalidCart) => {
+            //   if (invalidCart.code) {
+            //     deleteCarts.push(
+            //       this.cartConnector.delete(userId, invalidCart.code)
+            //     );
+            //   }
+            // });
+          }
+          if (deleteCarts.length) {
+            return forkJoin(deleteCarts).pipe(
+              switchMap(() => {
+                return [
+                  new CartActions.LoadCartsSuccess(validCarts),
+                  new SavedCartActions.LoadSavedCartsSuccess({ userId }),
+                ];
+              })
+            );
+          } else {
+            return [
+              new CartActions.LoadCartsSuccess(savedCarts),
+              new SavedCartActions.LoadSavedCartsSuccess({ userId }),
+            ];
+          }
         }),
         catchError((error: HttpErrorResponse) =>
           of(

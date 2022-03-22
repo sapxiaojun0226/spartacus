@@ -39,7 +39,12 @@ export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
     savedCartInfo?: { name: string; description: string }
   ): Observable<ProductImportInfo> {
     return this.add(products, savedCartInfo).pipe(
-      switchMap((cartId: string) => this.importInfoService.getResults(cartId)),
+      tap(() => console.log('**** addEntries')),
+      switchMap((cartId: string) =>
+        this.importInfoService
+          .getResults(cartId)
+          .pipe(tap((result) => console.log(result)))
+      ),
       take(products.length)
     );
   }
@@ -48,6 +53,7 @@ export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
     products: ProductData[],
     savedCartInfo?: { name: string; description: string }
   ): Observable<string> {
+    console.log('**** NewSavedCartOrderEntriesContext add 1');
     return this.userIdService.takeUserId().pipe(
       switchMap((userId: string) =>
         this.multiCartService
@@ -58,6 +64,7 @@ export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
           .pipe(
             map((cart: Cart) => cart.code as string),
             tap((cartId: string) => {
+              console.log('**** NewSavedCartOrderEntriesContext add 2');
               this.savedCartService.saveCart({
                 cartId,
                 saveCartName: savedCartInfo?.name,
@@ -66,11 +73,12 @@ export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
               this.savedCartService.loadSavedCarts();
             }),
             observeOn(queueScheduler),
-            delayWhen(() =>
-              this.savedCartService
+            delayWhen(() => {
+              console.log('**** NewSavedCartOrderEntriesContext add delayWhen');
+              return this.savedCartService
                 .getSaveCartProcessLoading()
-                .pipe(filter((loading) => !loading))
-            ),
+                .pipe(filter((loading) => !loading));
+            }),
             tap((cartId: string) =>
               this.multiCartService.addEntries(userId, cartId, products)
             )

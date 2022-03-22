@@ -7,12 +7,12 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Cart } from '@spartacus/cart/base/root';
+import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   SavedCartFacade,
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, UserIdService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -29,24 +29,43 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
 
   isLoading$: Observable<boolean>;
   savedCarts$: Observable<Cart[]> = this.savedCartService.getList().pipe(
-    map((lists) =>
-      lists.sort((a: Cart, b: Cart) => {
-        let date1: number = a.saveTime
-          ? new Date(a.saveTime).getTime()
-          : new Date().getTime();
-        let date2: number = b.saveTime
-          ? new Date(b.saveTime).getTime()
-          : new Date().getTime();
-        return date2 - date1;
-      })
-    )
+    // tap((lists) => this.removeInvalidCarts(lists)),
+    map((lists) => {
+      console.log('saved-cart-list.component.ts: savedCarts$');
+      return (
+        lists
+          // .filter((cart) => cart.totalItems && cart.totalItems > 0)
+          .sort((a: Cart, b: Cart) => {
+            let date1: number = a.saveTime
+              ? new Date(a.saveTime).getTime()
+              : new Date().getTime();
+            let date2: number = b.saveTime
+              ? new Date(b.saveTime).getTime()
+              : new Date().getTime();
+            return date2 - date1;
+          })
+      );
+    })
   );
   constructor(
     protected routing: RoutingService,
     protected savedCartService: SavedCartFacade,
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected userIdService: UserIdService,
+    protected multiCartFacade: MultiCartFacade
   ) {}
+
+  removeInvalidCarts(lists: Cart[]): void {
+    const invalidCards = lists.filter((cart) => !cart.totalItems);
+    if (invalidCards.length) {
+      invalidCards.forEach((invalidCart) => {
+        if (invalidCart.code) {
+          this.savedCartService.deleteSavedCart(invalidCart.code);
+        }
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();

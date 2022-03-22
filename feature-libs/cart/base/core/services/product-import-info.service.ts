@@ -45,11 +45,12 @@ export class ProductImportInfoService {
   protected mapMessages(
     action: CartActions.CartAddEntrySuccess | CartActions.CartAddEntryFail
   ): ProductImportInfo {
-    const { productCode } = action.payload;
+    const { productCode, cartId } = action.payload;
     if (action instanceof CartActions.CartAddEntrySuccess) {
       const { quantity, quantityAdded, entry, statusCode } = action.payload;
       if (statusCode === ProductImportStatus.LOW_STOCK) {
         return {
+          cartId,
           productCode,
           statusCode,
           productName: entry?.product?.name,
@@ -61,12 +62,18 @@ export class ProductImportInfoService {
         statusCode === ProductImportStatus.SUCCESS ||
         statusCode === ProductImportStatus.NO_STOCK
       ) {
-        return { productCode, statusCode, productName: entry?.product?.name };
+        return {
+          cartId,
+          productCode,
+          statusCode,
+          productName: entry?.product?.name,
+        };
       }
     } else if (action instanceof CartActions.CartAddEntryFail) {
       const { error } = action.payload;
       if (error?.details[0]?.type === 'UnknownIdentifierError') {
         return {
+          cartId,
           productCode,
           statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
         };
@@ -78,6 +85,10 @@ export class ProductImportInfoService {
         action
       );
     }
-    return { productCode, statusCode: ProductImportStatus.UNKNOWN_ERROR };
+    return {
+      cartId,
+      productCode,
+      statusCode: ProductImportStatus.UNKNOWN_ERROR,
+    };
   }
 }
