@@ -442,6 +442,41 @@ export namespace Occ {
 
   /**
    *
+   * An interface representing Layout.
+   */
+  export interface Layout {
+    /**
+     * @member {string} [name]
+     */
+    name?: string;
+    /**
+     * @member {number} [priority]
+     */
+    priority?: number;
+    /**
+     * @member {number} [proportionX]
+     */
+    proportionX?: number;
+    /**
+     * @member {number} [proportionY]
+     */
+    proportionY?: number;
+    /**
+     * @member {number} [margin]
+     */
+    margin?: number;
+    /**
+     * @member {number} [padding]
+     */
+    padding?: number;
+    /**
+     * @member {number} [padding]
+     */
+    // component?: Component;
+  }
+
+  /**
+   *
    * An interface representing ComponentList.
    */
   export interface ComponentList {
@@ -449,6 +484,17 @@ export namespace Occ {
      * @member {Component[]} [component]
      */
     component?: Component[] | any[];
+  }
+
+  /**
+   *
+   * An interface representing LayoutList.
+   */
+  export interface LayoutList {
+    /**
+     * @member {Layout[]} [layout]
+     */
+    layout?: Layout[] | any[];
   }
 
   /**
@@ -481,9 +527,21 @@ export namespace Occ {
      */
     slotStatus?: string;
     /**
+     * @member {number} [slotHeight]
+     */
+    slotHeight?: number;
+    /**
+     * @member {number} [slotCols]
+     */
+    slotCols?: number;
+    /**
      * @member {any} [properties]
      */
     properties?: any;
+    /**
+     * @member {LayoutList} [layouts]
+     */
+    layouts?: LayoutList;
   }
 
   /**

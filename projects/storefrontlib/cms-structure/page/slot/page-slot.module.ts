@@ -4,9 +4,11 @@ import { OutletModule } from '../../outlet/outlet.module';
 import { PageComponentModule } from '../component/page-component.module';
 import { PageSlotComponent } from './page-slot.component';
 import { PageSlotService } from './page-slot.service';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
-  imports: [CommonModule, OutletModule, PageComponentModule],
+  imports: [CommonModule, OutletModule, PageComponentModule, MatGridListModule, FlexLayoutModule],
   declarations: [PageSlotComponent],
   exports: [PageSlotComponent],
 })

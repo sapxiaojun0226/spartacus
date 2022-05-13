@@ -85,7 +85,11 @@ export class OccCmsPageNormalizer
     }
     target.page.slots = {};
     for (const slot of source.contentSlots.contentSlot) {
-      target.page.slots[slot.position] = {} as ContentSlotData;
+      target.page.slots[slot.position] = {
+        slotHeight: slot.slotHeight,
+        slotCols: slot.slotCols,
+        layouts: slot.layouts
+      } as ContentSlotData;
       if (slot.properties) {
         target.page.slots[slot.position].properties = slot.properties;
       }

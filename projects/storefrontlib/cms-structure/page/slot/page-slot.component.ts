@@ -19,6 +19,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 import { PageSlotService } from './page-slot.service';
+import {ContentSlotLayoutData} from "../../../../core/src/cms/model/content-slot-layout-data.model";
 
 /**
  * The `PageSlotComponent` is used to render the CMS page slot and it's components.
@@ -32,6 +33,7 @@ import { PageSlotService } from './page-slot.service';
 @Component({
   selector: 'cx-page-slot,[cx-page-slot]',
   templateUrl: './page-slot.component.html',
+  styleUrls: ['./page-slot.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageSlotComponent implements OnInit, OnDestroy {
@@ -74,8 +76,12 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   @HostBinding('class.has-components') @Input() hasComponents = false;
 
   protected position$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+  protected slotHeight$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+  protected slotCols$: BehaviorSubject<string> = new BehaviorSubject(undefined);
 
   components: ContentSlotComponentData[];
+  layouts: ContentSlotLayoutData[];
+  slotCols: number;
 
   protected slot$: Observable<ContentSlotData> = this.position$.pipe(
     switchMap((position) => this.cmsService.getContentSlot(position)),
@@ -107,6 +113,15 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.slot$.pipe(tap((slot) => this.decorate(slot))).subscribe((value) => {
         this.components = value?.components || [];
+        this.layouts = value?.layouts.layout || [];
+        this.slotCols = value?.slotCols || undefined;
+        // this.layouts = [
+        //   {name: 'One', proportion: 3, priority: 1},
+        //   {name: 'Two', proportion: 1, priority: 2},
+        //   {name: 'Three', proportion: 1, priority: 1},
+        //   {name: 'Four', proportion: 3, priority: 1},
+        //   // {name: 'Four', proportion: 3, rows: 1, color: '#D9EDD9'},
+        // ];
         this.cd.markForCheck();
       })
     );

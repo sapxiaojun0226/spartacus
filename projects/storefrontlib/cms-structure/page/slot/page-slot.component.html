@@ -2,13 +2,79 @@
   [cxOutlet]="position"
   [cxOutletContext]="{ components$: components$ }"
 >
-  <ng-template
-    *ngFor="let component of components"
-    [cxOutlet]="component.flexType"
-    [cxOutletContext]="{ component: component }"
-    [cxOutletDefer]="getComponentDeferOptions(component.flexType)"
-    (loaded)="isLoaded($event)"
-  >
-    <ng-container [cxComponentWrapper]="component"></ng-container>
-  </ng-template>
+      <div *ngIf="position === 'JuneTestPosition'">
+          <mat-grid-list cols="{{slotCols}}">
+            <mat-grid-tile
+              *ngFor="let layout of layouts"
+              [colspan]="layout.proportionX"
+              [rowspan]="layout.proportionY"
+              [style.background]="'#D9EDD9'">
+              {{layout.name}}
+              <div>
+                <h2>your title 1</h2>
+                <p>{{layout.name}} 2</p>
+                <h4>your content 3</h4>
+                <h4>your content 4</h4>
+                <h2>your title 5</h2>
+                <p>hdjiwe 6</p>
+                <h4>your content 7</h4>
+                <h4>your content 8</h4>
+                <h2>your title 9</h2>
+                <p>{{layout.name}} 10</p>
+                <h4>your content 11</h4>
+                <h4>your content 12</h4>
+                <h2>your title 13</h2>
+                <p>hdjiwe 14</p>
+                <h4>your content 15</h4>
+                <h4>your content 16</h4>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+      </div>
+      <div *ngIf="position === 'JuneTestPosition1'"
+           fxLayout="row"
+           fxLayoutGap="2"
+           fxLayout.xs="column"
+           fxLayoutAlign="center"
+           fxLayoutGap.xs="0"
+           class="container"
+           fxFlex="{{slotCols}}%"
+      >
+        <div fxFlex *ngFor="let layout of layouts"
+             class="grid-item"
+             fxFlex="{{layout.proportionX}}%">
+             {{ 'Item ' + layout.name }}
+        </div>
+      </div>
+      <div *ngIf="!slotCols">
+          <ng-template
+            *ngFor="let component of components"
+            [cxOutlet]="component.flexType"
+            [cxOutletContext]="{ component: component }"
+            [cxOutletDefer]="getComponentDeferOptions(component.flexType)"
+            (loaded)="isLoaded($event)"
+          >
+            <ng-container [cxComponentWrapper]="component"></ng-container>
+          </ng-template>
+      </div>
 </ng-template>
+
+
+
+
+
+<!--<ng-template-->
+<!--  [cxOutlet]="position"-->
+<!--  [cxOutletContext]="{ components$: components$ }"-->
+<!--&gt;-->
+<!--  <button>Test by June</button>-->
+<!--  <ng-template-->
+<!--    *ngFor="let component of components"-->
+<!--    [cxOutlet]="component.flexType"-->
+<!--    [cxOutletContext]="{ component: component }"-->
+<!--    [cxOutletDefer]="getComponentDeferOptions(component.flexType)"-->
+<!--    (loaded)="isLoaded($event)"-->
+<!--  >-->
+<!--    <ng-container [cxComponentWrapper]="component"></ng-container>-->
+<!--  </ng-template>-->
+<!--</ng-template>-->
