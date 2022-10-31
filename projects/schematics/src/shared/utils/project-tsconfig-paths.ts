@@ -1,9 +1,8 @@
-/**
- * @license
+/*
  * Copyright Google LLC All Rights Reserved.
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
  *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 import { normalize } from '@angular-devkit/core';
@@ -49,9 +48,9 @@ export function getProjectTsConfigPaths(
       const projects = Object.keys(workspace.projects).map(
         (name) => workspace.projects[name]
       );
-      for (const project of projects) {
-        const buildPath = getTargetTsconfigPath(project, 'build');
-        const testPath = getTargetTsconfigPath(project, 'test');
+      for (const workspaceProject of projects) {
+        const buildPath = getTargetTsconfigPath(workspaceProject, 'build');
+        const testPath = getTargetTsconfigPath(workspaceProject, 'test');
 
         if (buildPath) {
           buildPaths.add(buildPath);

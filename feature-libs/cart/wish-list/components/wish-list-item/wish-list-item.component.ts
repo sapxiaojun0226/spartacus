@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,7 +20,7 @@ import {
 } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-wish-list-item',
+  selector: '[cx-wish-list-item], cx-wish-list-item',
   templateUrl: './wish-list-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

@@ -1,6 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
-import { Attribute, Element, HtmlParser, Node } from '@angular/compiler';
+import type { Element, Node } from '@angular/compiler';
 import {
   findNode,
   findNodes,
@@ -214,11 +220,13 @@ function buildSelector(selector: string): string {
 }
 
 function visitHtmlNodesRecursively(
+  angularCompiler: typeof import('@angular/compiler'),
   nodes: Node[],
   propertyName: string,
   resultingElements: Node[] = [],
   parentElement?: Element
 ): void {
+  const { Attribute, Element } = angularCompiler;
   nodes.forEach((node) => {
     if (node instanceof Attribute && parentElement) {
       if (
@@ -230,12 +238,14 @@ function visitHtmlNodesRecursively(
     }
     if (node instanceof Element) {
       visitHtmlNodesRecursively(
+        angularCompiler,
         node.attrs,
         propertyName,
         resultingElements,
         node
       );
       visitHtmlNodesRecursively(
+        angularCompiler,
         node.children,
         propertyName,
         resultingElements,
@@ -247,13 +257,16 @@ function visitHtmlNodesRecursively(
 
 export function insertHtmlComment(
   content: string,
-  componentProperty: ComponentProperty
+  componentProperty: ComponentProperty,
+  angularCompiler: typeof import('@angular/compiler')
 ): string | undefined {
+  const { HtmlParser } = angularCompiler;
   const comment = buildHtmlComment(componentProperty.comment);
   const result = new HtmlParser().parse(content, '');
 
   const resultingElements: Node[] = [];
   visitHtmlNodesRecursively(
+    angularCompiler,
     result.rootNodes,
     componentProperty.name,
     resultingElements
@@ -749,13 +762,14 @@ export function removeInjectImports(
 
   const importRemovalChange: Change[] = [];
 
-  if (shouldRemoveDecorator(constructorNode, INJECT_DECORATOR))
+  if (shouldRemoveDecorator(constructorNode, INJECT_DECORATOR)) {
     importRemovalChange.push(
       removeImport(source, {
         className: INJECT_DECORATOR,
         importPath: ANGULAR_CORE,
       })
     );
+  }
 
   /**
    * This is for the case when an injection token is the same as the import's type.
@@ -1019,11 +1033,17 @@ export function injectService(
   config.propertyType =
     config.propertyType ?? strings.classify(config.serviceName);
 
-  if (config.injectionToken) toInsert += `@Inject(${config.injectionToken}) `;
-  if (config.modifier !== 'no-modifier') toInsert += `${config.modifier} `;
+  if (config.injectionToken) {
+    toInsert += `@Inject(${config.injectionToken}) `;
+  }
+  if (config.modifier !== 'no-modifier') {
+    toInsert += `${config.modifier} `;
+  }
   toInsert += `${config.propertyName}: ${config.propertyType}`;
 
-  if (config.isArray) toInsert += '[]';
+  if (config.isArray) {
+    toInsert += '[]';
+  }
 
   return new InsertChange(config.path, position, toInsert);
 }
@@ -1075,7 +1095,7 @@ export function insertCommentAboveIdentifier(
     }
 
     const identifierNodes = findNodes(node, identifierType).filter(
-      (node) => node.getText() === identifierName
+      (identifierNode) => identifierNode.getText() === identifierName
     );
 
     identifierNodes.forEach((n) =>

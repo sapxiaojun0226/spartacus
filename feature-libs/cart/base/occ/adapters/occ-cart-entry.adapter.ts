@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CartEntryAdapter } from '@spartacus/cart/base/core';
@@ -28,7 +34,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
     // Handle b2b case where the x-www-form-urlencoded is still used
     if (url.includes(`quantity=${quantity}`)) {
-      const headers = new HttpHeaders({
+      const httpHeaders = new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
       });
 
@@ -36,7 +42,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         .post<CartModification>(
           url,
           {},
-          { headers, params: { code: productCode } }
+          { headers: httpHeaders, params: { code: productCode } }
         )
         .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
     }

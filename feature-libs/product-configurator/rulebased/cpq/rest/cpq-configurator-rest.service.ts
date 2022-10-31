@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService } from '@spartacus/core';
@@ -136,7 +142,7 @@ export class CpqConfiguratorRestService {
     config.tabs = [];
     tabReqResultList.forEach((tabReqResult) => {
       let tab: Cpq.Tab;
-      const currentTab = tabReqResult.tabs?.find((tab) => tab.isSelected);
+      const currentTab = tabReqResult.tabs?.find((tabEl) => tabEl.isSelected);
       if (currentTab && tabReqResult.tabs && tabReqResult.tabs.length > 0) {
         tab = {
           ...currentTab,

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +13,7 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
+import { Image, ImageGroup } from '@spartacus/core';
 import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 
@@ -22,7 +29,12 @@ export class MediaComponent implements OnChanges {
    * can be provided in a `srcset` so the browser will figure out
    * the best media for the device.
    */
-  @Input() container: MediaContainer;
+  @Input() container:
+    | MediaContainer
+    | Image
+    | ImageGroup
+    | ImageGroup[]
+    | undefined;
 
   /**
    * if a media format is given, a media for the given format will be rendered
@@ -40,14 +52,11 @@ export class MediaComponent implements OnChanges {
    */
   @Input() role: string;
 
-  // TODO: Remove type forcing of `this.loadingStrategy` (ie. <ImageLoadingStrategy | null>) in 5.0 (#14236)
   /**
    * Set the loading strategy of the media. Defaults to global loading strategy.
    * Use 'lazy' or 'eager' strategies.
    */
-  @Input() loading: ImageLoadingStrategy | null = <ImageLoadingStrategy | null>(
-    this.loadingStrategy
-  );
+  @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
 
   /**
    * Once the media is loaded, we emit an event.
@@ -58,7 +67,7 @@ export class MediaComponent implements OnChanges {
    * The media contains the info for the UI to create the image. This media
    * object might contain more info once other media types (i.e. video) is supported.
    */
-  media: Media;
+  media: Media | undefined;
 
   /**
    * The `cx-media` component has an `is-initialized` class as long as the
@@ -91,7 +100,7 @@ export class MediaComponent implements OnChanges {
    */
   protected create(): void {
     this.media = this.mediaService.getMedia(
-      this.container,
+      this.container instanceof Array ? this.container[0] : this.container,
       this.format,
       this.alt,
       this.role
@@ -111,12 +120,10 @@ export class MediaComponent implements OnChanges {
     this.loaded.emit(true);
   }
 
-  // TODO: Remove string return type (#14236)
   /**
    * Indicates whether the browser should lazy load the image.
-   * @deprecated since 4.2. use ImageLoadingStrategy or null return types only
    */
-  get loadingStrategy(): string | ImageLoadingStrategy | null {
+  get loadingStrategy(): ImageLoadingStrategy | null {
     return this.mediaService.loadingStrategy === ImageLoadingStrategy.LAZY
       ? ImageLoadingStrategy.LAZY
       : null;

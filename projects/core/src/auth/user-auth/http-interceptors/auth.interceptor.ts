@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -23,13 +29,13 @@ export class AuthInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(
-    request: HttpRequest<any>,
+    httpRequest: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const shouldCatchError =
-      this.authHttpHeaderService.shouldCatchError(request);
+      this.authHttpHeaderService.shouldCatchError(httpRequest);
     const shouldAddAuthorizationHeader =
-      this.authHttpHeaderService.shouldAddAuthorizationHeader(request);
+      this.authHttpHeaderService.shouldAddAuthorizationHeader(httpRequest);
 
     const token$ = shouldAddAuthorizationHeader
       ? // emits sync, unless there is refresh or logout in progress, in which case it emits async
@@ -38,7 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const requestAndToken$ = token$.pipe(
       map((token) => ({
         token,
-        request: this.authHttpHeaderService.alterRequest(request, token),
+        request: this.authHttpHeaderService.alterRequest(httpRequest, token),
       }))
     );
 

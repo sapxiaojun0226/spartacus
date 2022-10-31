@@ -1,20 +1,20 @@
-const { pathsToModuleNameMapper } = require('ts-jest/utils');
+const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.schematics');
 
 module.exports = {
-  setupFilesAfterEnv: ['<rootDir>/jest.ts'],
+  preset: 'jest-preset-angular',
+  setupFilesAfterEnv: ['<rootDir>/test-jest.ts'],
   transform: {
-    '^.+\\.ts?$': 'ts-jest',
+    '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.schematics.json',
     },
   },
-
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
-  coverageDirectory: '<rootDir>/../../coverage/storefinder/schematics',
+  coverageDirectory: '<rootDir>/../../coverage/product-configurator/schematics',
   coverageThreshold: {
     global: {
       statements: 90,

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ElementRef, Injectable, QueryList } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
@@ -17,8 +23,8 @@ export class ConfiguratorGroupMenuService {
   ): number | undefined {
     if (groups) {
       const group = groups.find(
-        (group) =>
-          group.nativeElement?.id ===
+        (groupHTMLEl) =>
+          groupHTMLEl.nativeElement?.id ===
           this.windowRef?.document?.activeElement?.id
       );
       if (group) {

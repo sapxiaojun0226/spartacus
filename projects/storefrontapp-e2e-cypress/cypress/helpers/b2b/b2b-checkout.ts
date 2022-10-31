@@ -1,9 +1,16 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
 import {
   b2bAccountShipToUser,
   b2bProduct,
   b2bUnit,
   b2bUser,
+  cartWithB2bProductAndPremiumShipping,
   costCenter,
   order_type,
   poNumber,
@@ -29,19 +36,6 @@ import {
 } from '../checkout-flow';
 import { generateMail, randomString } from '../user';
 
-export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
-
-export function interceptCheckoutB2BDetailsEndpoint() {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`
-  ).as(GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
-
-  return GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
-}
-
 export function loginB2bUser() {
   b2bUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(b2bUser);
@@ -52,6 +46,7 @@ export function loginB2bUser() {
 export function addB2bProductToCartAndCheckout() {
   const code = products[0].code;
   const productPage = waitForProductPage(code, 'getProductPage');
+  const getPaymentTypes = interceptPaymentTypesEndpoint();
 
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
@@ -71,6 +66,7 @@ export function addB2bProductToCartAndCheckout() {
   );
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${paymentTypePage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getPaymentTypes}`).its('response.statusCode').should('eq', 200);
 }
 
 export function enterPONumber() {
@@ -78,6 +74,7 @@ export function enterPONumber() {
     'contain',
     'Payment method'
   );
+
   cy.get('cx-payment-type').within(() => {
     cy.get('.form-control').clear().type(poNumber);
   });
@@ -100,7 +97,6 @@ export function selectAccountPayment() {
       'BASE_SITE'
     )}/users/current/carts/*?fields=DEFAULT*`
   ).as('getCart');
-
   const deliveryAddressPage = waitForPage(
     '/checkout/delivery-address',
     'getDeliveryPage'
@@ -128,38 +124,31 @@ export function selectCreditCardPayment() {
 }
 
 export function selectAccountShippingAddress() {
+  const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
+    'b2b-checkout-replenishment/delivery-address-step/checkout-details.json'
+  );
+  const putDeliveryMode = interceptPutDeliveryModeEndpoint();
+
   cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
 
-  cy.intercept(
-    'PUT',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/orgUsers/current/carts/**/addresses/delivery?addressId=*`
-  ).as('updateAddress');
+  cy.wait(`@${getCheckoutDetails}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
-    cy.get('.cx-card-actions .link').click({ force: true });
   });
 
-  cy.wait('@updateAddress').its('response.statusCode').should('eq', 200);
   cy.get('cx-card .card-header').should('contain', 'Selected');
 
   /**
    * Delivery mode PUT intercept is not in selectAccountDeliveryMode()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
    */
-  const getCheckoutDetailsAlias = interceptCheckoutB2BDetailsEndpoint();
-  cy.intercept({
-    method: 'PUT',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/**/deliverymode?deliveryModeId=*`,
-  }).as('putDeliveryMode');
 
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
@@ -174,17 +163,30 @@ export function selectAccountShippingAddress() {
 
   cy.get('button.btn-primary').should('be.enabled').click();
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
 
-  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
-  cy.wait(`@${getCheckoutDetailsAlias}`)
+  cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
     .should('eq', 200);
 }
 
 export function selectAccountDeliveryMode() {
+  const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
+    'b2b-checkout-replenishment/delivery-mode-step/checkout-details.json'
+  );
+  const putDeliveryMode = interceptPutDeliveryModeEndpoint();
+
   cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
 
   cy.get('cx-delivery-mode input').first().should('be.checked');
+  cy.get('cx-delivery-mode input').eq(1).click();
+
+  cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getCheckoutDetails}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-delivery-mode input').first().should('not.be.checked');
 
   cy.get(
     'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
@@ -247,12 +249,21 @@ export function reviewB2bReviewOrderPage(
       cy.findByText(sampleUser.address.line1);
     });
 
-  cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Delivery Method')
-    .find('.cx-card-container')
-    .within(() => {
-      cy.findByText('Standard Delivery');
-    });
+  if (isAccount) {
+    cy.get('.cx-review-summary-card')
+      .contains('cx-card', 'Delivery Method')
+      .find('.cx-card-container')
+      .within(() => {
+        cy.findByText('Premium Delivery');
+      });
+  } else {
+    cy.get('.cx-review-summary-card')
+      .contains('cx-card', 'Delivery Method')
+      .find('.cx-card-container')
+      .within(() => {
+        cy.findByText('Standard Delivery');
+      });
+  }
 
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(0)
@@ -410,13 +421,21 @@ export function reviewB2bOrderConfirmation(
       cy.get('.cx-summary-card:nth-child(3) .cx-card').within(() => {
         cy.contains(sampleUser.fullName);
         cy.contains(sampleUser.address.line1);
-        cy.contains('Standard Delivery');
+
+        if (
+          cartData.estimatedShipping ===
+          cartWithB2bProductAndPremiumShipping.estimatedShipping
+        ) {
+          cy.contains('Premium Delivery');
+        } else {
+          cy.contains('Standard Delivery');
+        }
       });
     } else {
       cy.get('.cx-summary-card:nth-child(4) .cx-card').within(() => {
         cy.contains(sampleUser.fullName);
         cy.contains(sampleUser.address.line1);
-        cy.contains('Standard Delivery');
+        cy.contains('Premium Delivery');
       });
     }
 
@@ -429,10 +448,56 @@ export function reviewB2bOrderConfirmation(
     }
   });
 
-  cy.get('cx-cart-item .cx-code').should('contain', sampleProduct.code);
+  cy.get('.cx-item-list-row .cx-code').should('contain', sampleProduct.code);
 
   cy.get('cx-order-summary .cx-summary-amount').should(
     'contain',
     cartData.totalAndShipping
   );
+}
+
+export function interceptPaymentTypesEndpoint(): string {
+  const alias = 'getPaymentTypes';
+  cy.intercept(
+    {
+      method: 'GET',
+      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/paymenttypes*`,
+    },
+    {
+      fixture:
+        'b2b-checkout-replenishment/method-of-payment-step/payment-types.json',
+      statusCode: 200,
+    }
+  ).as(alias);
+
+  return alias;
+}
+
+export function interceptCheckoutB2BDetailsEndpoint(fixture: string) {
+  const alias = 'getCheckoutDetails';
+  cy.intercept(
+    {
+      method: 'GET',
+      path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`,
+    },
+    { fixture, statusCode: 200 }
+  ).as(alias);
+
+  return alias;
+}
+
+export function interceptPutDeliveryModeEndpoint() {
+  const alias = 'putDeliveryMode';
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?deliveryModeId=*`,
+  }).as(alias);
+
+  return alias;
 }

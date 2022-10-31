@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { products } from '../sample-data/apparel-checkout-flow';
 import {
   cart,
@@ -125,6 +131,10 @@ export function signOut() {
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+  cy.get('cx-global-message div').should(
+    'contain',
+    'You have successfully signed out.'
+  );
 }
 
 export function registerUser(
@@ -540,13 +550,16 @@ export function verifyOrderConfirmationPageWithCheapProduct(
     });
   });
   if (!isApparel) {
-    cy.get('cx-cart-item .cx-code').should('contain', sampleProduct.code);
+    cy.get('.cx-item-list-row .cx-code').should('contain', sampleProduct.code);
   } else {
-    cy.get('cx-cart-item .cx-code')
+    cy.get('.cx-item-list-row .cx-code')
       .should('have.length', products.length)
       .each((_, index) => {
         console.log('products', products[index]);
-        cy.get('cx-cart-item .cx-code').should('contain', products[index].code);
+        cy.get('.cx-item-list-row .cx-code').should(
+          'contain',
+          products[index].code
+        );
       });
   }
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');

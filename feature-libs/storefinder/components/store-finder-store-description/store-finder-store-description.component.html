@@ -22,6 +22,7 @@
                 class="cx-link"
                 [href]="getDirections(location)"
                 target="_blank"
+                rel="noopener noreferrer"
                 [attr.aria-label]="
                   'storeFinder.ariaLabelGetDirections' | cxTranslate
                 "
@@ -40,7 +41,7 @@
           </cx-schedule>
         </div>
 
-        <div *ngIf="(location.features | json) != '{}'" class="cx-features">
+        <div *ngIf="(location.features | json) !== '{}'" class="cx-features">
           <div class="row">
             <div class="col-lg-12">
               <h3 class="cx-features-header">

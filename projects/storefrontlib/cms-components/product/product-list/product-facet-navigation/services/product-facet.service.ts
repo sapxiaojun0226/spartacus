@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import {
@@ -84,7 +90,7 @@ export class ProductFacetService {
       state.context.type === PageType.CONTENT_PAGE &&
       state.context.id === 'search'
     ) {
-      return page.currentQuery.query.value.startsWith(`${state.params.query}:`);
+      return page.freeTextSearch === state.params.query.split(':')[0];
     }
     return false;
   }

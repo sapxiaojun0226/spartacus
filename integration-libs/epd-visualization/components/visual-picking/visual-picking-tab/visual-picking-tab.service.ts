@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { ChangeDetectorRef, Injectable, OnDestroy } from '@angular/core';
 import {
   GlobalMessageService,
@@ -83,9 +89,9 @@ export class VisualPickingTabService implements OnDestroy {
     if (!this.windowRef.isBrowser()) {
       return;
     }
-    this.visualizationLoadInfoChangeSubscription.unsubscribe();
-    this.getProductReferencesSubscription.unsubscribe();
-    this.getFilteredProductReferencesSubscription.unsubscribe();
+    this.visualizationLoadInfoChangeSubscription?.unsubscribe();
+    this.getProductReferencesSubscription?.unsubscribe();
+    this.getFilteredProductReferencesSubscription?.unsubscribe();
   }
 
   private visualizationLoadInfoChangeSubscription: Subscription;

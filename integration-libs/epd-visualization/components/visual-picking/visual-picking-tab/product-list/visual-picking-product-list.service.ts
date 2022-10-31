@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import {
   Product,
@@ -64,9 +70,9 @@ export class VisualPickingProductListService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getFilteredProductReferencesSubscription.unsubscribe();
-    this.filteredItemsSubscription.unsubscribe();
-    this.productReferencesSubscription.unsubscribe();
+    this.getFilteredProductReferencesSubscription?.unsubscribe();
+    this.filteredItemsSubscription?.unsubscribe();
+    this.productReferencesSubscription?.unsubscribe();
   }
 
   private get productReferenceType() {

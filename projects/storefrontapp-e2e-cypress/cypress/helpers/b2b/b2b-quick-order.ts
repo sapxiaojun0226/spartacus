@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { SampleProduct } from '../../sample-data/checkout-flow';
 import * as sampleData from '../../sample-data/b2b-checkout';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
@@ -77,7 +83,7 @@ export function addProductToTheListAndModifyQuantity(
 }
 
 export function modifyProductQuantityInQuickOrderList(quantity: number) {
-  cy.get('.cx-quick-order-table-item-quantity cx-item-counter input')
+  cy.get('.cx-quantity cx-item-counter input')
     .type('{selectall}{backspace}')
     .type(`${quantity}`)
     .blur();
@@ -97,7 +103,7 @@ export function clearList() {
 export function removeFirstRow() {
   cy.get(`cx-quick-order .cx-quick-order-table-row`)
     .first()
-    .find('.cx-quick-order-table-item-action .cx-action-link')
+    .find('button.link.cx-action-link')
     .click();
 }
 
@@ -105,7 +111,7 @@ export function removeManyRows(quantity: number = 1) {
   for (let i = 0; i < quantity; i++) {
     cy.get(`cx-quick-order .cx-quick-order-table-row`)
       .first()
-      .find('.cx-quick-order-table-item-action .cx-action-link')
+      .find('button.link.cx-action-link')
       .click();
   }
 }

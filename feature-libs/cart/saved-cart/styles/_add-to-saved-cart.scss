@@ -3,11 +3,11 @@ cx-add-to-saved-cart {
 
   .cx-add-to-saved-cart-container {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     margin-top: 3rem;
 
     .cx-action-link {
-      &:last-child {
+      &:nth-child(n + 2) {
         margin-inline-end: 0;
         &:before {
           content: '|';

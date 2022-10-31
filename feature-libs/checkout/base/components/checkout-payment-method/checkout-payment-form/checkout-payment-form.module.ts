@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -8,11 +14,13 @@ import {
   FormErrorsModule,
   IconModule,
   SpinnerModule,
+  NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 
 @NgModule({
   imports: [
+    NgSelectA11yModule,
     CommonModule,
     ReactiveFormsModule,
     NgSelectModule,

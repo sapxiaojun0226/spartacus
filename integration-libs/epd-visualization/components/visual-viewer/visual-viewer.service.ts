@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // '@sapui5/ts-types-esm' package contains types for sap modules, e.g. 'sap/ui/core/Core'
 /// <reference types="@sapui5/ts-types-esm" />
 import {
@@ -1198,8 +1204,8 @@ export class VisualViewerService implements OnDestroy {
       }
     }
     this.contentChangesFinished.emit({
-      content: content,
-      failureReason: failureReason,
+      content,
+      failureReason,
     });
   }
 
@@ -1377,7 +1383,7 @@ export class VisualViewerService implements OnDestroy {
               visualizationLoadInfo = {
                 lookupResult: VisualizationLookupResult.NoMatchFound,
                 loadStatus: VisualizationLoadStatus.NotStarted,
-                matches: matches,
+                matches,
               };
               break;
             case 1:
@@ -1387,7 +1393,7 @@ export class VisualViewerService implements OnDestroy {
               visualizationLoadInfo = {
                 lookupResult: VisualizationLookupResult.UniqueMatchFound,
                 loadStatus: VisualizationLoadStatus.NotStarted,
-                matches: matches,
+                matches,
                 visualization: matchingVisualization,
               };
               break;
@@ -1395,7 +1401,7 @@ export class VisualViewerService implements OnDestroy {
               visualizationLoadInfo = {
                 lookupResult: VisualizationLookupResult.MultipleMatchesFound,
                 loadStatus: VisualizationLoadStatus.NotStarted,
-                matches: matches,
+                matches,
               };
               break;
           }
@@ -1403,7 +1409,7 @@ export class VisualViewerService implements OnDestroy {
           return of(visualizationLoadInfo);
         }),
         catchError(() => {
-          let visualizationLoadInfo = {
+          const visualizationLoadInfo = {
             lookupResult: VisualizationLookupResult.UnexpectedError,
             loadStatus: VisualizationLoadStatus.NotStarted,
           };
@@ -1541,8 +1547,8 @@ export class VisualViewerService implements OnDestroy {
                 ? {
                     sceneLoadState: SceneLoadState.Loaded,
                     loadedSceneInfo: {
-                      sceneId: sceneId,
-                      contentType: contentType,
+                      sceneId,
+                      contentType,
                     },
                   }
                 : {

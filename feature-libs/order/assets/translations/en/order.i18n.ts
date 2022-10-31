@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const order = {
   orderDetails: {
     orderId: 'Order #',
@@ -100,6 +106,7 @@ export const order = {
       cancelSuccess:
         'Replenishment order #{{replenishmentOrderCode}} has been successfully cancelled',
     },
+    caption: 'Order contents.',
   },
   orderHistory: {
     orderHistory: 'Order history',
@@ -107,15 +114,18 @@ export const order = {
     emptyPurchaseOrderId: 'None',
     date: 'Date',
     status: 'Status',
+    PONumber: 'P.O. Number',
     total: 'Total',
     noOrders: 'We have no order records for this account.',
     noReplenishmentOrders:
       'We have no replenishment order records for this account.',
     startShopping: 'Start Shopping',
     sortBy: 'Sort by',
+    sortOrders: 'Sort orders',
     replenishmentOrderHistory: 'Replenishment Order History',
     replenishmentOrderId: 'Replenishment #',
     purchaseOrderNumber: 'PO #',
+    costCenter: 'Cost Center',
     startOn: 'Start On',
     frequency: 'Frequency',
     nextOrderDate: 'Next Order Date',
@@ -123,12 +133,14 @@ export const order = {
     cancelled: 'Cancelled',
     replenishmentHistory: 'Replenishment History',
     notFound: 'No Orders Found',
+    actions: 'Actions',
   },
   AccountOrderHistoryTabContainer: {
     tabs: {
       AccountOrderHistoryComponent: 'ALL ORDERS ({{param}})',
       OrderReturnRequestListComponent: 'RETURNS ({{param}})',
     },
+    tabPanelContainerRegion: 'Group with order history details',
   },
   returnRequestList: {
     returnRequestId: 'Return #',
@@ -136,6 +148,7 @@ export const order = {
     date: 'Date Created',
     status: 'Status',
     sortBy: 'Sort by',
+    sortReturns: 'Sort returns',
     statusDisplay_APPROVAL_PENDING: 'Approval Pending',
     statusDisplay_CANCELED: 'Cancelled',
     statusDisplay_CANCELLING: 'Cancelling',
@@ -166,5 +179,6 @@ export const order = {
     estimatedRefund: 'Estimated refund',
     note: 'The totals are estimated and may not include applicable taxes or other charges.',
     cancelSuccess: 'Your return request ({{rma}}) was cancelled',
+    caption: 'Order contents.',
   },
 };

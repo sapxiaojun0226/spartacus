@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const orgUnit = {
   header: 'All units ({{count}})',
   unit: 'Unit',
@@ -68,6 +74,8 @@ export const orgUnit = {
   form: {
     parentOrgUnit: 'Parent business unit',
     create: 'Create Unit',
+    parentOrgUnitNotes:
+      'This unit is the top-level unit for your organization. It cannot be assigned to another unit.',
   },
   users: {
     header: 'Users in {{code}}',

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
-  FormControl,
+  UntypedFormControl,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -21,7 +21,7 @@ import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-in
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
-  quantityControl$ = new ReplaySubject<FormControl>(1);
+  quantityControl$ = new ReplaySubject<UntypedFormControl>(1);
   location$ = new BehaviorSubject<PromotionLocation>(
     PromotionLocation.SaveForLater
   );
@@ -90,7 +90,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   });
 
   it('should expose quantityControl$', (done) => {
-    const quantityControl = new FormControl();
+    const quantityControl = new UntypedFormControl();
     component.quantityControl$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(quantityControl);
       done();
@@ -117,10 +117,11 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       });
       mockCartItemContext.readonly$.next(false);
 
-      const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        0
-      );
+      const htmlElementAfterChanges = fixture.nativeElement;
+      expect(
+        htmlElementAfterChanges.querySelectorAll('.cx-configuration-info')
+          .length
+      ).toBe(0);
     });
 
     it('should be displayed if model provides a success entry', () => {
@@ -138,10 +139,11 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       mockCartItemContext.readonly$.next(false);
 
       fixture.detectChanges();
-      const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        1
-      );
+      const htmlElementAfterChanges = fixture.nativeElement;
+      expect(
+        htmlElementAfterChanges.querySelectorAll('.cx-configuration-info')
+          .length
+      ).toBe(1);
     });
 
     it('should be displayed if model provides a warning entry', () => {
@@ -207,7 +209,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
     describe('shouldShowButton', () => {
       beforeEach(() => {
-        const quantityControl = new FormControl();
+        const quantityControl = new UntypedFormControl();
 
         mockCartItemContext.quantityControl$.next(quantityControl);
         mockCartItemContext.item$.next({
@@ -224,9 +226,10 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         mockCartItemContext.location$.next(PromotionLocation.SaveForLater);
         fixture.detectChanges();
 
-        const htmlElem = fixture.nativeElement;
+        const htmlElementAfterChanges = fixture.nativeElement;
         expect(
-          htmlElem.querySelectorAll('.cx-configure-cart-entry').length
+          htmlElementAfterChanges.querySelectorAll('.cx-configure-cart-entry')
+            .length
         ).toBe(0);
       });
 
@@ -234,9 +237,10 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
         fixture.detectChanges();
 
-        const htmlElem = fixture.nativeElement;
+        const htmlElementAfterChanges = fixture.nativeElement;
         expect(
-          htmlElem.querySelectorAll('cx-configure-cart-entry').length
+          htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
+            .length
         ).toBe(1);
       });
     });

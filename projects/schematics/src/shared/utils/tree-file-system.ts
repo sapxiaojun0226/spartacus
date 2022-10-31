@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { normalize, resolve } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 import * as path from 'path';
@@ -14,12 +20,12 @@ export class TreeFileSystem implements FileSystemHost {
     return ts.sys.useCaseSensitiveFileNames;
   }
 
-  async delete(path: string): Promise<void> {
-    return this.deleteSync(path);
+  async delete(filePath: string): Promise<void> {
+    return this.deleteSync(filePath);
   }
 
-  deleteSync(path: string): void {
-    return this.tree.delete(path);
+  deleteSync(filePath: string): void {
+    return this.tree.delete(filePath);
   }
 
   readDirSync(dirPath: string): string[] {

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export const storeFinder = {
   storeFinder: {
     openUntil: 'Open until',
@@ -14,9 +20,9 @@ export const storeFinder = {
     storeFeatures: 'Store features',
     storeFinder: 'Store Finder',
     storesFound: '{{ count }} store found',
-    storesFound_plural: '{{ count }} stores found',
+    storesFound_other: '{{ count }} stores found',
     fromStoresFound: 'from {{ count }} store found',
-    fromStoresFound_plural: 'from {{ count }} stores found',
+    fromStoresFound_other: 'from {{ count }} stores found',
     findStore: 'Find store',
     useMyLocation: 'Use my location',
     viewAllStores: 'View all stores',
